@@ -3,15 +3,18 @@ package com.example.puntoplus;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.Settings;
+import android.telephony.SmsManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
@@ -20,17 +23,26 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button btnEnviarMensaje;
+    EditText etTelefono, etMensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        btnEnviarMensaje = findViewById(R.id.btnEnviarMensaje);
+        etTelefono = findViewById(R.id.etTelefono);
+        etMensaje = findViewById(R.id.etMensaje);
+        btnEnviarMensaje.setVisibility(View.GONE);
         confirmarPermisos();
+    }
+
+    private void cargarComponentes() {
+        btnEnviarMensaje.setVisibility(View.VISIBLE);
     }
 
     private void confirmarPermisos() {
@@ -41,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
                             Toast.makeText(MainActivity.this, "Todos los permisos garantizados", Toast.LENGTH_SHORT).show();
+                            cargarComponentes();
                         }
                         if (report.isAnyPermissionPermanentlyDenied()) {
                             showSettingsDialog();
@@ -52,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).check();
     }
+
+
 
     void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -81,4 +96,35 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 101);
     }
 
+    public void enviarMensaje(View view) {
+       /* String smsNumber = String.format("smsto: %s", etTelefono.getText().toString());
+        String sms = etMensaje.getText().toString();
+
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+        // Set the data for the intent as the phone number.
+        smsIntent.setData(Uri.parse(smsNumber));
+        // Add the message (sms) with the key ("sms_body").
+        smsIntent.putExtra("sms_body", sms);
+        // If package resolves (target app installed), send intent.
+        if (smsIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(smsIntent);
+        } else {
+            Log.d("SMS", "Can't resolve app for ACTION_SENDTO Intent");
+        }*/
+
+        // Set the destination phone number to the string in editText.
+        String destinationAddress = etTelefono.getText().toString();
+        // Get the text of the SMS message.
+        String smsMessage = etMensaje.getText().toString();
+        // Set the service center address if needed, otherwise null.
+        String scAddress = null;
+        // Set pending intents to broadcast
+        // when message sent and when delivered, or set to null.
+        PendingIntent sentIntent = null, deliveryIntent = null;
+        // Use SmsManager.
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage
+                (destinationAddress, scAddress, smsMessage,
+                        sentIntent, deliveryIntent);
+    }
 }
