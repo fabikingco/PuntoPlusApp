@@ -1,6 +1,8 @@
 package com.example.puntoplus;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -23,26 +25,37 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnEnviarMensaje;
     EditText etTelefono, etMensaje;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnEnviarMensaje = findViewById(R.id.btnEnviarMensaje);
-        etTelefono = findViewById(R.id.etTelefono);
-        etMensaje = findViewById(R.id.etMensaje);
-        btnEnviarMensaje.setVisibility(View.GONE);
+
+        recyclerView = findViewById(R.id.recyclerView);
+
         confirmarPermisos();
     }
 
     private void cargarComponentes() {
-        btnEnviarMensaje.setVisibility(View.VISIBLE);
+        List<menuItemsModelo> itemMenu = new ArrayList<>();
+        itemMenu.add(new menuItemsModelo("Claro", R.drawable.tuenti));
+        itemMenu.add(new menuItemsModelo("Movistar", R.drawable.tuenti));
+        itemMenu.add(new menuItemsModelo("CNT", R.drawable.tuenti));
+        itemMenu.add(new menuItemsModelo("Tuenti", R.drawable.tuenti));
+
+
+
+        NewAdapterMenus adapterMenus = new NewAdapterMenus(itemMenu, this);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setAdapter(adapterMenus);
     }
 
     private void confirmarPermisos() {
