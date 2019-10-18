@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IngresoTelefonoActivity"></activity>
+        <activity android:name=".TransaccionActivity"></activity>
+        <activity android:name=".IngresoTelefonoActivity" />
         <activity android:name=".InformacionRegistroActivity" />
         <activity android:name=".RegistroUsuarioActivity" />
         <activity android:name=".MainActivity">

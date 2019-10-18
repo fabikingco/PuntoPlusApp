@@ -2,6 +2,7 @@ package com.example.puntoplus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -53,6 +54,8 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                 progress_bar.setVisibility(View.GONE);
                 fab.setAlpha(1f);
                 Snackbar.make(parent_view, "Login data submitted", Snackbar.LENGTH_SHORT).show();
+                startActivity(new Intent(RegistroUsuarioActivity.this, TransaccionActivity.class));
+                finish();
             }
         }, 1000);
     }
