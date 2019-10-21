@@ -1,4 +1,4 @@
-package com.example.puntoplus;
+package com.example.puntoplus.model;
 
 public class menuItemsModelo {
 

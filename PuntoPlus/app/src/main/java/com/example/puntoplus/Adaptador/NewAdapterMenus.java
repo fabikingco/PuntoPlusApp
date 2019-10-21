@@ -1,4 +1,4 @@
-package com.example.puntoplus;
+package com.example.puntoplus.Adaptador;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.puntoplus.R;
+import com.example.puntoplus.model.menuItemsModelo;
 
 import java.util.ArrayList;
 import java.util.List;

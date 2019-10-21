@@ -13,12 +13,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.puntoplus.Adaptador.NewAdapterMenus;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -42,20 +42,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
 
         confirmarPermisos();
-    }
-
-    private void cargarComponentes() {
-        List<menuItemsModelo> itemMenu = new ArrayList<>();
-        itemMenu.add(new menuItemsModelo("Claro", R.drawable.tuenti));
-        itemMenu.add(new menuItemsModelo("Movistar", R.drawable.tuenti));
-        itemMenu.add(new menuItemsModelo("CNT", R.drawable.tuenti));
-        itemMenu.add(new menuItemsModelo("Tuenti", R.drawable.tuenti));
-
-
-
-        NewAdapterMenus adapterMenus = new NewAdapterMenus(itemMenu, this);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        recyclerView.setAdapter(adapterMenus);
     }
 
     private void confirmarPermisos() {

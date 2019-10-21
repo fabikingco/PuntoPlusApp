@@ -67,9 +67,9 @@ public class InformacionRegistroActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (viewPager.getCurrentItem() == about_title_array.length - 1) {
-                    btnNext.setText("Get Started");
+                    btnNext.setText("Iniciar aplicación");
                 } else {
-                    btnNext.setText("Next");
+                    btnNext.setText("Siguiente");
                 }
             }
 
@@ -87,7 +87,9 @@ public class InformacionRegistroActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    startActivity(new Intent(InformacionRegistroActivity.this, RegistroUsuarioActivity.class));
+                    Intent intent = new Intent(InformacionRegistroActivity.this, IngresoTelefonoActivity.class);
+                    intent.putExtra("tipoIngreso", "registro");
+                    startActivity(intent);
                     finish();
                 }
             }
@@ -115,7 +117,7 @@ public class InformacionRegistroActivity extends AppCompatActivity {
 
         if (dots.length > 0) {
             dots[current_index].setImageResource(R.drawable.shape_circle);
-            dots[current_index].setColorFilter(getResources().getColor(R.color.light_green_600), PorterDuff.Mode.SRC_IN);
+            dots[current_index].setColorFilter(getResources().getColor(R.color.red_900), PorterDuff.Mode.SRC_IN);
         }
     }
 

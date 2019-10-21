@@ -36,7 +36,7 @@
                     android:layout_weight="1"
                     android:padding="@dimen/spacing_xlarge"
                     android:src="@drawable/img_wizard_1"
-                    android:tint="@color/light_green_600" />
+                    android:tint="@color/red_900" />
 
                 <TextView
                     android:id="@+id/title"
