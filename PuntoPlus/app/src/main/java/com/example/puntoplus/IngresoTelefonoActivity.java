@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 public class IngresoTelefonoActivity extends AppCompatActivity {
 
     TextView tvTitulo, tvSubtitulo;
     String[] tipoIngreso;
+    TextInputEditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
 
         tvTitulo = findViewById(R.id.tvTitulo);
         tvSubtitulo = findViewById(R.id.tvSubtitulo);
+        editText = findViewById(R.id.etData);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
@@ -54,7 +58,8 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
     }
 
     public void cargarNumero(View view) {
-        startActivity(new Intent(IngresoTelefonoActivity.this, TransaccionActivity.class));
-        finish();
+        String numero = editText.getText().toString();
+        MainActivity mainActivity = new MainActivity();
+        mainActivity.enviarMensaje(numero, "Hola mundo");
     }
 }

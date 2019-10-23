@@ -46,13 +46,9 @@ public class MySmsReceiver extends BroadcastReceiver {
                 strMessage += " :" + msgs[i].getMessageBody() + "\n";
                 // Log and display the SMS message.
                 Log.d(TAG, "onReceive: " + strMessage);
-                Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
 
-                String destino = msgs[i].getOriginatingAddress();
-                String mensaje = msgs[i].getMessageBody();
-                String fecha = "";
-                String hora = "";
-
+                MainActivity.mCallbackSMS.smsRecibido(strMessage);
             }
         }
     }

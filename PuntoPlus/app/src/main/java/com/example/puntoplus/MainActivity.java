@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnEnviarMensaje;
     EditText etTelefono, etMensaje;
     RecyclerView recyclerView;
+    public static callbackSMS mCallbackSMS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,35 +96,21 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 101);
     }
 
-    public void enviarMensaje(View view) {
-       /* String smsNumber = String.format("smsto: %s", etTelefono.getText().toString());
-        String sms = etMensaje.getText().toString();
-
-        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
-        // Set the data for the intent as the phone number.
-        smsIntent.setData(Uri.parse(smsNumber));
-        // Add the message (sms) with the key ("sms_body").
-        smsIntent.putExtra("sms_body", sms);
-        // If package resolves (target app installed), send intent.
-        if (smsIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(smsIntent);
-        } else {
-            Log.d("SMS", "Can't resolve app for ACTION_SENDTO Intent");
-        }*/
-
-        // Set the destination phone number to the string in editText.
-        String destinationAddress = etTelefono.getText().toString();
-        // Get the text of the SMS message.
-        String smsMessage = etMensaje.getText().toString();
-        // Set the service center address if needed, otherwise null.
-        String scAddress = null;
-        // Set pending intents to broadcast
-        // when message sent and when delivered, or set to null.
-        PendingIntent sentIntent = null, deliveryIntent = null;
+    public void enviarMensaje(String telefono, String mensaje) {
         // Use SmsManager.
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage
-                (destinationAddress, scAddress, smsMessage,
-                        sentIntent, deliveryIntent);
+                (telefono, null, mensaje,
+                        null, null);
+
+        mCallbackSMS = new callbackSMS(){
+            @Override
+            public String smsRecibido(String mensaje) {
+                Toast.makeText(MainActivity.this, "" + mensaje, Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        };
+
+
     }
 }

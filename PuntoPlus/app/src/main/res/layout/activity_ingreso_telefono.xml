@@ -44,18 +44,19 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:inputType="phone"
+                android:maxLength="10"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:maxLength="10"
-                android:gravity="center_horizontal"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="@color/grey_90"
-                android:textStyle="bold" >
+                android:textStyle="bold">
 
-                <requestFocus/>
+                <requestFocus />
 
             </com.google.android.material.textfield.TextInputEditText>
 
