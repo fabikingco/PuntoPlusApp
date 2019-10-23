@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 101);
     }
 
-    public void enviarMensaje(String telefono, String mensaje) {
+    public static void enviarMensaje(final Context context, String telefono, String mensaje) {
         // Use SmsManager.
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage
@@ -106,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
         mCallbackSMS = new callbackSMS(){
             @Override
             public String smsRecibido(String mensaje) {
-                Toast.makeText(MainActivity.this, "" + mensaje, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + mensaje, Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, TransaccionActivity.class));
+                mCallbackSMS = null;
                 return null;
             }
         };

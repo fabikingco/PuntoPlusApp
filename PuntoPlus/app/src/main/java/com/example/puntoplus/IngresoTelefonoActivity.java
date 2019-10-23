@@ -59,7 +59,6 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
 
     public void cargarNumero(View view) {
         String numero = editText.getText().toString();
-        MainActivity mainActivity = new MainActivity();
-        mainActivity.enviarMensaje(numero, "Hola mundo");
+        MainActivity.enviarMensaje(this, numero, "Hola mundo");
     }
 }

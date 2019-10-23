@@ -48,7 +48,9 @@ public class MySmsReceiver extends BroadcastReceiver {
                 Log.d(TAG, "onReceive: " + strMessage);
                 //Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
 
-                MainActivity.mCallbackSMS.smsRecibido(strMessage);
+                if (MainActivity.mCallbackSMS != null) {
+                    MainActivity.mCallbackSMS.smsRecibido(strMessage);
+                }
             }
         }
     }
