@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
                             Toast.makeText(MainActivity.this, "Todos los permisos garantizados", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
+                            //startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
+                            startActivity(new Intent(MainActivity.this, IngresoMontoActivity.class));
                             finish();
                         }
                         if (report.isAnyPermissionPermanentlyDenied()) {

@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TransaccionActivity"></activity>
+        <activity android:name=".IngresoMontoActivity"></activity>
+        <activity android:name=".TransaccionActivity" />
         <activity android:name=".IngresoTelefonoActivity" />
         <activity android:name=".InformacionRegistroActivity" />
         <activity android:name=".RegistroUsuarioActivity" />
@@ -31,17 +32,14 @@
             </intent-filter>
         </activity>
 
-
         <receiver
-            android:name=
-                ".MySmsReceiver"
+            android:name=".MySmsReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
