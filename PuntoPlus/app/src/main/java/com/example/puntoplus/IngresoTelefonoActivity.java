@@ -2,7 +2,6 @@ package com.example.puntoplus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -59,6 +58,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
 
     public void cargarNumero(View view) {
         String numero = editText.getText().toString();
-        MainActivity.enviarMensaje(this, numero, "Hola mundo");
+
+        MainActivity.enviarMensaje(this, numero, "Hola mundo", "Registro");
     }
 }

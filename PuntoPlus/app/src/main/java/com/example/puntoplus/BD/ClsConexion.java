@@ -7,8 +7,10 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.puntoplus.Tools;
 import com.example.puntoplus.model.SMS_RECV;
 import com.example.puntoplus.model.SMS_SEND;
+import com.example.puntoplus.model.Usuario;
 
 import java.util.ArrayList;
 
@@ -54,10 +56,35 @@ public class ClsConexion extends SQLiteOpenHelper {
             COLUMN_SMS_RECV_HORA + " text not null, " +
             COLUMN_SMS_RECV_FECHAHORA + " text not null);";
 
+    private final String TABLE_REGISTRO_USER = "user";
+    private final String COLUMN_USER_CEL = "user_cel";
+    private final String COLUMN_USER_FECHA = "user_fecha";
+    private final String COLUMN_USER_HORA = "user_hora";
+
+    private final String CREATE_TABLE_USER = "create table " + TABLE_REGISTRO_USER + " (" +
+            COLUMN_USER_CEL + " text primary key, " +
+            COLUMN_USER_FECHA + " text not null, " +
+            COLUMN_USER_HORA + " text not null);";
+
+    private final String TABLE_LOGS_USER = "logs_user";
+    private final String COLUMN_LOGS_ID = "logs_id";
+    private final String COLUMN_LOGS_FECHA_OUT = "logs_out_fecha";
+    private final String COLUMN_LOGS_HORA_OUT = "logs_out_hora";
+
+    private final String CREATE_TABLE_LOGS_USER = "create table " + TABLE_LOGS_USER + " (" +
+            COLUMN_LOGS_ID + " text primary key AUTOINCREMENT, " +
+            COLUMN_USER_CEL + " text not null, " +
+            COLUMN_USER_FECHA + " text not null, " +
+            COLUMN_USER_HORA + " text not null, " +
+            COLUMN_LOGS_FECHA_OUT + " text, " +
+            COLUMN_LOGS_HORA_OUT + " text);";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_SMS_SEND);
         db.execSQL(CREATE_TABLE_SMS_RECV);
+        db.execSQL(CREATE_TABLE_USER);
+        db.execSQL(CREATE_TABLE_LOGS_USER);
     }
 
     @Override
@@ -136,4 +163,78 @@ public class ClsConexion extends SQLiteOpenHelper {
         db.close();
         return list;
     }
+
+    /**
+     *
+     * @param usuario
+     * @return
+     * TODO = Change return variable by int
+     */
+    public boolean ingresoUsuarioDB(Usuario usuario) {
+        boolean ret = false;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_CEL, usuario.getCel());
+        values.put(COLUMN_USER_FECHA, usuario.getFecha_in());
+        values.put(COLUMN_USER_HORA, usuario.getHora_in());
+        try {
+            db.insert(TABLE_REGISTRO_USER, null, values);
+            db.close();
+            ret = guardarLogUsuario(usuario);
+            if (!ret) {
+                eliminarUsuarioDB();
+            }
+        }catch (SQLException e){
+            e.getCause();
+        }
+        return ret;
+    }
+
+    public boolean guardarLogUsuario(Usuario usuario) {
+        boolean ret = false;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_CEL, usuario.getCel());
+        values.put(COLUMN_USER_FECHA, usuario.getFecha_in());
+        values.put(COLUMN_USER_HORA, usuario.getHora_in());
+        try {
+            db.insert(TABLE_LOGS_USER, null, values);
+            db.close();
+            ret = true;
+        }catch (SQLException e){
+            e.getCause();
+        }
+        return ret;
+    }
+
+    public boolean eliminarUsuarioDB() {
+        Usuario usuario = obtenerUsuarioActual();
+        if (usuario != null) {
+            db = this.getWritableDatabase();
+            db.delete(TABLE_REGISTRO_USER,null, null);
+            db.close();
+            return actualizarLogUsuario(usuario);
+        }
+        return false;
+    }
+
+    public boolean actualizarLogUsuario(Usuario usuario) {
+        boolean ret = false;
+        db = this.getWritableDatabase();
+        return ret;
+    }
+
+    public Usuario obtenerUsuarioActual () {
+        Usuario usuario = new Usuario();
+        db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_REGISTRO_USER;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            usuario.setCel(cursor.getString(0));
+        }
+        db.close();
+        return usuario;
+    }
+
+
 }

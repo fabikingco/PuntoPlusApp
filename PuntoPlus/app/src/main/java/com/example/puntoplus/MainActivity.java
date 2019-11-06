@@ -1,12 +1,9 @@
 package com.example.puntoplus;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,35 +11,44 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.puntoplus.Adaptador.NewAdapterMenus;
+import com.example.puntoplus.BD.ClsConexion;
+import com.example.puntoplus.model.Usuario;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnEnviarMensaje;
     EditText etTelefono, etMensaje;
-    RecyclerView recyclerView;
     public static callbackSMS mCallbackSMS;
+    ClsConexion conexion;
+    SpotsDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.recyclerView);
+        conexion = new ClsConexion(this);
         confirmarPermisos();
+    }
 
+    private void confirmarInicioSesion() {
+        Usuario usuario  = conexion.obtenerUsuarioActual();
+        if (usuario == null) {
+            startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
+        } else {
+            startActivity(new Intent(MainActivity.this, TransaccionActivity.class));
+        }
     }
 
     private void confirmarPermisos() {
@@ -52,10 +58,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(MainActivity.this, "Todos los permisos garantizados", Toast.LENGTH_SHORT).show();
-                            //startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
-                            startActivity(new Intent(MainActivity.this, IngresoMontoActivity.class));
-                            finish();
+                            /*Toast.makeText(MainActivity.this, "Todos los permisos garantizados", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
+                            //startActivity(new Intent(MainActivity.this, IngresoMontoActivity.class));
+                            finish();*/
+                            confirmarInicioSesion();
                         }
                         if (report.isAnyPermissionPermanentlyDenied()) {
                             showSettingsDialog();
@@ -98,23 +105,36 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 101);
     }
 
-    public static void enviarMensaje(final Context context, String telefono, String mensaje) {
+    public static void enviarMensaje(final Context context, String telefono, String mensaje, final String tipoMensaje) {
         // Use SmsManager.
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage
                 (telefono, null, mensaje,
                         null, null);
 
+        final SpotsDialog dialog = new SpotsDialog(context);
+        dialog.setMessage("Esperando mensaje de respueta...");
+        dialog.show();
+
         mCallbackSMS = new callbackSMS(){
             @Override
-            public String smsRecibido(String mensaje) {
-                Toast.makeText(context, "" + mensaje, Toast.LENGTH_SHORT).show();
-                context.startActivity(new Intent(context, TransaccionActivity.class));
+            public String smsRecibido(String emisor, String mensaje) {
+                dialog.dismiss();
+                validarMensaje(context, emisor, mensaje, tipoMensaje);
                 mCallbackSMS = null;
                 return null;
             }
         };
 
+    }
+
+    private static void validarMensaje(Context context, String emisor, String mensaje, String tipoMensaje) {
+        switch (tipoMensaje) {
+            case "Registro":
+
+                break;
+
+        }
 
     }
 }

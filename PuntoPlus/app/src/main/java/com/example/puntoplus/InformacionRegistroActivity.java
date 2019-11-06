@@ -1,5 +1,6 @@
 package com.example.puntoplus;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import dmax.dialog.SpotsDialog;
 
 public class InformacionRegistroActivity extends AppCompatActivity {
 
@@ -42,6 +45,8 @@ public class InformacionRegistroActivity extends AppCompatActivity {
             R.drawable.img_wizard_4
     };
 
+    private SpotsDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,8 @@ public class InformacionRegistroActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         btnNext = (Button) findViewById(R.id.btn_next);
+
+        dialog = new SpotsDialog(this, "Ingresando...");
 
         // adding bottom dots
         bottomProgressDots(0);
@@ -87,6 +94,7 @@ public class InformacionRegistroActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
+                    dialog.show();
                     Intent intent = new Intent(InformacionRegistroActivity.this, IngresoTelefonoActivity.class);
                     intent.putExtra("tipoIngreso", "registro");
                     startActivity(intent);

@@ -10,6 +10,9 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.puntoplus.BD.ClsConexion;
+import com.example.puntoplus.model.SMS_RECV;
+
 public class MySmsReceiver extends BroadcastReceiver {
 
     private static final String TAG =
@@ -23,6 +26,8 @@ public class MySmsReceiver extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
         String strMessage = "";
+        String strNumeroEmisor = "";
+        String strMensanje = "";
         String format = bundle.getString("format");
         // Retrieve the SMS message received.
         Object[] pdus = (Object[]) bundle.get(pdu_type);
@@ -44,12 +49,27 @@ public class MySmsReceiver extends BroadcastReceiver {
                 // Build the message to show.
                 strMessage += "SMS from " + msgs[i].getOriginatingAddress();
                 strMessage += " :" + msgs[i].getMessageBody() + "\n";
+                strNumeroEmisor = msgs[i].getOriginatingAddress();
+                strMensanje = msgs[i].getMessageBody();
                 // Log and display the SMS message.
                 Log.d(TAG, "onReceive: " + strMessage);
                 //Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
 
-                if (MainActivity.mCallbackSMS != null) {
-                    MainActivity.mCallbackSMS.smsRecibido(strMessage);
+                boolean emisorCorrecto = false;
+
+                if (strNumeroEmisor != null && strNumeroEmisor.equals("9305")) {
+                    ClsConexion conexion = new ClsConexion(context);
+                    SMS_RECV recv = new SMS_RECV();
+                    recv.setRecv_destino(strNumeroEmisor);
+                    recv.setRecv_msg(strMensanje);
+                    recv.setRecv_fecha(Tools.getLocalDate());
+                    recv.setRecv_hora(Tools.getLocalTime());
+                    recv.setRecv_fechahora(Tools.getLocalDateTime());
+                    emisorCorrecto = conexion.newSmsRecv(recv);
+                }
+
+                if (MainActivity.mCallbackSMS != null && emisorCorrecto) {
+                    MainActivity.mCallbackSMS.smsRecibido(strNumeroEmisor, strMensanje);
                 }
             }
         }
