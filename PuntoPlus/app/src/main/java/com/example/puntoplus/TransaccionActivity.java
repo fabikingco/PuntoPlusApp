@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.puntoplus.Adaptador.NewAdapterMenus;
+import com.example.puntoplus.BD.ClsConexion;
 import com.example.puntoplus.model.menuItemsModelo;
 
 import java.util.ArrayList;
@@ -55,25 +56,22 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            default:
-                Toast.makeText(this, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.item_CerrarSesion) {
+            ClsConexion conexion = new ClsConexion(this);
+            conexion.eliminarUsuarioDB();
+            startActivity(new Intent(this, MainActivity.class));
+        } else {
+            Toast.makeText(this, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void cargarComponentes() {
-
         cargarArrayList();
-
-
-
-
         NewAdapterMenus adapterMenus = new NewAdapterMenus(itemMenu, this);
         adapterMenus.setOnItemClickListener(TransaccionActivity.this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapterMenus);
-
     }
 
     private void cargarArrayList() {
@@ -92,13 +90,12 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
                 itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_simert), R.drawable.simmert));
                 itemMenu.add(new menuItemsModelo(getResources().getString(R.string.pagos_de_servicio), R.drawable.pagos_servicios));
                 break;
-
         }
     }
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder item, int position, int id) {
-        Toast.makeText(this, "" + itemMenu.get(position).getTextoItem() + " " + id, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "" + itemMenu.get(position).getTextoItem() + " " + id, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
         String data = itemMenu.get(position).getTextoItem();
         if (data.equals(getResources().getString(R.string.recargas_celular))) {
@@ -123,7 +120,6 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
                 intent.setClass(TransaccionActivity.this, TransaccionActivity.class);
                 intent.putExtra("tipoMenu", "recargas");
                 startActivity(intent);
-
             } else {
                 intent.setClass(TransaccionActivity.this, IngresoTelefonoActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.claro));

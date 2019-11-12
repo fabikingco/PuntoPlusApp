@@ -2,11 +2,17 @@ package com.example.puntoplus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.puntoplus.BD.ClsConexion;
+import com.example.puntoplus.model.Usuario;
 import com.google.android.material.textfield.TextInputEditText;
+
+import dmax.dialog.SpotsDialog;
 
 public class IngresoTelefonoActivity extends AppCompatActivity {
 
@@ -24,7 +30,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
         editText = findViewById(R.id.etData);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             String data = bundle.getString("tipoIngreso", "default");
             if (data.contains("@")) {
                 tipoIngreso = data.split("@");
@@ -57,8 +63,80 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
     }
 
     public void cargarNumero(View view) {
-        String numero = editText.getText().toString();
+        final String numero = editText.getText().toString();
+        final SpotsDialog dialog = new SpotsDialog(this, "Esperando mensaje de respuesta...");
+        switch (tipoIngreso[0]) {
+            case "registro":
+                MainActivity.enviarMensaje(this, "9306", numero);
+                dialog.show();
+                MainActivity.mCallbackSMS = new callbackSMS(){
+                    @Override
+                    public String smsRecibido(String emisor, String mensaje) {
+                        dialog.dismiss();
+                        /*dataMensaje[0] = emisor;
+                        dataMensaje[1] = mensaje;*/
+                        MainActivity.mCallbackSMS = null;
+                        validarMensaje(numero, emisor, mensaje, tipoIngreso[0]);
+                        return null;
+                    }
+                };
 
-        MainActivity.enviarMensaje(this, numero, "Hola mundo", "Registro");
+
+                /*String[] mensaje = MainActivity.enviarMensaje(this, "9306", numero);
+                if (mensaje != null) {
+                    if (mensaje[0].equals("9306")) {
+                        if (mensaje[1].equals("registrado exitosamente")) {
+                            ClsConexion conexion = new ClsConexion(this);
+                            Usuario usuario = new Usuario();
+                            usuario.setCel(numero);
+                            usuario.setFecha_in(Tools.getLocalDate());
+                            usuario.setHora_in(Tools.getLocalTime());
+                            if (conexion.ingresoUsuarioDB(usuario)) {
+                                startActivity(new Intent(IngresoTelefonoActivity.this, TransaccionActivity.class));
+                            } else {
+                                Toast.makeText(this, "Fallo registro en BD", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }
+                }*/
+                break;
+            case "recargas":
+
+                break;
+        }
+
+
+    }
+
+    private void validarMensaje(String numero, String emisor, String mensaje, String tipoIngreso) {
+        switch (tipoIngreso){
+            case "registro":
+                if (emisor != null) {
+                    if (emisor.equals("9306")) {
+                        if (mensaje.equals("registrado exitosamente")) {
+                            ClsConexion conexion = new ClsConexion(this);
+                            Usuario usuario = new Usuario();
+                            usuario.setCel(numero);
+                            usuario.setFecha_in(Tools.getLocalDate());
+                            usuario.setHora_in(Tools.getLocalTime());
+                            if (conexion.ingresoUsuarioDB(usuario)) {
+                                startActivity(new Intent(IngresoTelefonoActivity.this, TransaccionActivity.class));
+                            } else {
+                                Toast.makeText(this, "Fallo registro en BD", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            Toast.makeText(this, "mensaje distinto", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(this, "no es el receptor esperado", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(this, "fallo", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case "recarga":
+                break;
+        }
     }
 }

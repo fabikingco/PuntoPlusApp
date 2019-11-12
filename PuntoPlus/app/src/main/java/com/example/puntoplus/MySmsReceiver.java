@@ -55,7 +55,9 @@ public class MySmsReceiver extends BroadcastReceiver {
                 Log.d(TAG, "onReceive: " + strMessage);
                 //Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
 
-                boolean emisorCorrecto = false;
+                if (MainActivity.mCallbackSMS != null) {
+                    MainActivity.mCallbackSMS.smsRecibido(strNumeroEmisor, strMensanje);
+                }
 
                 if (strNumeroEmisor != null && strNumeroEmisor.equals("9305")) {
                     ClsConexion conexion = new ClsConexion(context);
@@ -65,11 +67,7 @@ public class MySmsReceiver extends BroadcastReceiver {
                     recv.setRecv_fecha(Tools.getLocalDate());
                     recv.setRecv_hora(Tools.getLocalTime());
                     recv.setRecv_fechahora(Tools.getLocalDateTime());
-                    emisorCorrecto = conexion.newSmsRecv(recv);
-                }
-
-                if (MainActivity.mCallbackSMS != null && emisorCorrecto) {
-                    MainActivity.mCallbackSMS.smsRecibido(strNumeroEmisor, strMensanje);
+                    conexion.newSmsRecv(recv);
                 }
             }
         }

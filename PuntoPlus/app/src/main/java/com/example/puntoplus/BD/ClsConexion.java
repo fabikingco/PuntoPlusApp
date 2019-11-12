@@ -72,7 +72,7 @@ public class ClsConexion extends SQLiteOpenHelper {
     private final String COLUMN_LOGS_HORA_OUT = "logs_out_hora";
 
     private final String CREATE_TABLE_LOGS_USER = "create table " + TABLE_LOGS_USER + " (" +
-            COLUMN_LOGS_ID + " text primary key AUTOINCREMENT, " +
+            COLUMN_LOGS_ID + " integer primary key AUTOINCREMENT, " +
             COLUMN_USER_CEL + " text not null, " +
             COLUMN_USER_FECHA + " text not null, " +
             COLUMN_USER_HORA + " text not null, " +

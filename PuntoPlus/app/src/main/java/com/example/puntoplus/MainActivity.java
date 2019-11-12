@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void confirmarInicioSesion() {
         Usuario usuario  = conexion.obtenerUsuarioActual();
-        if (usuario == null) {
+        if (usuario.getCel() == null) {
             startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
         } else {
             startActivity(new Intent(MainActivity.this, TransaccionActivity.class));
@@ -105,36 +105,26 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 101);
     }
 
-    public static void enviarMensaje(final Context context, String telefono, String mensaje, final String tipoMensaje) {
+    public static void enviarMensaje(final Context context, String telefono, String mensaje) {
+        //final String[] dataMensaje = new String[2];
         // Use SmsManager.
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage
                 (telefono, null, mensaje,
                         null, null);
 
-        final SpotsDialog dialog = new SpotsDialog(context);
-        dialog.setMessage("Esperando mensaje de respueta...");
+        /*final SpotsDialog dialog = new SpotsDialog(context, "Esperando mensaje de respueta...");
         dialog.show();
 
         mCallbackSMS = new callbackSMS(){
             @Override
             public String smsRecibido(String emisor, String mensaje) {
                 dialog.dismiss();
-                validarMensaje(context, emisor, mensaje, tipoMensaje);
+                *//*dataMensaje[0] = emisor;
+                dataMensaje[1] = mensaje;*//*
                 mCallbackSMS = null;
                 return null;
             }
-        };
-
-    }
-
-    private static void validarMensaje(Context context, String emisor, String mensaje, String tipoMensaje) {
-        switch (tipoMensaje) {
-            case "Registro":
-
-                break;
-
-        }
-
+        };*/
     }
 }
