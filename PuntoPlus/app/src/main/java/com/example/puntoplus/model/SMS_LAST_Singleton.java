@@ -4,7 +4,7 @@ public class SMS_LAST_Singleton {
     private String emisor;
     private String mensaje;
     private String old="null";
-    private String neew="";
+    private String neew="null";
 
     private static SMS_LAST_Singleton INSTANCE = new SMS_LAST_Singleton();
 
@@ -44,8 +44,8 @@ public class SMS_LAST_Singleton {
         return old;
     }
 
-    public void setOld(String old) {
-        this.old = old;
+    public void setOld() {
+        this.old = neew;
     }
 
     public String getNeew() {
