@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.puntoplus.BD.ClsConexion;
-import com.example.puntoplus.model.SMS_LAST_Singleton;
 import com.example.puntoplus.model.SMS_RECV;
 
 public class MySmsReceiver extends BroadcastReceiver {
@@ -63,18 +62,11 @@ public class MySmsReceiver extends BroadcastReceiver {
                 if (strNumeroEmisor != null && strNumeroEmisor.equals("9305")) {
                     ClsConexion conexion = new ClsConexion(context);
                     SMS_RECV recv = new SMS_RECV();
-
                     recv.setRecv_destino(strNumeroEmisor);
-                    SMS_LAST_Singleton.getInstance().setEmisor(strNumeroEmisor);
-
                     recv.setRecv_msg(strMensanje);
-                    SMS_LAST_Singleton.getInstance().setMensaje(strMensanje);
-
                     recv.setRecv_fecha(Tools.getLocalDate());
                     recv.setRecv_hora(Tools.getLocalTime());
-
                     recv.setRecv_fechahora(Tools.getLocalDateTime());
-                    SMS_LAST_Singleton.getInstance().setNeew(Tools.getLocalDateTime());
                     conexion.newSmsRecv(recv);
                 }
             }

@@ -19,7 +19,7 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
     String[] tipoIngreso;
     String data;
     ImageView imageView;
-    TextView titulo, area;
+    TextView titulo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imagen);
         titulo = findViewById(R.id.tvTitulo);
-        area = findViewById(R.id.tvTArea);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             data = bundle.getString("tipoIngreso", "default");
@@ -46,7 +46,7 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
         }
 
         int ultimo = tipoIngreso.length;
-        area.setText(tipoIngreso[ultimo - 1]);
+
         if (tipoIngreso[ultimo - 1].equals("exitosa")){
             imageView.setImageDrawable(getDrawable(R.drawable.result_success));
             titulo.setText(tipoIngreso[0] + " exitosa");
