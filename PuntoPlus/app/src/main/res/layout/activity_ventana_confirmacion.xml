@@ -29,7 +29,15 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/grey_80"
             android:textStyle="bold" />
-
+        <TextView
+            android:id="@+id/tvTArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaccion exitosa"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/grey_80"
+            android:textStyle="bold"
+            android:layout_marginVertical="16dp"/>
 
 
         <androidx.appcompat.widget.AppCompatButton

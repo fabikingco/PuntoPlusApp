@@ -100,7 +100,7 @@ public class ClsConexion extends SQLiteOpenHelper {
         values.put(COLUMN_SMS_SEND_MSG, sms_send.getSend_msg());
         values.put(COLUMN_SMS_SEND_FECHA, sms_send.getSend_fecha());
         values.put(COLUMN_SMS_SEND_HORA, sms_send.getSend_hora());
-        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_send.getSend_fechahora());
+        values.put(COLUMN_SMS_SEND_FECHAHORA, sms_send.getSend_fechahora());
         try {
             db.insert(TABLE_SMS_SEND, null, values);
             db.close();
@@ -117,11 +117,11 @@ public class ClsConexion extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getRecv_destino());
         values.put(COLUMN_SMS_RECV_MSG, sms_recv.getRecv_msg());
-        values.put(COLUMN_SMS_SEND_FECHA, sms_recv.getRecv_fecha());
-        values.put(COLUMN_SMS_SEND_HORA, sms_recv.getRecv_hora());
+        values.put(COLUMN_SMS_RECV_FECHA, sms_recv.getRecv_fecha());
+        values.put(COLUMN_SMS_RECV_HORA, sms_recv.getRecv_hora());
         values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getRecv_fechahora());
         try {
-            db.insert(TABLE_SMS_SEND, null, values);
+            db.insert(TABLE_SMS_RECV, null, values);
             db.close();
             ret = true;
         } catch (SQLException e){

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.puntoplus.BD.ClsConexion;
+import com.example.puntoplus.model.SMS_LAST_Singleton;
 import com.example.puntoplus.model.Usuario;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -103,6 +104,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                     alertDialog.dismiss();
                     final SpotsDialog spotsDialog = new SpotsDialog(IngresoTelefonoActivity.this, "Esperando mensaje de respuesta...");
                     spotsDialog.show();
+                    MainActivity.enviarMensaje(IngresoTelefonoActivity.this, "9306", numero);// TODO: 26-Nov-19 enviar mensaje
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
@@ -110,7 +112,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                             spotsDialog.dismiss();
                             validarMensaje(null, null, null);
                         }
-                    }, 5000);
+                    }, 10000);
                 }
             });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
@@ -169,7 +171,12 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
         if (tipoIngreso[0].equals(getResources().getString(R.string.recargas_celular))) {
             // Guardar en base de datos
             Intent intent = new Intent(IngresoTelefonoActivity.this, VentanaConfirmacionActivity.class);
-            intent.putExtra("tipoIngreso", data + "@" + "exitosa");
+            if (SMS_LAST_Singleton.getInstance().isNew()) {
+                intent.putExtra("tipoIngreso", data + "@" + SMS_LAST_Singleton.getInstance().getMensaje());
+            } else {
+                intent.putExtra("tipoIngreso", data + "@" + "No hay SMS");
+
+            }
             startActivity(intent);
         }
         if (tipoIngreso[0].equals(getResources().getString(R.string.paquetes_celular))) {
