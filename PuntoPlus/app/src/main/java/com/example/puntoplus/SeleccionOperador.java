@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.puntoplus.Adaptador.ConsultaAdapter;
 import com.example.puntoplus.Adaptador.NewAdapterMenus;
 import com.example.puntoplus.model.menuItemsModelo;
 
@@ -29,7 +30,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         setContentView(R.layout.activity_transaccion);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             tipoMenu = bundle.getString("tipoMenu", "default");
         } else {
             tipoMenu = "default";
@@ -60,6 +61,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.movistar), R.drawable.movistar_logo));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.cnt), R.drawable.cnt_logo));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.tuenti), R.drawable.tuenti));
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.Consulta), R.drawable.tuenti));
     }
 
     @Override
@@ -67,7 +69,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         Intent intent = new Intent();
         String data = itemMenu.get(position).getTextoItem();
         if (data.equals(getResources().getString(R.string.claro))) {
-            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
+            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
                 intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
@@ -76,7 +78,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
             }
         }
         if (data.equals(getResources().getString(R.string.movistar))) {
-            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
+            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
                 intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
@@ -85,7 +87,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
             }
         }
         if (data.equals(getResources().getString(R.string.cnt))) {
-            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
+            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
                 intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
@@ -94,13 +96,20 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
             }
         }
         if (data.equals(getResources().getString(R.string.tuenti))) {
-            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
+            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
                 intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.tuenti));
                 startActivity(intent);
             }
+        }
+
+        if (data.equals(getResources().getString(R.string.Consulta))) {
+
+            intent.setClass(SeleccionOperador.this, ConsultaActivity.class);
+            startActivity(intent);
+
         }
     }
 }

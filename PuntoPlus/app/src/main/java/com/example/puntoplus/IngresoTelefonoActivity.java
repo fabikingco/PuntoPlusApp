@@ -108,11 +108,11 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                     spotsDialog.show();
                     MainActivity.enviarMensaje(IngresoTelefonoActivity.this, "9306", numero);// TODO: 26-Nov-19 enviar mensaje
                     SMS_SEND send = new SMS_SEND();
-                    send.setSend_destino("9306");
-                    send.setSend_msg(numero);
-                    send.setSend_fecha(Tools.getLocalDate());
-                    send.setSend_hora(Tools.getLocalTime());
-                    send.setSend_fechahora(Tools.getLocalDateTime());
+                    send.setDestino("9306");
+                    send.setMsg(numero);
+                    send.setFecha(Tools.getLocalDate());
+                    send.setHora(Tools.getLocalTime());
+                    send.setFechahora(Tools.getLocalDateTime());
 
                     final ClsConexion clsConexion = new ClsConexion(IngresoTelefonoActivity.this);
                     clsConexion.newSmsSend(send);

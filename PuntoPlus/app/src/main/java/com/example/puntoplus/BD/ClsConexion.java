@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.puntoplus.Tools;
+import com.example.puntoplus.model.SMS;
 import com.example.puntoplus.model.SMS_RECV;
 import com.example.puntoplus.model.SMS_SEND;
 import com.example.puntoplus.model.Usuario;
@@ -98,11 +99,11 @@ public class ClsConexion extends SQLiteOpenHelper {
         boolean ret = false;
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SMS_SEND_DESTINO, sms_send.getSend_destino());
-        values.put(COLUMN_SMS_SEND_MSG, sms_send.getSend_msg());
-        values.put(COLUMN_SMS_SEND_FECHA, sms_send.getSend_fecha());
-        values.put(COLUMN_SMS_SEND_HORA, sms_send.getSend_hora());
-        values.put(COLUMN_SMS_SEND_FECHAHORA, sms_send.getSend_fechahora());
+        values.put(COLUMN_SMS_SEND_DESTINO, sms_send.getDestino());
+        values.put(COLUMN_SMS_SEND_MSG, sms_send.getMsg());
+        values.put(COLUMN_SMS_SEND_FECHA, sms_send.getFecha());
+        values.put(COLUMN_SMS_SEND_HORA, sms_send.getHora());
+        values.put(COLUMN_SMS_SEND_FECHAHORA, sms_send.getFechahora());
         try {
             db.insert(TABLE_SMS_SEND, null, values);
             db.close();
@@ -117,12 +118,12 @@ public class ClsConexion extends SQLiteOpenHelper {
         boolean ret = false;
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getRecv_destino());
-        values.put(COLUMN_SMS_RECV_MSG, sms_recv.getRecv_msg());
+        values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getDestino());
+        values.put(COLUMN_SMS_RECV_MSG, sms_recv.getMsg());
         values.put(COLUMN_SMS_RECV_VISTO, sms_recv.getRecv_visto());
-        values.put(COLUMN_SMS_RECV_FECHA, sms_recv.getRecv_fecha());
-        values.put(COLUMN_SMS_RECV_HORA, sms_recv.getRecv_hora());
-        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getRecv_fechahora());
+        values.put(COLUMN_SMS_RECV_FECHA, sms_recv.getFecha());
+        values.put(COLUMN_SMS_RECV_HORA, sms_recv.getHora());
+        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getFechahora());
         try {
             db.insert(TABLE_SMS_RECV, null, values);
             db.close();
@@ -133,8 +134,8 @@ public class ClsConexion extends SQLiteOpenHelper {
         return ret;
     }
 
-    public ArrayList<SMS_SEND> getAllSMSSend() {
-        ArrayList<SMS_SEND> list = new ArrayList<>();
+    public ArrayList<SMS> getAllSMSSend() {
+        ArrayList<SMS> list = new ArrayList<>();
         db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_SMS_SEND;
         Cursor cursor = db.rawQuery(query, null);
@@ -150,8 +151,8 @@ public class ClsConexion extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<SMS_RECV> getAllSMSRecv() {
-        ArrayList<SMS_RECV> list = new ArrayList<>();
+    public ArrayList<SMS> getAllSMSRecv() {
+        ArrayList<SMS> list = new ArrayList<>();
         db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_SMS_RECV;
         Cursor cursor = db.rawQuery(query, null);

@@ -25,6 +25,7 @@
         <activity android:name=".IngresoTelefonoActivity" />
         <activity android:name=".InformacionRegistroActivity" />
         <activity android:name=".RegistroUsuarioActivity" />
+        <activity android:name=".ConsultaActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

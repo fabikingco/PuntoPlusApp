@@ -64,16 +64,16 @@ public class MySmsReceiver extends BroadcastReceiver {
                     ClsConexion conexion = new ClsConexion(context);
                     SMS_RECV recv = new SMS_RECV();
 
-                    recv.setRecv_destino(strNumeroEmisor);
+                    recv.setDestino(strNumeroEmisor);
                     SMS_LAST_Singleton.getInstance().setEmisor(strNumeroEmisor);
 
-                    recv.setRecv_msg(strMensanje);
+                    recv.setMsg(strMensanje);
                     SMS_LAST_Singleton.getInstance().setMensaje(strMensanje);
 
-                    recv.setRecv_fecha(Tools.getLocalDate());
-                    recv.setRecv_hora(Tools.getLocalTime());
+                    recv.setFecha(Tools.getLocalDate());
+                    recv.setHora(Tools.getLocalTime());
 
-                    recv.setRecv_fechahora(Tools.getLocalDateTime());
+                    recv.setFechahora(Tools.getLocalDateTime());
                     SMS_LAST_Singleton.getInstance().setNeew(Tools.getLocalDateTime());
                     conexion.newSmsRecv(recv);
                 }
