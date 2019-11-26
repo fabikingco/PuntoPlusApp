@@ -46,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
         Usuario usuario  = conexion.obtenerUsuarioActual();
         if (usuario.getCel() == null) {
             startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
+            finish();
         } else {
             startActivity(new Intent(MainActivity.this, TransaccionActivity.class));
+            finish();
         }
     }
 

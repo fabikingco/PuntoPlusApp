@@ -2,19 +2,44 @@ package com.example.puntoplus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.Arrays;
 
 public class IngresoMontoActivity extends AppCompatActivity {
 
     EditText editText;
+    String[] tipoIngreso;
+    String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingreso_monto);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            data = bundle.getString("tipoIngreso", "default");
+            if (data.contains("@")) {
+                tipoIngreso = data.split("@");
+            } else {
+                tipoIngreso = new String[1];
+                tipoIngreso[0] = data;
+                Toast.makeText(this, "" + tipoIngreso[0], Toast.LENGTH_SHORT).show();
+            }
+            System.out.println(tipoIngreso[0]);
+        } else {
+            Toast.makeText(this, "El tipo de ingreso no llego o fallo ", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         editText = findViewById(R.id.etData);
         editText.addTextChangedListener(new TextWatcher() {
             private boolean isChanged = false;
@@ -79,4 +104,27 @@ public class IngresoMontoActivity extends AppCompatActivity {
         });
     }
 
+    public void cargarMonto(View view) {
+        String monto = editText.getText().toString();
+        if (validarMonto(monto)) {
+            Intent intent = new Intent(this, IngresoTelefonoActivity.class);
+            intent.putExtra("tipoIngreso", data + "@" + monto);
+            Log.d("put ", data + "@" + monto);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Monto no valido", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private boolean validarMonto(String monto) {
+        boolean ret = true;
+
+        return ret;
+    }
+
+    public void cancelarProceso(View view) {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
 }

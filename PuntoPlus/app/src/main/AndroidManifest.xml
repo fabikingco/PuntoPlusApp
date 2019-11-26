@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.BROADCAST_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SMS_FINANCIAL_TRANSACTIONS" />
@@ -19,8 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IngresoMontoActivity"></activity>
+        <activity android:name=".VentanaConfirmacionActivity"></activity>
+        <activity android:name=".IngresoMontoActivity" />
         <activity android:name=".TransaccionActivity" />
+        <activity android:name=".SeleccionOperador" />
         <activity android:name=".IngresoTelefonoActivity" />
         <activity android:name=".InformacionRegistroActivity" />
         <activity android:name=".RegistroUsuarioActivity" />

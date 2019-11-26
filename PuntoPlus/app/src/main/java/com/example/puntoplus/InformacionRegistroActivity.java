@@ -27,16 +27,16 @@ public class InformacionRegistroActivity extends AppCompatActivity {
     private Button btnNext;
     private MyViewPagerAdapter myViewPagerAdapter;
     private String about_title_array[] = {
-            "Ready to Travel",
-            "Pick the Ticket",
-            "Flight to Destination",
-            "Enjoy Holiday"
+            "Recargas",
+            "Compras de paquetes y pagos de servicios",
+            "Siempre disponible",
+            "Ganaras dinero"
     };
     private String about_description_array[] = {
-            "Choose your destination, plan Your trip. Pick the best place for Your holiday",
-            "Select the day, pick Your ticket. We give you the best prices. We guarantee!",
-            "Safe and Comfort flight is our priority. Professional crew and services.",
-            "Enjoy your holiday, Don't forget to feel the moment and take a photo!",
+            "Desde esta app podras realizar recargas a cualquier operador",
+            "Poder vender paquetes y realizar el pago de los servicios de tus clientes",
+            "Esta aplicacion no usa internet. Siempre disponible",
+            "Gana dinero con cada recarga",
     };
     private int about_images_array[] = {
             R.drawable.img_wizard_1,

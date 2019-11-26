@@ -76,21 +76,10 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
 
     private void cargarArrayList() {
         itemMenu = new ArrayList<>();
-        switch (tipoMenu){
-            case "recargas":
-            case "paquetes":
-                itemMenu.add(new menuItemsModelo(getString(R.string.claro), R.drawable.claro_logo));
-                itemMenu.add(new menuItemsModelo(getResources().getString(R.string.movistar), R.drawable.movistar_logo));
-                itemMenu.add(new menuItemsModelo(getResources().getString(R.string.cnt), R.drawable.cnt_logo));
-                itemMenu.add(new menuItemsModelo(getResources().getString(R.string.tuenti), R.drawable.tuenti));
-                break;
-            default:
-                itemMenu.add(new menuItemsModelo(getString(R.string.recargas_celular), R.drawable.recargas_celular));
-                itemMenu.add(new menuItemsModelo(getResources().getString(R.string.paquetes_celular), R.drawable.paquetes_celular));
-                itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_simert), R.drawable.simmert));
-                itemMenu.add(new menuItemsModelo(getResources().getString(R.string.pagos_de_servicio), R.drawable.pagos_servicios));
-                break;
-        }
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_celular), R.drawable.recargas_celular));
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.paquetes_celular), R.drawable.paquetes_celular));
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_simert), R.drawable.simmert));
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.pagos_de_servicio), R.drawable.pagos_servicios));
     }
 
     @Override
@@ -99,61 +88,37 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         Intent intent = new Intent();
         String data = itemMenu.get(position).getTextoItem();
         if (data.equals(getResources().getString(R.string.recargas_celular))) {
-            intent.setClass(TransaccionActivity.this, TransaccionActivity.class);
-            intent.putExtra("tipoMenu", "recargas");
+            intent.setClass(TransaccionActivity.this, SeleccionOperador.class);
+            intent.putExtra("tipoMenu", getResources().getString(R.string.recargas_celular));
             startActivity(intent);
         }
         if (data.equals(getResources().getString(R.string.paquetes_celular))) {
-            intent.setClass(TransaccionActivity.this, TransaccionActivity.class);
-            intent.putExtra("tipoMenu", "paquetes");
+            intent.setClass(TransaccionActivity.this, SeleccionOperador.class);
+            intent.putExtra("tipoMenu", getResources().getString(R.string.paquetes_celular));
             startActivity(intent);
 
         }
         if (data.equals(getResources().getString(R.string.recargas_simert))) {
-            Toast.makeText(this, "No disponiblr", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
         }
         if (data.equals(getResources().getString(R.string.pagos_de_servicio))) {
-            Toast.makeText(this, "No disponiblr", Toast.LENGTH_SHORT).show();
-        }
-        if (data.equals(getResources().getString(R.string.claro))) {
-            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
-                intent.setClass(TransaccionActivity.this, TransaccionActivity.class);
-                intent.putExtra("tipoMenu", "recargas");
-                startActivity(intent);
-            } else {
-                intent.setClass(TransaccionActivity.this, IngresoTelefonoActivity.class);
-                intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.claro));
-                startActivity(intent);
-            }
-        }
-        if (data.equals(getResources().getString(R.string.movistar))) {
-            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
-
-            } else {
-                intent.setClass(TransaccionActivity.this, IngresoTelefonoActivity.class);
-                intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.movistar));
-                startActivity(intent);
-            }
-        }
-        if (data.equals(getResources().getString(R.string.cnt))) {
-            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
-
-            } else {
-                intent.setClass(TransaccionActivity.this, IngresoTelefonoActivity.class);
-                intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.cnt));
-                startActivity(intent);
-            }
-        }
-        if (data.equals(getResources().getString(R.string.tuenti))) {
-            if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
-
-            } else {
-                intent.setClass(TransaccionActivity.this, IngresoTelefonoActivity.class);
-                intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.tuenti));
-                startActivity(intent);
-            }
+            Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        doExitApp();
+    }
 
+    private long exitTime = 0;
+
+    public void doExitApp() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(this, "Press again to exit app", Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+        }
+    }
 }
