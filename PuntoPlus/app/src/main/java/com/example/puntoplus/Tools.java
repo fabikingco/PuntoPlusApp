@@ -53,4 +53,11 @@ public class Tools {
     public static String getLocalDateTime() {
         return DateToStr(new Date(), "yyyyMMddHHmmss");
     }
+
+    public static String getFormatTime(String time) {
+        return time.substring(0,2)+":"+time.substring(2,4)+":"+time.substring(4,6);
+    }
+    public static String getFormatDate(String date) {
+        return date.substring(6,8)+"/"+date.substring(4,6)+"/"+date.substring(0,4);
+    }
 }

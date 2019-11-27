@@ -14,6 +14,7 @@ import com.example.puntoplus.Adaptador.ConsultaAdapter;
 import com.example.puntoplus.BD.ClsConexion;
 import com.example.puntoplus.model.SMS;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConsultaActivity extends AppCompatActivity {
@@ -24,17 +25,27 @@ public class ConsultaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaccion);
+        setContentView(R.layout.activity_consulta);
         initToolbar();
         ClsConexion  clsConexion = new ClsConexion(this);
-        ConsultaAdapter consultaAdapter = new ConsultaAdapter(this,clsConexion.getAllSMSRecv());
-        recyclerView = findViewById(R.id.recyclerTarjetas);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        llenarAdapter(clsConexion.getAllSMSRecv());
     }
 
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("PuntoPlus");
+        getSupportActionBar().setTitle("Consulta");
+    }
+
+
+    private void llenarAdapter(ArrayList<SMS> sms) {
+        if (sms.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            ConsultaAdapter consultaAdapter = new ConsultaAdapter(this,sms);
+            recyclerView = findViewById(R.id.recyclerTarjetas);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(consultaAdapter);
+        }
     }
 }

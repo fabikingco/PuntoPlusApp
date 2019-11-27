@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.puntoplus.BD.ClsConexion;
 import com.example.puntoplus.R;
+import com.example.puntoplus.Tools;
 import com.example.puntoplus.model.SMS;
 import com.example.puntoplus.model.SMS_RECV;
 
@@ -37,12 +38,12 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ConsultaAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ConsultaAdapter.ViewHolder holder, int position) {
         final SMS p = sms.get(position);
         holder.tvTitulo.setText(p.getDestino());
         holder.tvArea.setText(p.getMsg());
-        holder.tvHora.setText(p.getHora());
-        holder.tvFecha.setText(p.getFecha());
+        holder.tvHora.setText(Tools.getFormatTime(p.getHora()));
+        holder.tvFecha.setText(Tools.getFormatDate(p.getFecha()));
         if (p.isRecv()) {
             SMS_RECV r = (SMS_RECV)p;
             if (r.getRecv_visto().equals("f")) {
@@ -50,8 +51,8 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.ViewHo
                 holder.lySms.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         clsConexion.actualizarVisto(p.getFechahora(), true);
+                        holder.visto.setVisibility(View.INVISIBLE);
                     }
                 });
             }
