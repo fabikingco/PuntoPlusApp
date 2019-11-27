@@ -39,7 +39,7 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ConsultaAdapter.ViewHolder holder, int position) {
-        final SMS p = sms.get(position);
+        final SMS p = sms.get(getItemCount()-position-1);
         holder.tvTitulo.setText(p.getDestino());
         holder.tvArea.setText(p.getMsg());
         holder.tvHora.setText(Tools.getFormatTime(p.getHora()));
