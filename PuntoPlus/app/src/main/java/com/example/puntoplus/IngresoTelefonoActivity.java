@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.puntoplus.BD.ClsConexion;
+import com.example.puntoplus.model.SMS_LAST_Singleton;
+import com.example.puntoplus.model.SMS_SEND;
 import com.example.puntoplus.model.Usuario;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -25,6 +27,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
     String[] tipoIngreso;
     TextInputEditText editText;
     String data;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,14 +106,31 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                     alertDialog.dismiss();
                     final SpotsDialog spotsDialog = new SpotsDialog(IngresoTelefonoActivity.this, "Esperando mensaje de respuesta...");
                     spotsDialog.show();
+                    MainActivity.enviarMensaje(IngresoTelefonoActivity.this, "9306", numero);// TODO: 26-Nov-19 enviar mensaje
+                    SMS_SEND send = new SMS_SEND();
+                    send.setDestino("9306");
+                    send.setMsg(numero);
+                    send.setFecha(Tools.getLocalDate());
+                    send.setHora(Tools.getLocalTime());
+                    send.setFechahora(Tools.getLocalDateTime());
+
+                    final ClsConexion clsConexion = new ClsConexion(IngresoTelefonoActivity.this);
+                    clsConexion.newSmsSend(send);
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             spotsDialog.dismiss();
-                            validarMensaje(null, null, null);
+                            if (SMS_LAST_Singleton.getInstance().isNew()) {
+                                SMS_LAST_Singleton.getInstance().setOld();
+                                clsConexion.actualizarVisto(SMS_LAST_Singleton.getInstance().getNeew(), true);
+                                validarMensaje(null, null, SMS_LAST_Singleton.getInstance().getMensaje());
+                            } else {
+                                validarMensaje(null, null, "no hay SMS");
+                            }
+
                         }
-                    }, 5000);
+                    }, 10000);
                 }
             });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
@@ -169,7 +189,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
         if (tipoIngreso[0].equals(getResources().getString(R.string.recargas_celular))) {
             // Guardar en base de datos
             Intent intent = new Intent(IngresoTelefonoActivity.this, VentanaConfirmacionActivity.class);
-            intent.putExtra("tipoIngreso", data + "@" + "exitosa");
+            intent.putExtra("tipoIngreso", data + "@" + mensaje);
             startActivity(intent);
         }
         if (tipoIngreso[0].equals(getResources().getString(R.string.paquetes_celular))) {

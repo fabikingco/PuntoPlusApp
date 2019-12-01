@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.puntoplus.Tools;
+import com.example.puntoplus.model.SMS;
 import com.example.puntoplus.model.SMS_RECV;
 import com.example.puntoplus.model.SMS_SEND;
 import com.example.puntoplus.model.Usuario;
@@ -44,6 +45,7 @@ public class ClsConexion extends SQLiteOpenHelper {
     private final String COLUMN_SMS_RECV_ID = "recv_id";
     private final String COLUMN_SMS_RECV_DESTINO = "recv_destino";
     private final String COLUMN_SMS_RECV_MSG = "recv_msg";
+    private final String COLUMN_SMS_RECV_VISTO = "recv_visto";
     private final String COLUMN_SMS_RECV_FECHA = "recv_fecha";
     private final String COLUMN_SMS_RECV_HORA = "recv_hora";
     private final String COLUMN_SMS_RECV_FECHAHORA = "recv_fechahora";
@@ -52,6 +54,7 @@ public class ClsConexion extends SQLiteOpenHelper {
             COLUMN_SMS_RECV_ID + " integer primary key AUTOINCREMENT, " +
             COLUMN_SMS_RECV_DESTINO + " text not null, " +
             COLUMN_SMS_RECV_MSG + " text not null, " +
+            COLUMN_SMS_RECV_VISTO + " char not null, " +
             COLUMN_SMS_RECV_FECHA + " text not null, " +
             COLUMN_SMS_RECV_HORA + " text not null, " +
             COLUMN_SMS_RECV_FECHAHORA + " text not null);";
@@ -96,16 +99,16 @@ public class ClsConexion extends SQLiteOpenHelper {
         boolean ret = false;
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SMS_SEND_DESTINO, sms_send.getSend_destino());
-        values.put(COLUMN_SMS_SEND_MSG, sms_send.getSend_msg());
-        values.put(COLUMN_SMS_SEND_FECHA, sms_send.getSend_fecha());
-        values.put(COLUMN_SMS_SEND_HORA, sms_send.getSend_hora());
-        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_send.getSend_fechahora());
+        values.put(COLUMN_SMS_SEND_DESTINO, sms_send.getDestino());
+        values.put(COLUMN_SMS_SEND_MSG, sms_send.getMsg());
+        values.put(COLUMN_SMS_SEND_FECHA, sms_send.getFecha());
+        values.put(COLUMN_SMS_SEND_HORA, sms_send.getHora());
+        values.put(COLUMN_SMS_SEND_FECHAHORA, sms_send.getFechahora());
         try {
             db.insert(TABLE_SMS_SEND, null, values);
             db.close();
             ret = true;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.getCause();
         }
         return ret;
@@ -115,23 +118,24 @@ public class ClsConexion extends SQLiteOpenHelper {
         boolean ret = false;
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getRecv_destino());
-        values.put(COLUMN_SMS_RECV_MSG, sms_recv.getRecv_msg());
-        values.put(COLUMN_SMS_SEND_FECHA, sms_recv.getRecv_fecha());
-        values.put(COLUMN_SMS_SEND_HORA, sms_recv.getRecv_hora());
-        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getRecv_fechahora());
+        values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getDestino());
+        values.put(COLUMN_SMS_RECV_MSG, sms_recv.getMsg());
+        values.put(COLUMN_SMS_RECV_VISTO, sms_recv.getRecv_visto());
+        values.put(COLUMN_SMS_RECV_FECHA, sms_recv.getFecha());
+        values.put(COLUMN_SMS_RECV_HORA, sms_recv.getHora());
+        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getFechahora());
         try {
-            db.insert(TABLE_SMS_SEND, null, values);
+            db.insert(TABLE_SMS_RECV, null, values);
             db.close();
             ret = true;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.getCause();
         }
         return ret;
     }
 
-    public ArrayList<SMS_SEND> getAllSMSSend() {
-        ArrayList<SMS_SEND> list = new ArrayList<>();
+    public ArrayList<SMS> getAllSMSSend() {
+        ArrayList<SMS> list = new ArrayList<>();
         db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_SMS_SEND;
         Cursor cursor = db.rawQuery(query, null);
@@ -147,8 +151,8 @@ public class ClsConexion extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<SMS_RECV> getAllSMSRecv() {
-        ArrayList<SMS_RECV> list = new ArrayList<>();
+    public ArrayList<SMS> getAllSMSRecv() {
+        ArrayList<SMS> list = new ArrayList<>();
         db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_SMS_RECV;
         Cursor cursor = db.rawQuery(query, null);
@@ -156,7 +160,7 @@ public class ClsConexion extends SQLiteOpenHelper {
             do {
                 list.add(new SMS_RECV(cursor.getInt(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                        cursor.getString(5)));
+                        cursor.getString(5), cursor.getString(6)));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -164,11 +168,30 @@ public class ClsConexion extends SQLiteOpenHelper {
         return list;
     }
 
+
+    public boolean actualizarVisto(String recv_fechahora, Boolean isVisto) {
+        boolean result = false;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        if (isVisto) {
+            values.put(COLUMN_SMS_RECV_VISTO, "v");
+        } else {
+            values.put(COLUMN_SMS_RECV_VISTO, "f");
+        }
+        try {
+            db.update(TABLE_SMS_RECV, values, COLUMN_SMS_RECV_FECHAHORA + "= " + recv_fechahora, null);
+            db.close();
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return result;
+    }
+
     /**
-     *
      * @param usuario
-     * @return
-     * TODO = Change return variable by int
+     * @return TODO = Change return variable by int
      */
     public boolean ingresoUsuarioDB(Usuario usuario) {
         boolean ret = false;
@@ -184,7 +207,7 @@ public class ClsConexion extends SQLiteOpenHelper {
             if (!ret) {
                 eliminarUsuarioDB();
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.getCause();
         }
         return ret;
@@ -201,7 +224,7 @@ public class ClsConexion extends SQLiteOpenHelper {
             db.insert(TABLE_LOGS_USER, null, values);
             db.close();
             ret = true;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.getCause();
         }
         return ret;
@@ -211,7 +234,7 @@ public class ClsConexion extends SQLiteOpenHelper {
         Usuario usuario = obtenerUsuarioActual();
         if (usuario != null) {
             db = this.getWritableDatabase();
-            db.delete(TABLE_REGISTRO_USER,null, null);
+            db.delete(TABLE_REGISTRO_USER, null, null);
             db.close();
             return actualizarLogUsuario(usuario);
         }
@@ -224,7 +247,7 @@ public class ClsConexion extends SQLiteOpenHelper {
         return ret;
     }
 
-    public Usuario obtenerUsuarioActual () {
+    public Usuario obtenerUsuarioActual() {
         Usuario usuario = new Usuario();
         db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_REGISTRO_USER;
