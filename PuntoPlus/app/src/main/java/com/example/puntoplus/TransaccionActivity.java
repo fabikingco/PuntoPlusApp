@@ -80,6 +80,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.paquetes_celular), R.drawable.paquetes_celular));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_simert), R.drawable.simmert));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.pagos_de_servicio), R.drawable.pagos_servicios));
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.reportes), R.drawable.pagos_servicios));
     }
 
     @Override
@@ -103,6 +104,9 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         }
         if (data.equals(getResources().getString(R.string.pagos_de_servicio))) {
             Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
+        }
+        if (data.equals(getResources().getString(R.string.reportes))) {
+            startActivity(new Intent(TransaccionActivity.this, ReportesActivity.class));
         }
     }
 

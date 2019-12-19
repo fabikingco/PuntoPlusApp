@@ -2,12 +2,12 @@ package com.example.puntoplus.model;
 
 public class SMS_RECV {
 
-    int recv_id;
-    String recv_destino;
-    String recv_msg;
-    String recv_fecha;
-    String recv_hora;
-    String recv_fechahora;
+    private int recv_id;
+    private String recv_destino;
+    private String recv_msg;
+    private String recv_fecha;
+    private String recv_hora;
+    private String recv_fechahora;
 
     public SMS_RECV() {
     }

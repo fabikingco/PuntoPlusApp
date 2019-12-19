@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">PuntoPlus</string>
+    <string name="app_name">Ecuamovil</string>
 
     <string name="recargas_celular">Recargas celular</string>
     <string name="paquetes_celular">Paquetes celular</string>
     <string name="recargas_simert">Recargas simert</string>
     <string name="pagos_de_servicio">Pagos de servicio</string>
+    <string name="reportes">Reportes</string>
 
     <string name="claro">Claro</string>
     <string name="movistar">Movistar</string>
