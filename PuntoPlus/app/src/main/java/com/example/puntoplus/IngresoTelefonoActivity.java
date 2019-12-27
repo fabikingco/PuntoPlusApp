@@ -11,8 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.puntoplus.BD.ClsConexion;
-import com.example.puntoplus.model.SMS_LAST_Singleton;
-import com.example.puntoplus.model.SMS_SEND;
 import com.example.puntoplus.model.Usuario;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -27,7 +25,6 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
     String[] tipoIngreso;
     TextInputEditText editText;
     String data;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +71,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
         final String numero = editText.getText().toString();
         final SpotsDialog spotsDialog = new SpotsDialog(this, "Esperando mensaje de respuesta...");
         if (tipoIngreso[0].equals("registro")) {
-            //MainActivity.enviarMensaje(this, "9306", numero);
+            //MainActivity.enviarMensaje(this, "9305", numero);
             spotsDialog.show();
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -84,53 +81,44 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                     validarMensaje(numero, null, null);
                 }
             }, 5000);
-            /*MainActivity.mCallbackSMS = new callbackSMS(){
-                @Override
-                public String smsRecibido(String emisor, String mensaje) {
-                    spotsDialog.dismiss();
-                        *//*dataMensaje[0] = emisor;
-                        dataMensaje[1] = mensaje;*//*
-                    MainActivity.mCallbackSMS = null;
-                    validarMensaje(numero, emisor, mensaje);
-                    return null;
-                }
-            };*/
         }
         if (tipoIngreso[0].equals(getResources().getString(R.string.recargas_celular))) {
             final AlertDialog alertDialog = new AlertDialog.Builder(IngresoTelefonoActivity.this).create();
-            alertDialog.setTitle("Punto Plus");
+            alertDialog.setTitle("Ecuamovil");
             alertDialog.setMessage("Confirme los datos. \nRecargara $ " + tipoIngreso[2]
                     + " al numero " + numero + " del operador " + tipoIngreso[1]);
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     alertDialog.dismiss();
+                    String oper = armarOperador(tipoIngreso[1]);
+                    String monto = armarMonto(tipoIngreso[2]);
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("Rec");
+                    builder.append(oper);
+                    builder.append(" ");
+                    builder.append(monto);
+                    builder.append(" ");
+                    builder.append(numero);
+                    MainActivity.enviarMensaje(IngresoTelefonoActivity.this, "9305", builder.toString());
                     final SpotsDialog spotsDialog = new SpotsDialog(IngresoTelefonoActivity.this, "Esperando mensaje de respuesta...");
                     spotsDialog.show();
-                    MainActivity.enviarMensaje(IngresoTelefonoActivity.this, "9306", numero);// TODO: 26-Nov-19 enviar mensaje
-                    SMS_SEND send = new SMS_SEND();
-                    send.setDestino("9306");
-                    send.setMsg(numero);
-                    send.setFecha(Tools.getLocalDate());
-                    send.setHora(Tools.getLocalTime());
-                    send.setFechahora(Tools.getLocalDateTime());
-
-                    final ClsConexion clsConexion = new ClsConexion(IngresoTelefonoActivity.this);
-                    clsConexion.newSmsSend(send);
-                    Timer timer = new Timer();
+                    /*Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             spotsDialog.dismiss();
-                            if (SMS_LAST_Singleton.getInstance().isNew()) {
-                                SMS_LAST_Singleton.getInstance().setOld();
-                                clsConexion.actualizarVisto(SMS_LAST_Singleton.getInstance().getNeew(), true);
-                                validarMensaje(null, null, SMS_LAST_Singleton.getInstance().getMensaje());
-                            } else {
-                                validarMensaje(null, null, "no hay SMS");
-                            }
-
+                            validarMensaje(null, null, null);
                         }
-                    }, 10000);
+                    }, 5000);*/
+                    MainActivity.mCallbackSMS = new callbackSMS(){
+                        @Override
+                        public String smsRecibido(String emisor, String mensaje) {
+                            spotsDialog.dismiss();
+                            MainActivity.mCallbackSMS = null;
+                            validarMensaje(numero, emisor, mensaje);
+                            return null;
+                        }
+                    };
                 }
             });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
@@ -148,6 +136,30 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private String armarMonto(String s) {
+        if (s.substring(s.length()-2).equals("00")) {
+            return s.substring(0, s.length() -3);
+        } else {
+            return s;
+        }
+    }
+
+    private String armarOperador(String s) {
+        if (s.equals(getResources().getString(R.string.claro))) {
+            return "cla";
+        }
+        if (s.equals(getResources().getString(R.string.movistar))) {
+            return "mov";
+        }
+        if (s.equals(getResources().getString(R.string.cnt))) {
+            return "cnt";
+        }
+        if (s.equals(getResources().getString(R.string.tuenti))) {
+            return "tue";
+        }
+        return s;
     }
 
     private void validarMensaje(String numero, String emisor, String mensaje) {
@@ -189,7 +201,9 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
         if (tipoIngreso[0].equals(getResources().getString(R.string.recargas_celular))) {
             // Guardar en base de datos
             Intent intent = new Intent(IngresoTelefonoActivity.this, VentanaConfirmacionActivity.class);
-            intent.putExtra("tipoIngreso", data + "@" + mensaje);
+            intent.putExtra("tipoIngreso", data);
+            intent.putExtra("emisor", emisor);
+            intent.putExtra("mensaje", mensaje);
             startActivity(intent);
         }
         if (tipoIngreso[0].equals(getResources().getString(R.string.paquetes_celular))) {

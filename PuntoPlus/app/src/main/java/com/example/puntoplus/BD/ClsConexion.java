@@ -116,11 +116,10 @@ public class ClsConexion extends SQLiteOpenHelper {
 
     public boolean newSmsRecv(SMS_RECV sms_recv) {
         boolean ret = false;
-        db = this.getWritableDatabase();
+        /*db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getDestino());
-        values.put(COLUMN_SMS_RECV_MSG, sms_recv.getMsg());
-        values.put(COLUMN_SMS_RECV_VISTO, sms_recv.getRecv_visto());
+        values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getRecv_destino());
+        values.put(COLUMN_SMS_RECV_MSG, sms_recv.getRecv_msg());
         values.put(COLUMN_SMS_RECV_FECHA, sms_recv.getFecha());
         values.put(COLUMN_SMS_RECV_HORA, sms_recv.getHora());
         values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getFechahora());
@@ -130,7 +129,7 @@ public class ClsConexion extends SQLiteOpenHelper {
             ret = true;
         } catch (SQLException e) {
             e.getCause();
-        }
+        }*/
         return ret;
     }
 
@@ -153,7 +152,7 @@ public class ClsConexion extends SQLiteOpenHelper {
 
     public ArrayList<SMS> getAllSMSRecv() {
         ArrayList<SMS> list = new ArrayList<>();
-        db = this.getWritableDatabase();
+        /*db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_SMS_RECV;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -164,7 +163,7 @@ public class ClsConexion extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+        db.close();*/
         return list;
     }
 

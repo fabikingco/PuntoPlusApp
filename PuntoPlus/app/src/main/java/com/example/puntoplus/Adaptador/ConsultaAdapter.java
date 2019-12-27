@@ -44,7 +44,7 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.ViewHo
         holder.tvArea.setText(p.getMsg());
         holder.tvHora.setText(Tools.getFormatTime(p.getHora()));
         holder.tvFecha.setText(Tools.getFormatDate(p.getFecha()));
-        if (p.isRecv()) {
+        /*if (p.isRecv()) {
             SMS_RECV r = (SMS_RECV)p;
             if (r.getRecv_visto().equals("f")) {
                 holder.visto.setVisibility(View.VISIBLE);
@@ -56,7 +56,7 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.ViewHo
                     }
                 });
             }
-        }
+        }*/
     }
 
     @Override

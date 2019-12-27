@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.telephony.SmsManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.puntoplus.BD.ClsConexion;
 import com.example.puntoplus.model.SMS_SEND;
@@ -23,6 +24,10 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
@@ -44,6 +49,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void confirmarInicioSesion() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateActual = new Date();
+        Date fechaFinal = new Date();
+        try {
+            fechaFinal = format.parse("2019-12-10");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (dateActual.compareTo(fechaFinal) >= 0) {
+            Toast.makeText(this, "Requiere actualizar la APP - Contacte a soporte tecnico. +57 3017719100", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+
         Usuario usuario  = conexion.obtenerUsuarioActual();
         if (usuario.getCel() == null) {
             startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
@@ -129,8 +150,5 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
         };*/
-
-
-
     }
 }

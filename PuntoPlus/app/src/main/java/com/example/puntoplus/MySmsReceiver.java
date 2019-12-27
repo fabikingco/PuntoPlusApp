@@ -61,7 +61,7 @@ public class MySmsReceiver extends BroadcastReceiver {
                 }
 
                 if (strNumeroEmisor != null && strNumeroEmisor.equals("9305")) {
-                    ClsConexion conexion = new ClsConexion(context);
+                    /*ClsConexion conexion = new ClsConexion(context);
                     SMS_RECV recv = new SMS_RECV();
 
                     recv.setDestino(strNumeroEmisor);
@@ -75,7 +75,7 @@ public class MySmsReceiver extends BroadcastReceiver {
 
                     recv.setFechahora(Tools.getLocalDateTime());
                     SMS_LAST_Singleton.getInstance().setNeew(Tools.getLocalDateTime());
-                    conexion.newSmsRecv(recv);
+                    conexion.newSmsRecv(recv);*/
                 }
             }
         }

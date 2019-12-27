@@ -19,7 +19,9 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
     String[] tipoIngreso;
     String data;
     ImageView imageView;
-    TextView titulo;
+    TextView titulo, tvMensaje;
+    String emisor;
+    String mensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imagen);
         titulo = findViewById(R.id.tvTitulo);
+        tvMensaje = findViewById(R.id.tvMensaje);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -39,20 +42,20 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
                 tipoIngreso[0] = data;
                 Toast.makeText(this, "" + tipoIngreso[0], Toast.LENGTH_SHORT).show();
             }
+            emisor = bundle.getString("emisor", "default");
+            mensaje = bundle.getString("mensaje", "default");
         } else {
             Toast.makeText(this, "El tipo de ingreso no llego o fallo ", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(VentanaConfirmacionActivity.this, MainActivity.class));
             finish();
         }
 
-        int ultimo = tipoIngreso.length;
-
-        if (tipoIngreso[ultimo - 1].equals("exitosa")){
-            imageView.setImageDrawable(getDrawable(R.drawable.result_success));
-            titulo.setText(tipoIngreso[0] + " exitosa");
+        if (emisor != null) {
+            tvMensaje.setText(emisor + ": " + mensaje);
+        } else {
+            titulo.setText("No se obtuvo mensaje de respuesta");
+            tvMensaje.setText("Revise los mensajes recibidos mas tarde");
         }
-
-
     }
 
     @Override
