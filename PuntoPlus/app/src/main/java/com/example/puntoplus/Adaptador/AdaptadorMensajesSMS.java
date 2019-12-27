@@ -8,11 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AdaptadorMensajesSMS extends RecyclerView.Adapter<AdaptadorMensajesSMS.ViewHolderSMS> {
 
-    ArrayList<T> arrayList = new ArrayAdapter<T>();
 
-    public AdaptadorMensajesSMS(ArrayList<T> arrayList) {
-        this.arrayList = arrayList;
-    }
 
     @NonNull
     @Override
