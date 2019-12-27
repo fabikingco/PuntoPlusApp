@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void confirmarInicioSesion() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+       /* SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date dateActual = new Date();
         Date fechaFinal = new Date();
         try {
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Requiere actualizar la APP - Contacte a soporte tecnico. +57 3017719100", Toast.LENGTH_SHORT).show();
             finish();
             return;
-        }
+        }*/
 
 
         Usuario usuario  = conexion.obtenerUsuarioActual();
