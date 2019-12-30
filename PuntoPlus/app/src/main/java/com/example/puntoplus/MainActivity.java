@@ -11,34 +11,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.puntoplus.BD.ClsConexion;
-import com.example.puntoplus.model.SMS_SEND;
 import com.example.puntoplus.model.Usuario;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-
-import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnEnviarMensaje;
-    EditText etTelefono, etMensaje;
     public static callbackSMS mCallbackSMS;
     ClsConexion conexion;
-    SpotsDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

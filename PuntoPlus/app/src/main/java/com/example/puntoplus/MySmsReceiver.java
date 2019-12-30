@@ -8,11 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.example.puntoplus.BD.ClsConexion;
-import com.example.puntoplus.model.SMS_LAST_Singleton;
-import com.example.puntoplus.model.SMS_RECV;
 
 public class MySmsReceiver extends BroadcastReceiver {
 

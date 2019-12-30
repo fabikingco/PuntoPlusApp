@@ -80,6 +80,8 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
     }
 
     public void imprimir(View view) {
+        // Validar dispositivo.
+
         final SpotsDialog spotsDialog = new SpotsDialog(VentanaConfirmacionActivity.this, "Imprimiendo ticket...");
         spotsDialog.show();
         Timer timer = new Timer();

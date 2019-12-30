@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.puntoplus.Adaptador.NewAdapterMenus;
 import com.example.puntoplus.BD.ClsConexion;
 import com.example.puntoplus.model.menuItemsModelo;
+import com.socsi.smartposapi.printer.Align;
 import com.socsi.smartposapi.printer.PrintRespCode;
 import com.socsi.smartposapi.printer.Printer2;
 import com.socsi.smartposapi.printer.TextEntity;
@@ -106,24 +107,29 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
             Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
         }
         if (data.equals(getResources().getString(R.string.pagos_de_servicio))) {
-            Printer2 print = Printer2.getInstance();
-            print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, false, null));
-            print.appendTextEntity2(new TextEntity(" ", null, false, null));
-            print.appendTextEntity2(new TextEntity(" ", null, false, null));
-            print.appendTextEntity2(new TextEntity(" ", null, false, null));
-            print.appendTextEntity2(new TextEntity(" ", null, false, null));
-            print.appendTextEntity2(new TextEntity(" ", null, false, null));
+            try {
+                Printer2 print = Printer2.getInstance();
+                print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, false, Align.CENTER));
+                print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, true, Align.CENTER));
+                print.appendTextEntity2(new TextEntity(" ", null, false, null));
+                print.appendTextEntity2(new TextEntity(" ", null, false, null));
+                print.appendTextEntity2(new TextEntity(" ", null, false, null));
+                print.appendTextEntity2(new TextEntity(" ", null, false, null));
+                print.appendTextEntity2(new TextEntity(" ", null, false, null));
 
-            PrintRespCode printRespCode = print.startPrint();
+                PrintRespCode printRespCode = print.startPrint();
 //
-            if (printRespCode != PrintRespCode.Print_Success) {
-                if (printRespCode == PrintRespCode.Printer_PaperLack || printRespCode == PrintRespCode.print_Unknow) {
-                    Toast.makeText(TransaccionActivity.this, "Printer is out of paper", Toast.LENGTH_SHORT).show();
+                if (printRespCode != PrintRespCode.Print_Success) {
+                    if (printRespCode == PrintRespCode.Printer_PaperLack || printRespCode == PrintRespCode.print_Unknow) {
+                        Toast.makeText(TransaccionActivity.this, "Printer is out of paper", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(TransaccionActivity.this, "Print failed", Toast.LENGTH_SHORT).show();
                 }
-                else
-                    Toast.makeText(TransaccionActivity.this, "Print failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Impresora no disponible " + e, Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
         }
         if (data.equals(getResources().getString(R.string.reportes))) {
             startActivity(new Intent(TransaccionActivity.this, ReportesActivity.class));
