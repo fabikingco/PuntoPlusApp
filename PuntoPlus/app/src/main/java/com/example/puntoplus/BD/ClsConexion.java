@@ -116,20 +116,20 @@ public class ClsConexion extends SQLiteOpenHelper {
 
     public boolean newSmsRecv(SMS_RECV sms_recv) {
         boolean ret = false;
-        /*db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getRecv_destino());
         values.put(COLUMN_SMS_RECV_MSG, sms_recv.getRecv_msg());
-        values.put(COLUMN_SMS_RECV_FECHA, sms_recv.getFecha());
-        values.put(COLUMN_SMS_RECV_HORA, sms_recv.getHora());
-        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getFechahora());
+        values.put(COLUMN_SMS_RECV_FECHA, sms_recv.getRecv_fecha());
+        values.put(COLUMN_SMS_RECV_HORA, sms_recv.getRecv_hora());
+        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getRecv_fechahora());
         try {
             db.insert(TABLE_SMS_RECV, null, values);
             db.close();
             ret = true;
         } catch (SQLException e) {
             e.getCause();
-        }*/
+        }
         return ret;
     }
 
@@ -150,20 +150,20 @@ public class ClsConexion extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<SMS> getAllSMSRecv() {
-        ArrayList<SMS> list = new ArrayList<>();
-        /*db = this.getWritableDatabase();
+    public ArrayList<SMS_RECV> getAllSMSRecv() {
+        ArrayList<SMS_RECV> list = new ArrayList<>();
+        db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_SMS_RECV;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 list.add(new SMS_RECV(cursor.getInt(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                        cursor.getString(5), cursor.getString(6)));
+                        cursor.getString(5)));
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();*/
+        db.close();
         return list;
     }
 
