@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import com.example.puntoplus.BD.ClsConexion;
+import com.example.puntoplus.model.SMS_RECV;
+
 public class MySmsReceiver extends BroadcastReceiver {
 
     private static final String TAG =
@@ -56,21 +59,14 @@ public class MySmsReceiver extends BroadcastReceiver {
                 }
 
                 if (strNumeroEmisor != null && strNumeroEmisor.equals("9305")) {
-                    /*ClsConexion conexion = new ClsConexion(context);
+                    ClsConexion conexion = new ClsConexion(context);
                     SMS_RECV recv = new SMS_RECV();
-
-                    recv.setDestino(strNumeroEmisor);
-                    SMS_LAST_Singleton.getInstance().setEmisor(strNumeroEmisor);
-
-                    recv.setMsg(strMensanje);
-                    SMS_LAST_Singleton.getInstance().setMensaje(strMensanje);
-
-                    recv.setFecha(Tools.getLocalDate());
-                    recv.setHora(Tools.getLocalTime());
-
-                    recv.setFechahora(Tools.getLocalDateTime());
-                    SMS_LAST_Singleton.getInstance().setNeew(Tools.getLocalDateTime());
-                    conexion.newSmsRecv(recv);*/
+                    recv.setRecv_destino(strNumeroEmisor);
+                    recv.setRecv_msg(strMensanje);
+                    recv.setRecv_fecha(Tools.getLocalDate());
+                    recv.setRecv_hora(Tools.getLocalTime());
+                    recv.setRecv_fechahora(Tools.getLocalDateTime());
+                    conexion.newSmsRecv(recv);
                 }
             }
         }

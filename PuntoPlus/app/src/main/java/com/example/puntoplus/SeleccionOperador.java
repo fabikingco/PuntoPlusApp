@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.puntoplus.Adaptador.ConsultaAdapter;
 import com.example.puntoplus.Adaptador.NewAdapterMenus;
 import com.example.puntoplus.model.menuItemsModelo;
 
@@ -61,7 +60,6 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.movistar), R.drawable.movistar_logo));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.cnt), R.drawable.cnt_logo));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.tuenti), R.drawable.tuenti));
-        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.Consulta), R.drawable.tuenti));
     }
 
     @Override
@@ -71,7 +69,8 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         if (data.equals(getResources().getString(R.string.claro))) {
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
-            } else {
+            } else  if (tipoMenu.equals(getResources().getString(R.string.recargas_celular))){
+                MainActivity.recargasCelular.setOperador(getResources().getString(R.string.claro));
                 intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.claro));
                 startActivity(intent);
@@ -103,13 +102,6 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.tuenti));
                 startActivity(intent);
             }
-        }
-
-        if (data.equals(getResources().getString(R.string.Consulta))) {
-
-            intent.setClass(SeleccionOperador.this, ConsultaActivity.class);
-            startActivity(intent);
-
         }
     }
 }

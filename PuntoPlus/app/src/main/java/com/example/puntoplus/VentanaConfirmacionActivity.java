@@ -9,6 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.socsi.smartposapi.printer.Align;
+import com.socsi.smartposapi.printer.FontLattice;
+import com.socsi.smartposapi.printer.PrintRespCode;
+import com.socsi.smartposapi.printer.Printer2;
+import com.socsi.smartposapi.printer.TextEntity;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,8 +48,8 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
                 tipoIngreso[0] = data;
                 Toast.makeText(this, "" + tipoIngreso[0], Toast.LENGTH_SHORT).show();
             }
-            emisor = bundle.getString("emisor", "default");
-            mensaje = bundle.getString("mensaje", "default");
+            emisor = bundle.getString("emisor", null);
+            mensaje = bundle.getString("mensaje", null);
         } else {
             Toast.makeText(this, "El tipo de ingreso no llego o fallo ", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(VentanaConfirmacionActivity.this, MainActivity.class));
@@ -54,7 +60,7 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
             tvMensaje.setText(emisor + ": " + mensaje);
         } else {
             titulo.setText("No se obtuvo mensaje de respuesta");
-            tvMensaje.setText("Revise los mensajes recibidos mas tarde");
+            tvMensaje.setText("Puede verficicar en registros mas tarde la confirmacion de la " + tipoIngreso[0]);
         }
     }
 
@@ -84,14 +90,48 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
 
         final SpotsDialog spotsDialog = new SpotsDialog(VentanaConfirmacionActivity.this, "Imprimiendo ticket...");
         spotsDialog.show();
-        Timer timer = new Timer();
+
+        Printer2 print = Printer2.getInstance();
+        print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, true, Align.CENTER));
+        print.appendTextEntity2(new TextEntity("Sistema de recargas", FontLattice.THIRTY_TWO, true, Align.CENTER));
+        print.appendTextEntity2(new TextEntity(" ", null, false, null));
+        print.appendTextEntity2(new TextEntity("Hora: " + Tools.getLocalFormatTime()
+                + "Fecha: " + Tools.getLocalFormatDate(), FontLattice.SIXTEEN, true, Align.CENTER));
+        print.appendTextEntity2(new TextEntity("Operador: "
+                + MainActivity.recargasCelular.getOperador(), null, false, null));
+        print.appendTextEntity2(new TextEntity("Numero de telefono: "
+                + MainActivity.recargasCelular.getNumero(), null, false, null));
+        print.appendTextEntity2(new TextEntity("Monto recargado: $ "
+                + MainActivity.recargasCelular.getMonto(), null, false, null));
+
+        print.appendTextEntity2(new TextEntity(" ", null, false, null));
+        print.appendTextEntity2(new TextEntity(" ", null, false, null));
+        print.appendTextEntity2(new TextEntity(" ", null, false, null));
+        print.appendTextEntity2(new TextEntity(" ", null, false, null));
+
+        PrintRespCode printRespCode = print.startPrint();
+//
+        if (printRespCode != PrintRespCode.Print_Success) {
+            spotsDialog.dismiss();
+            if (printRespCode == PrintRespCode.Printer_PaperLack || printRespCode == PrintRespCode.print_Unknow) {
+                Toast.makeText(VentanaConfirmacionActivity.this, "Printer is out of paper", Toast.LENGTH_SHORT).show();
+            }
+            else
+                Toast.makeText(VentanaConfirmacionActivity.this, "Print failed", Toast.LENGTH_SHORT).show();
+        } else {
+            spotsDialog.dismiss();
+            startActivity(new Intent(VentanaConfirmacionActivity.this, MainActivity.class));
+            finish();
+        }
+        Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
+
+
+        /*Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                spotsDialog.dismiss();
-                startActivity(new Intent(VentanaConfirmacionActivity.this, MainActivity.class));
-                finish();
+
             }
-        }, 5000);
+        }, 5000);*/
     }
 }

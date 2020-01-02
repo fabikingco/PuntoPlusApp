@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import com.example.puntoplus.Adaptador.NewAdapterMenus;
 import com.example.puntoplus.BD.ClsConexion;
+import com.example.puntoplus.model.Transacciones.RecargasCelular;
 import com.example.puntoplus.model.menuItemsModelo;
 import com.socsi.smartposapi.printer.Align;
+import com.socsi.smartposapi.printer.FontLattice;
 import com.socsi.smartposapi.printer.PrintRespCode;
 import com.socsi.smartposapi.printer.Printer2;
 import com.socsi.smartposapi.printer.TextEntity;
@@ -60,7 +62,9 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.item_CerrarSesion) {
+        if (item.getItemId() == R.id.item_ConfigComercio) {
+            Toast.makeText(this, "Configuracion del comercio", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.item_CerrarSesion) {
             ClsConexion conexion = new ClsConexion(this);
             conexion.eliminarUsuarioDB();
             startActivity(new Intent(this, MainActivity.class));
@@ -93,6 +97,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         Intent intent = new Intent();
         String data = itemMenu.get(position).getTextoItem();
         if (data.equals(getResources().getString(R.string.recargas_celular))) {
+            MainActivity.recargasCelular = new RecargasCelular();
             intent.setClass(TransaccionActivity.this, SeleccionOperador.class);
             intent.putExtra("tipoMenu", getResources().getString(R.string.recargas_celular));
             startActivity(intent);
@@ -111,6 +116,11 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
                 Printer2 print = Printer2.getInstance();
                 print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, false, Align.CENTER));
                 print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, true, Align.CENTER));
+                print.appendTextEntity2(new TextEntity("EIGHT", FontLattice.EIGHT, true, Align.CENTER));
+                print.appendTextEntity2(new TextEntity("SIXTEEN", FontLattice.SIXTEEN, true, Align.CENTER));
+                print.appendTextEntity2(new TextEntity("TWNTY FOUR", FontLattice.TWENTY_FOUR, true, Align.CENTER));
+                print.appendTextEntity2(new TextEntity("THIRTY TWO", FontLattice.THIRTY_TWO, true, Align.CENTER));
+                print.appendTextEntity2(new TextEntity("FORTY EIGHT", FontLattice.FORTY_EIGHT, true, Align.CENTER));
                 print.appendTextEntity2(new TextEntity(" ", null, false, null));
                 print.appendTextEntity2(new TextEntity(" ", null, false, null));
                 print.appendTextEntity2(new TextEntity(" ", null, false, null));
@@ -150,5 +160,11 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         } else {
             finish();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MainActivity.recargasCelular = null;
     }
 }

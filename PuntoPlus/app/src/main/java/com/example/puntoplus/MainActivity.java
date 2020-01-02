@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.telephony.SmsManager;
 
 import com.example.puntoplus.BD.ClsConexion;
+import com.example.puntoplus.model.Transacciones.RecargasCelular;
 import com.example.puntoplus.model.Usuario;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static callbackSMS mCallbackSMS;
     ClsConexion conexion;
+    public static RecargasCelular recargasCelular;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

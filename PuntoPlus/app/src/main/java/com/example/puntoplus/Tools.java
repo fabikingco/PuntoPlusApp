@@ -46,8 +46,16 @@ public class Tools {
         return DateToStr(new Date(), "HHmmss");
     }
 
+    public static String getLocalFormatTime() {
+        return DateToStr(new Date(), "HH:mm:ss");
+    }
+
     public static String getLocalDate() {
         return DateToStr(new Date(), "yyyyMMdd");
+    }
+
+    public static String getLocalFormatDate() {
+        return DateToStr(new Date(), "yyyy/MM/dd");
     }
 
     public static String getLocalDateTime() {

@@ -25,6 +25,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
     String[] tipoIngreso;
     TextInputEditText editText;
     String data;
+    Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                     + " al numero " + numero + " del operador " + tipoIngreso[1]);
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
+                    MainActivity.recargasCelular.setNumero(numero);
                     alertDialog.dismiss();
                     String oper = armarOperador(tipoIngreso[1]);
                     String monto = armarMonto(tipoIngreso[2]);
@@ -102,17 +104,19 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                     MainActivity.enviarMensaje(IngresoTelefonoActivity.this, "9305", builder.toString());
                     final SpotsDialog spotsDialog = new SpotsDialog(IngresoTelefonoActivity.this, "Esperando mensaje de respuesta...");
                     spotsDialog.show();
-                    /*Timer timer = new Timer();
+                    timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             spotsDialog.dismiss();
-                            validarMensaje(null, null, null);
+                            validarMensaje(numero, null, null);
+                            MainActivity.mCallbackSMS = null;
                         }
-                    }, 5000);*/
+                    }, 10000);
                     MainActivity.mCallbackSMS = new callbackSMS(){
                         @Override
                         public String smsRecibido(String emisor, String mensaje) {
+                            timer.cancel();
                             spotsDialog.dismiss();
                             MainActivity.mCallbackSMS = null;
                             validarMensaje(numero, emisor, mensaje);
@@ -200,11 +204,13 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
         }
         if (tipoIngreso[0].equals(getResources().getString(R.string.recargas_celular))) {
             // Guardar en base de datos
+            timer = null;
             Intent intent = new Intent(IngresoTelefonoActivity.this, VentanaConfirmacionActivity.class);
             intent.putExtra("tipoIngreso", data);
             intent.putExtra("emisor", emisor);
             intent.putExtra("mensaje", mensaje);
             startActivity(intent);
+            finish();
         }
         if (tipoIngreso[0].equals(getResources().getString(R.string.paquetes_celular))) {
 

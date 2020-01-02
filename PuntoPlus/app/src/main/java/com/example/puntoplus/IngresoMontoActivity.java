@@ -107,10 +107,13 @@ public class IngresoMontoActivity extends AppCompatActivity {
     public void cargarMonto(View view) {
         String monto = editText.getText().toString();
         if (validarMonto(monto)) {
-            Intent intent = new Intent(this, IngresoTelefonoActivity.class);
-            intent.putExtra("tipoIngreso", data + "@" + monto);
-            Log.d("put ", data + "@" + monto);
-            startActivity(intent);
+            if (MainActivity.recargasCelular != null){
+                MainActivity.recargasCelular.setMonto(monto);
+                Intent intent = new Intent(this, IngresoTelefonoActivity.class);
+                intent.putExtra("tipoIngreso", data + "@" + monto);
+                Log.d("put ", data + "@" + monto);
+                startActivity(intent);
+            }
         } else {
             Toast.makeText(this, "Monto no valido", Toast.LENGTH_SHORT).show();
         }

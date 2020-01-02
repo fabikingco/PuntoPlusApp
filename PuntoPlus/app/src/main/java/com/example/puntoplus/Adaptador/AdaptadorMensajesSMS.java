@@ -1,23 +1,31 @@
 package com.example.puntoplus.Adaptador;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.puntoplus.R;
+import com.example.puntoplus.model.SMS_RECV;
+
+import java.util.ArrayList;
+
 public class AdaptadorMensajesSMS extends RecyclerView.Adapter<AdaptadorMensajesSMS.ViewHolderSMS> {
 
-    /*ArrayList<T> arrayList = new ArrayAdapter<T>();
+    ArrayList<SMS_RECV> arrayList;
 
-    public AdaptadorMensajesSMS(ArrayList<T> arrayList) {
+    public AdaptadorMensajesSMS(ArrayList<SMS_RECV> arrayList) {
         this.arrayList = arrayList;
-    }*/
+    }
 
     @NonNull
     @Override
     public ViewHolderSMS onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sms_, parent, false);
+        return new ViewHolderSMS(view);
     }
 
     @Override
@@ -27,7 +35,7 @@ public class AdaptadorMensajesSMS extends RecyclerView.Adapter<AdaptadorMensajes
 
     @Override
     public int getItemCount() {
-        return 0;
+        return arrayList.size();
     }
 
     public static class ViewHolderSMS extends RecyclerView.ViewHolder implements View.OnClickListener {
