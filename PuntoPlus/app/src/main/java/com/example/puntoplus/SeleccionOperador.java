@@ -80,6 +80,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
+                MainActivity.recargasCelular.setOperador(getResources().getString(R.string.movistar));
                 intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.movistar));
                 startActivity(intent);
@@ -89,6 +90,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
+                MainActivity.recargasCelular.setOperador(getResources().getString(R.string.cnt));
                 intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.cnt));
                 startActivity(intent);
@@ -98,6 +100,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
+                MainActivity.recargasCelular.setOperador(getResources().getString(R.string.tuenti));
                 intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.tuenti));
                 startActivity(intent);

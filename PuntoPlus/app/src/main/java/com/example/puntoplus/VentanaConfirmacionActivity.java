@@ -95,6 +95,9 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
         print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, true, Align.CENTER));
         print.appendTextEntity2(new TextEntity("Sistema de recargas", FontLattice.THIRTY_TWO, true, Align.CENTER));
         print.appendTextEntity2(new TextEntity(" ", null, false, null));
+        print.appendTextEntity2(new TextEntity("Comercio de Prueba", null, true, Align.CENTER));
+        print.appendTextEntity2(new TextEntity("Calle General 1254 - Quito", null, true, Align.CENTER));
+        print.appendTextEntity2(new TextEntity("0981252525", null, true, Align.CENTER));
         print.appendTextEntity2(new TextEntity("Hora: " + Tools.getLocalFormatTime()
                 + "Fecha: " + Tools.getLocalFormatDate(), FontLattice.SIXTEEN, true, Align.CENTER));
         print.appendTextEntity2(new TextEntity("Operador: "

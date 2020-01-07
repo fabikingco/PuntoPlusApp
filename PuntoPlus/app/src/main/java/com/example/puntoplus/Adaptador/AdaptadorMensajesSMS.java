@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.puntoplus.R;
+import com.example.puntoplus.Tools;
 import com.example.puntoplus.model.SMS_RECV;
 
 import java.util.ArrayList;
@@ -31,7 +32,9 @@ public class AdaptadorMensajesSMS extends RecyclerView.Adapter<AdaptadorMensajes
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderSMS holder, int position) {
+        SMS_RECV sms_recv = arrayList.get(position);
         holder.tvMensaje.setText(arrayList.get(position).getRecv_msg());
+        holder.tvHoraFecha.setText("Fecha: " + Tools.getFormatDate(sms_recv.getRecv_fecha()) + " Hora: " + Tools.getFormatTime(sms_recv.getRecv_hora()));
     }
 
     @Override
@@ -42,10 +45,12 @@ public class AdaptadorMensajesSMS extends RecyclerView.Adapter<AdaptadorMensajes
     public static class ViewHolderSMS extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tvMensaje;
+        TextView tvHoraFecha;
 
         public ViewHolderSMS(@NonNull View itemView) {
             super(itemView);
             tvMensaje = itemView.findViewById(R.id.tvMensaje);
+            tvHoraFecha = itemView.findViewById(R.id.tvHoraFecha);
         }
 
         @Override
