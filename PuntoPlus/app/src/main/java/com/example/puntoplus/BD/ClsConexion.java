@@ -45,7 +45,6 @@ public class ClsConexion extends SQLiteOpenHelper {
     private final String COLUMN_SMS_RECV_ID = "recv_id";
     private final String COLUMN_SMS_RECV_DESTINO = "recv_destino";
     private final String COLUMN_SMS_RECV_MSG = "recv_msg";
-    private final String COLUMN_SMS_RECV_VISTO = "recv_visto";
     private final String COLUMN_SMS_RECV_FECHA = "recv_fecha";
     private final String COLUMN_SMS_RECV_HORA = "recv_hora";
     private final String COLUMN_SMS_RECV_FECHAHORA = "recv_fechahora";
@@ -54,7 +53,6 @@ public class ClsConexion extends SQLiteOpenHelper {
             COLUMN_SMS_RECV_ID + " integer primary key AUTOINCREMENT, " +
             COLUMN_SMS_RECV_DESTINO + " text not null, " +
             COLUMN_SMS_RECV_MSG + " text not null, " +
-            COLUMN_SMS_RECV_VISTO + " char not null, " +
             COLUMN_SMS_RECV_FECHA + " text not null, " +
             COLUMN_SMS_RECV_HORA + " text not null, " +
             COLUMN_SMS_RECV_FECHAHORA + " text not null);";
@@ -92,7 +90,7 @@ public class ClsConexion extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        System.out.println("oldVersion SQL " + oldVersion + "newVersion SQL " + newVersion);
     }
 
     public boolean newSmsSend(SMS_SEND sms_send) {
@@ -168,7 +166,7 @@ public class ClsConexion extends SQLiteOpenHelper {
     }
 
 
-    public boolean actualizarVisto(String recv_fechahora, Boolean isVisto) {
+    /*public boolean actualizarVisto(String recv_fechahora, Boolean isVisto) {
         boolean result = false;
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -186,7 +184,7 @@ public class ClsConexion extends SQLiteOpenHelper {
 
         }
         return result;
-    }
+    }*/
 
     /**
      * @param usuario

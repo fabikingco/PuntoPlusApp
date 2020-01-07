@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +31,7 @@ public class AdaptadorMensajesSMS extends RecyclerView.Adapter<AdaptadorMensajes
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderSMS holder, int position) {
-
+        holder.tvMensaje.setText(arrayList.get(position).getRecv_msg());
     }
 
     @Override
@@ -40,8 +41,11 @@ public class AdaptadorMensajesSMS extends RecyclerView.Adapter<AdaptadorMensajes
 
     public static class ViewHolderSMS extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView tvMensaje;
+
         public ViewHolderSMS(@NonNull View itemView) {
             super(itemView);
+            tvMensaje = itemView.findViewById(R.id.tvMensaje);
         }
 
         @Override
