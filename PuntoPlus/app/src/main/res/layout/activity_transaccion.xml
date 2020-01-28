@@ -15,28 +15,45 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_scroll_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerTarjetas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:scrollingCache="true">
+            android:background="@android:color/white"
+            android:layout_above="@+id/info"
+            android:layout_gravity="center"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerTarjetas"
-                android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="20dp"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tvConexion"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/filterBarContainer"
-                android:background="@android:color/white"
-                android:layout_gravity="center"
-                tools:listitem="@layout/tarjeta_operadores" />
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/imgStatus"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:text="Conexión impresora"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
 
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <ImageView
+                android:id="@+id/imgStatus"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_remove_circle_red" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>

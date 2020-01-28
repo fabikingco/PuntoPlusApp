@@ -1,20 +1,36 @@
 package com.code93.puntoplus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.code93.puntoplus.Adaptador.NewAdapterMenus;
 import com.code93.puntoplus.BD.ClsConexion;
 import com.code93.puntoplus.model.Transacciones.RecargasCelular;
 import com.code93.puntoplus.model.menuItemsModelo;
+import com.mazenrashed.printooth.Printooth;
+import com.mazenrashed.printooth.data.converter.ArabicConverter;
+import com.mazenrashed.printooth.data.printable.Printable;
+import com.mazenrashed.printooth.data.printable.RawPrintable;
+import com.mazenrashed.printooth.data.printable.TextPrintable;
+import com.mazenrashed.printooth.data.printer.DefaultPrinter;
+import com.mazenrashed.printooth.ui.ScanningActivity;
+import com.mazenrashed.printooth.utilities.Printing;
+import com.mazenrashed.printooth.utilities.PrintingCallback;
 import com.socsi.smartposapi.printer.Align;
 import com.socsi.smartposapi.printer.FontLattice;
 import com.socsi.smartposapi.printer.PrintRespCode;
@@ -30,11 +46,36 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
     List<menuItemsModelo> itemMenu;
     Toolbar toolbar;
     String tipoMenu;
+    ImageView imgStatus;
+    TextView tvConexion;
+
+    private Printing printing = null;
+    PrintingCallback printingCallback = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaccion);
+        if (!Build.MODEL.equals("NEW9220") && !Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("i80")) {
+            if (Printooth.INSTANCE.hasPairedPrinter())
+                printing = Printooth.INSTANCE.printer();
+        }
+
+        initStatusPrinter();
+        tvConexion = findViewById(R.id.tvConexion);
+        tvConexion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!Build.MODEL.equals("NEW9220") && !Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("i80")) {
+                    if (Printooth.INSTANCE.hasPairedPrinter()) {
+                        Printooth.INSTANCE.removeCurrentPrinter();
+                        imgStatus.setImageDrawable(getDrawable(R.drawable.ic_remove_circle_red));
+                    } else {
+                        startActivityForResult(new Intent(TransaccionActivity.this, ScanningActivity.class), ScanningActivity.SCANNING_FOR_PRINTER);
+                    }
+                }
+            }
+        });
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
@@ -46,6 +87,19 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         recyclerView = findViewById(R.id.recyclerTarjetas);
         initToolbar();
         cargarComponentes();
+    }
+
+    private void initStatusPrinter() {
+        imgStatus = findViewById(R.id.imgStatus);
+        if (Build.MODEL.equals("NEW9220") || Build.MODEL.equals("Android SDK built for x86") || Build.MODEL.equals("i80")) {
+            imgStatus.setImageDrawable(getDrawable(R.drawable.ic_check_circle_green));
+        } else {
+            if (Printooth.INSTANCE.getPairedPrinter() != null) {
+                if (Printooth.INSTANCE.hasPairedPrinter()) {
+                    imgStatus.setImageDrawable(getDrawable(R.drawable.ic_check_circle_green));
+                }
+            }
+        }
     }
 
     private void initToolbar() {
@@ -166,5 +220,113 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
     protected void onResume() {
         super.onResume();
         MainActivity.recargasCelular = null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("xxx", "onActivityResult "+requestCode);
+
+        if (requestCode == ScanningActivity.SCANNING_FOR_PRINTER && resultCode == Activity.RESULT_OK) {
+            initListeners();
+            printSomePrintable();
+        }
+        initStatusPrinter();
+    }
+
+    private void initListeners() {
+        if (printing!=null && printingCallback==null) {
+            Log.d("xxx", "initListeners ");
+            printingCallback = new PrintingCallback() {
+
+                public void connectingWithPrinter() {
+                    Toast.makeText(getApplicationContext(), "Connecting with printer", Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "Connecting");
+                }
+                public void printingOrderSentSuccessfully() {
+                    Toast.makeText(getApplicationContext(), "printingOrderSentSuccessfully", Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "printingOrderSentSuccessfully");
+                }
+                public void connectionFailed(@NonNull String error) {
+                    Toast.makeText(getApplicationContext(), "connectionFailed :"+error, Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "connectionFailed : "+error);
+                }
+                public void onError(@NonNull String error) {
+                    Toast.makeText(getApplicationContext(), "onError :"+error, Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "onError : "+error);
+                }
+                public void onMessage(@NonNull String message) {
+                    Toast.makeText(getApplicationContext(), "onMessage :" +message, Toast.LENGTH_SHORT).show();
+                    Log.d("xxx", "onMessage : "+message);
+                }
+            };
+
+            Printooth.INSTANCE.printer().setPrintingCallback(printingCallback);
+        }
+    }
+
+    private void printSomePrintable() {
+        Log.d("xxx", "printSomePrintable ");
+        //printing.print(getSomePrintables());
+        if (printing!=null)
+            printing.print(getSomePrintables());
+    }
+
+    private ArrayList<Printable> getSomePrintables() {
+        ArrayList<Printable> al = new ArrayList<>();
+        al.add(new RawPrintable.Builder(new byte[]{27, 100, 4}).build()); // feed lines example in raw mode
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Prueba de impresión ")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
+                .setNewLinesAfter(1)
+                .build());
+        al.add( (new TextPrintable.Builder())
+                .setText("Prueba de impresión ")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText(" Hello World : été è à '€' içi Bò Xào Coi Xanh")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Hello World : été è à €")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Hello World")
+                .setLineSpacing(DefaultPrinter.Companion.getLINE_SPACING_60())
+                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
+                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
+                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Hello World")
+                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_RIGHT())
+                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
+                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("اختبار العربية")
+                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
+                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
+                .setFontSize(DefaultPrinter.Companion.getFONT_SIZE_NORMAL())
+                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_ARABIC_FARISI())
+                .setNewLinesAfter(1)
+                .setCustomConverter(new ArabicConverter()) // change only the converter for this one
+                .build());
+
+        return al;
     }
 }
