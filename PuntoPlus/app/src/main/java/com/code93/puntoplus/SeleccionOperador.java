@@ -2,6 +2,8 @@ package com.code93.puntoplus;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,11 +24,15 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
     List<menuItemsModelo> itemMenu;
     Toolbar toolbar;
     String tipoMenu;
+    RelativeLayout info;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaccion);
+
+        info = findViewById(R.id.info);
+        info.setVisibility(View.GONE);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

@@ -228,6 +228,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         Log.d("xxx", "onActivityResult "+requestCode);
 
         if (requestCode == ScanningActivity.SCANNING_FOR_PRINTER && resultCode == Activity.RESULT_OK) {
+            printing = Printooth.INSTANCE.printer();
             initListeners();
             printSomePrintable();
         }
@@ -277,30 +278,30 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         al.add(new RawPrintable.Builder(new byte[]{27, 100, 4}).build()); // feed lines example in raw mode
 
         al.add( (new TextPrintable.Builder())
-                .setText("Prueba de impresión ")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
-                .setNewLinesAfter(1)
-                .build());
-        al.add( (new TextPrintable.Builder())
-                .setText("Prueba de impresión ")
+                .setText("Niños Ñoño Oración (/) ")
                 .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
+        al.add( (new TextPrintable.Builder())
+                .setText("Niños Ñoño Oración (/) ")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC852())
+                .setNewLinesAfter(1)
+                .build());
 
         al.add( (new TextPrintable.Builder())
-                .setText(" Hello World : été è à '€' içi Bò Xào Coi Xanh")
+                .setText("Niños Ñoño Oración (/) ")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC850())
+                .setNewLinesAfter(1)
+                .build());
+
+        al.add( (new TextPrintable.Builder())
+                .setText("Niños Ñoño Oración (/) ")
                 .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
                 .setNewLinesAfter(1)
                 .build());
 
         al.add( (new TextPrintable.Builder())
-                .setText("Hello World : été è à €")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
-                .setNewLinesAfter(1)
-                .build());
-
-        al.add( (new TextPrintable.Builder())
-                .setText("Hello World")
+                .setText("Niños Ñoño Oración (/) ")
                 .setLineSpacing(DefaultPrinter.Companion.getLINE_SPACING_60())
                 .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
                 .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
@@ -308,24 +309,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
                 .setNewLinesAfter(1)
                 .build());
 
-        al.add( (new TextPrintable.Builder())
-                .setText("Hello World")
-                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_RIGHT())
-                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
-                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
-                .setNewLinesAfter(1)
-                .build());
 
-        al.add( (new TextPrintable.Builder())
-                .setText("اختبار العربية")
-                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
-                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
-                .setFontSize(DefaultPrinter.Companion.getFONT_SIZE_NORMAL())
-                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_ARABIC_FARISI())
-                .setNewLinesAfter(1)
-                .setCustomConverter(new ArabicConverter()) // change only the converter for this one
-                .build());
 
         return al;
     }
