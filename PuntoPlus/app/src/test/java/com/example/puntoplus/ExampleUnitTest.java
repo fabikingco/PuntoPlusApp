@@ -1,4 +1,4 @@
-package com.example.puntoplus;
+package com.code93.puntoplus;
 
 import org.junit.Test;
 

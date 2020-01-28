@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "903110005491",
+    "firebase_url": "https://recargas-ecuador-sms.firebaseio.com",
+    "project_id": "recargas-ecuador-sms",
+    "storage_bucket": "recargas-ecuador-sms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903110005491:android:45be4e7b1b923285b4dd86",
+        "android_client_info": {
+          "package_name": "com.code93.puntoplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903110005491-nlv8aufsbs92j2252aj6e09un53r8jet.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.code93.puntoplus",
+            "certificate_hash": "651669202f5ab590797780e14bdc94ba36d5e43c"
+          }
+        },
+        {
+          "client_id": "903110005491-43dnf8npccsp3ohu24nvh1due85bo22n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5zdDvQ-U9tpf4GKC3goB1SIBSwQ91SOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903110005491-43dnf8npccsp3ohu24nvh1due85bo22n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

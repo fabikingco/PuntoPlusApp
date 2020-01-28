@@ -1,4 +1,5 @@
 <resources>
+    <string name="com.crashlytics.android.build_id">RANDOM_UUID</string>
     <string name="app_name">Ecuamovil</string>
 
     <string name="recargas_celular">Recargas celular</string>

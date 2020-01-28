@@ -1,4 +1,4 @@
-package com.example.puntoplus;
+package com.code93.puntoplus;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.puntoplus", appContext.getPackageName());
+        assertEquals("com.code93.puntoplus", appContext.getPackageName());
     }
 }
