@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 import com.code93.puntoplus.BD.ClsConexion;
 import com.code93.puntoplus.model.Transacciones.RecargasCelular;
@@ -120,10 +121,12 @@ public class MainActivity extends AppCompatActivity {
     public static void enviarMensaje(final Context context, String telefono, String mensaje) {
         //final String[] dataMensaje = new String[2];
         // Use SmsManager.
+        Log.i("SMS to " + telefono, "MENSAJE: " + mensaje);
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage
                 (telefono, null, mensaje,
                         null, null);
+
 
         /*final SpotsDialog dialog = new SpotsDialog(context, "Esperando mensaje de respueta...");
         dialog.show();

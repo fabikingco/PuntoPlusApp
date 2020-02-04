@@ -31,11 +31,6 @@ import com.mazenrashed.printooth.data.printer.DefaultPrinter;
 import com.mazenrashed.printooth.ui.ScanningActivity;
 import com.mazenrashed.printooth.utilities.Printing;
 import com.mazenrashed.printooth.utilities.PrintingCallback;
-import com.socsi.smartposapi.printer.Align;
-import com.socsi.smartposapi.printer.FontLattice;
-import com.socsi.smartposapi.printer.PrintRespCode;
-import com.socsi.smartposapi.printer.Printer2;
-import com.socsi.smartposapi.printer.TextEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,34 +161,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
             Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
         }
         if (data.equals(getResources().getString(R.string.pagos_de_servicio))) {
-            try {
-                Printer2 print = Printer2.getInstance();
-                print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, false, Align.CENTER));
-                print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, true, Align.CENTER));
-                print.appendTextEntity2(new TextEntity("EIGHT", FontLattice.EIGHT, true, Align.CENTER));
-                print.appendTextEntity2(new TextEntity("SIXTEEN", FontLattice.SIXTEEN, true, Align.CENTER));
-                print.appendTextEntity2(new TextEntity("TWNTY FOUR", FontLattice.TWENTY_FOUR, true, Align.CENTER));
-                print.appendTextEntity2(new TextEntity("THIRTY TWO", FontLattice.THIRTY_TWO, true, Align.CENTER));
-                print.appendTextEntity2(new TextEntity("FORTY EIGHT", FontLattice.FORTY_EIGHT, true, Align.CENTER));
-                print.appendTextEntity2(new TextEntity(" ", null, false, null));
-                print.appendTextEntity2(new TextEntity(" ", null, false, null));
-                print.appendTextEntity2(new TextEntity(" ", null, false, null));
-                print.appendTextEntity2(new TextEntity(" ", null, false, null));
-                print.appendTextEntity2(new TextEntity(" ", null, false, null));
-
-                PrintRespCode printRespCode = print.startPrint();
-//
-                if (printRespCode != PrintRespCode.Print_Success) {
-                    if (printRespCode == PrintRespCode.Printer_PaperLack || printRespCode == PrintRespCode.print_Unknow) {
-                        Toast.makeText(TransaccionActivity.this, "Printer is out of paper", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                        Toast.makeText(TransaccionActivity.this, "Print failed", Toast.LENGTH_SHORT).show();
-                }
-                Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                Toast.makeText(this, "Impresora no disponible " + e, Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
         }
         if (data.equals(getResources().getString(R.string.reportes))) {
             startActivity(new Intent(TransaccionActivity.this, ReportesActivity.class));

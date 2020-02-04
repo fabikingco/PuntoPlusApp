@@ -9,12 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.socsi.smartposapi.printer.Align;
-import com.socsi.smartposapi.printer.FontLattice;
-import com.socsi.smartposapi.printer.PrintRespCode;
-import com.socsi.smartposapi.printer.Printer2;
-import com.socsi.smartposapi.printer.TextEntity;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -91,7 +85,7 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
         final SpotsDialog spotsDialog = new SpotsDialog(VentanaConfirmacionActivity.this, "Imprimiendo ticket...");
         spotsDialog.show();
 
-        Printer2 print = Printer2.getInstance();
+        /*Printer2 print = Printer2.getInstance();
         print.appendTextEntity2(new TextEntity("Aplicacion de prueba", null, true, Align.CENTER));
         print.appendTextEntity2(new TextEntity("Sistema de recargas", FontLattice.THIRTY_TWO, true, Align.CENTER));
         print.appendTextEntity2(new TextEntity(" ", null, false, null));
@@ -125,8 +119,9 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
             spotsDialog.dismiss();
             startActivity(new Intent(VentanaConfirmacionActivity.this, MainActivity.class));
             finish();
-        }
+        }*/
         Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
+        spotsDialog.dismiss();
 
 
         /*Timer timer = new Timer();
