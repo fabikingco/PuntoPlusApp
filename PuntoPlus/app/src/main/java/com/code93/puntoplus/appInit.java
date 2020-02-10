@@ -22,5 +22,6 @@ public class appInit extends Application {
 
     private void cargarComercio(Context context) {
         ClsConexion bd = new ClsConexion(this);
+
     }
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +52,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaccion);
-        if (!Build.MODEL.equals("NEW9220") && !Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("i80")) {
+        if (!Build.MODEL.equals("Android SDK built for x86")) {
             if (Printooth.INSTANCE.hasPairedPrinter())
                 printing = Printooth.INSTANCE.printer();
         }
@@ -61,7 +62,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         tvConexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Build.MODEL.equals("NEW9220") && !Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("i80")) {
+                if (!Build.MODEL.equals("Android SDK built for x86")) {
                     if (Printooth.INSTANCE.hasPairedPrinter()) {
                         Printooth.INSTANCE.removeCurrentPrinter();
                         imgStatus.setImageDrawable(getDrawable(R.drawable.ic_remove_circle_red));
