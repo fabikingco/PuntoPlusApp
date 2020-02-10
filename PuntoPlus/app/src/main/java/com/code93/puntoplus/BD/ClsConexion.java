@@ -119,7 +119,34 @@ public class ClsConexion extends SQLiteOpenHelper {
                     comercio_simboloMoneda + " TEXT, " +
                     comercio_centavos + " INTEGER)";
 
-    public static final int idComercio = 1;
+    private static final int idComercio = 1;
+
+    private String TABLE_MENUS = "menus";
+    private String id_menus = "id_menus";
+    private String version_menus = "version_menus";
+    private String activo_menus = "activo_menus";
+    private String name_menus = "name_menus";
+
+    private String CREATE_TABLE_MENUS =
+            "CREATE TABLE " + TABLE_MENUS + " (" +
+                    id_menus + " TEXT NOT NULL, " +
+                    version_menus + " INTEGER NOT NULL, " +
+                    activo_menus + " INTEGER NOT NULL, " +
+                    name_menus + " TEXT NOT NULL, " +
+                    "PRIMARY KEY(" + id_menus + ")" +
+                    ")";
+
+    private String TABLE_ITEMS = "items";
+    private String id_items = "id_items";
+    private String name_items = "name_items";
+
+    private String CREATE_TABLE_ITEMS =
+            "CREATE TABLE " + TABLE_ITEMS + " (" +
+                    id_items + " TEXT NOT NULL, " +
+                    name_items + " TEXT NOT NULL, " +
+                    id_menus + " TEXT NOT NULL, " +
+                    "PRIMARY KEY(" + id_items + ")" +
+                    ")";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -128,6 +155,8 @@ public class ClsConexion extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_LOGS_USER);
         db.execSQL(CREATE_TABLE_COMERCIOS);
+        db.execSQL(CREATE_TABLE_MENUS);
+        db.execSQL(CREATE_TABLE_ITEMS);
     }
 
     @Override
