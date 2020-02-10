@@ -45,4 +45,8 @@
         <item name="mrl_rippleColor">#8096989A</item>
     </style>
 
+    <style name="AuthTheme" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
 </resources>

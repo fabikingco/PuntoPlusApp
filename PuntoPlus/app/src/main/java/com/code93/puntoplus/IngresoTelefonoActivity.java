@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -101,7 +102,13 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                     builder.append(monto);
                     builder.append(" ");
                     builder.append(numero);
-                    MainActivity.enviarMensaje(IngresoTelefonoActivity.this, "9305", builder.toString());
+
+                    //MainActivity.enviarMensaje(IngresoTelefonoActivity.this, "9305", builder.toString());
+
+                    Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "9305", null));
+                    smsIntent.putExtra("sms_body", builder.toString());
+                    startActivity(smsIntent);
+
                     final SpotsDialog spotsDialog = new SpotsDialog(IngresoTelefonoActivity.this, "Esperando mensaje de respuesta...");
                     spotsDialog.show();
                     timer = new Timer();

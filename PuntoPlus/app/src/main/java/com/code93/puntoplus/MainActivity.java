@@ -1,5 +1,6 @@
 package com.code93.puntoplus;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -8,33 +9,109 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.code93.puntoplus.BD.ClsConexion;
 import com.code93.puntoplus.model.Transacciones.RecargasCelular;
 import com.code93.puntoplus.model.Usuario;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int MY_REQUESTE_CODE = 101;
     public static callbackSMS mCallbackSMS;
     ClsConexion conexion;
     public static RecargasCelular recargasCelular;
+
+    List<AuthUI.IdpConfig> proveedores;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        conexion = new ClsConexion(this);
-        confirmarPermisos();
+
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            startActivity(new Intent(MainActivity.this, TransaccionActivity.class));
+            finish();
+        } else {
+            proveedores = Arrays.asList(
+                    new AuthUI.IdpConfig.PhoneBuilder().build()
+            );
+            conexion = new ClsConexion(this);
+            if (!Build.MODEL.equals("Android SDK built for x86")) {
+                showSignInOptions();
+            } else {
+                startActivity(new Intent(MainActivity.this, TransaccionActivity.class));
+                finish();
+            }
+        }
+
+
+    }
+
+    private void showSignInOptions() {
+        startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder()
+                .setAvailableProviders(proveedores)
+                .setTheme(R.style.AuthTheme)
+                .build(),MY_REQUESTE_CODE
+        );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_REQUESTE_CODE) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+            if (resultCode == RESULT_OK) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                Toast.makeText(this, "" + user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
+                confirmarPermisos();
+
+            }
+        }
+    }
+
+    private void confirmarPermisos() {
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            confirmarInicioSesion();
+                        }
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            showSettingsDialog();
+                        }
+                    }
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
     }
 
     private void confirmarInicioSesion() {
@@ -54,41 +131,18 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
 
-        Usuario usuario  = conexion.obtenerUsuarioActual();
+        startActivity(new Intent(MainActivity.this, TransaccionActivity.class));
+        finish();
+
+        /*Usuario usuario  = conexion.obtenerUsuarioActual();
         if (usuario.getCel() == null) {
             startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
             finish();
         } else {
             startActivity(new Intent(MainActivity.this, TransaccionActivity.class));
             finish();
-        }
+        }*/
     }
-
-    private void confirmarPermisos() {
-        Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-                            /*Toast.makeText(MainActivity.this, "Todos los permisos garantizados", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, InformacionRegistroActivity.class));
-                            //startActivity(new Intent(MainActivity.this, IngresoMontoActivity.class));
-                            finish();*/
-                            confirmarInicioSesion();
-                        }
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            showSettingsDialog();
-                        }
-                    }
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
-    }
-
-
 
     void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
