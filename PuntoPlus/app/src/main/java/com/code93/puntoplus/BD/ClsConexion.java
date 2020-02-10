@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.code93.puntoplus.Tools;
+import com.code93.puntoplus.model.Comercio;
 import com.code93.puntoplus.model.SMS;
 import com.code93.puntoplus.model.SMS_RECV;
 import com.code93.puntoplus.model.SMS_SEND;
@@ -80,12 +81,53 @@ public class ClsConexion extends SQLiteOpenHelper {
             COLUMN_LOGS_FECHA_OUT + " text, " +
             COLUMN_LOGS_HORA_OUT + " text);";
 
+    private final String TABLE_COMERCIO = "comercio";
+
+    private final String comercio_id = "id";
+    private final String comercio_name = "name";
+    private final String comercio_documento = "documento";
+    private final String comercio_direccion = "direccion";
+    private final String comercio_ciudad = "ciudad";
+    private final String comercio_estado = "estado";
+    private final String comercio_pais = "pais";
+    private final String comercio_telefono1 = "telefono1";
+    private final String comercio_telefono2 = "telefono2";
+    private final String comercio_header1 = "header1";
+    private final String comercio_header2 = "header2";
+    private final String comercio_footing1 = "footing1";
+    private final String comercio_footing2 = "footing2";
+    private final String comercio_moneda = "moneda";
+    private final String comercio_simboloMoneda = "simboloMoneda";
+    private final String comercio_centavos = "centavos";
+
+    private final String CREATE_TABLE_COMERCIOS =
+            "CREATE TABLE " + TABLE_COMERCIO +
+                    " (" + comercio_id + " INTEGER PRIMARY KEY, " +
+                    comercio_name + " TEXT, " +
+                    comercio_documento + " TEXT, " +
+                    comercio_direccion + " TEXT, " +
+                    comercio_ciudad + " TEXT, " +
+                    comercio_estado + " TEXT, " +
+                    comercio_pais + " TEXT, " +
+                    comercio_telefono1 + " TEXT, " +
+                    comercio_telefono2 + " TEXT, " +
+                    comercio_header1 + " TEXT, " +
+                    comercio_header2 + " TEXT, " +
+                    comercio_footing1 + " TEXT, " +
+                    comercio_footing2 + " TEXT, " +
+                    comercio_moneda + " TEXT, " +
+                    comercio_simboloMoneda + " TEXT, " +
+                    comercio_centavos + " INTEGER)";
+
+    public static final int idComercio = 1;
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_SMS_SEND);
         db.execSQL(CREATE_TABLE_SMS_RECV);
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_LOGS_USER);
+        db.execSQL(CREATE_TABLE_COMERCIOS);
     }
 
     @Override
@@ -254,6 +296,51 @@ public class ClsConexion extends SQLiteOpenHelper {
         }
         db.close();
         return usuario;
+    }
+
+    public Comercio getComercioBD () {
+        Comercio comercio = new Comercio();
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_COMERCIO + " WHERE "
+                + comercio_id + " = " + idComercio;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            comercio.setId(cursor.getInt(cursor.getColumnIndex(comercio_id)));
+            comercio.setName(cursor.getString(cursor.getColumnIndex(comercio_name)));
+            comercio.setDocumento(cursor.getString(cursor.getColumnIndex(comercio_documento)));
+            comercio.setDireccion(cursor.getString(cursor.getColumnIndex(comercio_direccion)));
+            comercio.setCiudad(cursor.getString(cursor.getColumnIndex(comercio_ciudad)));
+            comercio.setEstado(cursor.getString(cursor.getColumnIndex(comercio_estado)));
+            comercio.setPais(cursor.getString(cursor.getColumnIndex(comercio_pais)));
+            comercio.setTelefono1(cursor.getString(cursor.getColumnIndex(comercio_telefono1)));
+            comercio.setTelefono2(cursor.getString(cursor.getColumnIndex(comercio_telefono2)));
+            comercio.setHeader1(cursor.getString(cursor.getColumnIndex(comercio_header1)));
+            comercio.setHeader2(cursor.getString(cursor.getColumnIndex(comercio_header2)));
+            comercio.setFooting1(cursor.getString(cursor.getColumnIndex(comercio_footing1)));
+            comercio.setFooting2(cursor.getString(cursor.getColumnIndex(comercio_footing2)));
+            comercio.setMoneda(cursor.getString(cursor.getColumnIndex(comercio_moneda)));
+            comercio.setSimboloMoneda(cursor.getString(cursor.getColumnIndex(comercio_simboloMoneda)));
+        }
+
+        return comercio;
+    }
+
+    public boolean updateColumnStringComercio (String column, String dato) {
+        boolean ret = false;
+        SQLiteDatabase bd = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(column, dato);
+
+        String where = comercio_id + "=" + idComercio;
+        int rta = bd.update(TABLE_COMERCIO, values, where, null);
+        if (rta != -1) {
+            ret = true;
+        }
+        bd.close();
+        return ret;
+
     }
 
 
