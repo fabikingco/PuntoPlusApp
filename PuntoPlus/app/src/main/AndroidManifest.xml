@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReportesActivity"/>
+        <activity android:name=".Actividades.RecargasSimertActivity"></activity>
+        <activity android:name=".ReportesActivity" />
         <activity android:name=".VentanaConfirmacionActivity" />
         <activity android:name=".IngresoMontoActivity" />
         <activity android:name=".TransaccionActivity" />

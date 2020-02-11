@@ -159,7 +159,11 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
 
         }
         if (data.equals(getResources().getString(R.string.recargas_simert))) {
-            Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
+            MainActivity.recargasCelular = new RecargasCelular();
+            intent.setClass(TransaccionActivity.this, SeleccionOperador.class);
+            intent.putExtra("tipoMenu", getResources().getString(R.string.recargas_simert));
+            startActivity(intent);
+
         }
         if (data.equals(getResources().getString(R.string.pagos_de_servicio))) {
             Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
