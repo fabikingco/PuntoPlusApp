@@ -69,6 +69,7 @@ public class RecargasSimertActivity extends AppCompatActivity {
                 DialogDataFragment dialog = DialogDataFragment.newInstance(tvTituloContrapartida1.getText().toString(), Tools.checkNull(tvDataContrapartida1.getText().toString()));
                 dialog.setRequestCode(DIALOG_QUEST_CODE);
                 dialog.setInputType(InputType.TYPE_CLASS_PHONE);
+                dialog.setMaxLeng(10);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();
@@ -89,7 +90,7 @@ public class RecargasSimertActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 DialogDataFragment dialog = DialogDataFragment.newInstance(tvTituloContrapartida2.getText().toString(), Tools.checkNull(tvDataContrapartida2.getText().toString()));
                 dialog.setRequestCode(DIALOG_QUEST_CODE);
-                dialog.setInputType(InputType.TYPE_CLASS_TEXT);
+                dialog.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();
@@ -109,7 +110,7 @@ public class RecargasSimertActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 DialogDataFragment dialog = DialogDataFragment.newInstance(tvTituloContrapartida3.getText().toString(), Tools.checkNull(tvDataContrapartida3.getText().toString()));
                 dialog.setRequestCode(DIALOG_QUEST_CODE);
-                dialog.setInputType(InputType.TYPE_CLASS_TEXT);
+                dialog.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();

@@ -1,6 +1,7 @@
 package com.code93.puntoplus.Fragments;
 
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,8 @@ public class DialogDataFragment extends DialogFragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private int InputType = 1;
+    private int InputType = android.text.InputType.TYPE_CLASS_TEXT;
+    private int MaxLeng = 0;
 
     private String mParam1;
     private String mParam2;
@@ -42,6 +44,10 @@ public class DialogDataFragment extends DialogFragment {
 
     public void setInputType(int InputType){
         this.InputType = InputType;
+    }
+
+    public void setMaxLeng(int maxLeng) {
+        MaxLeng = maxLeng;
     }
 
     public static DialogDataFragment newInstance(String param1, String param2) {
@@ -76,6 +82,9 @@ public class DialogDataFragment extends DialogFragment {
         tvToolbar = rootView.findViewById(R.id.tvToolbar);
         etDato = rootView.findViewById(R.id.etDato);
         etDato.setInputType(InputType);
+        if (MaxLeng > 0) {
+            etDato.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MaxLeng)});
+        }
         bt_close = rootView.findViewById(R.id.bt_close);
         bt_close.setOnClickListener(new View.OnClickListener() {
             @Override
