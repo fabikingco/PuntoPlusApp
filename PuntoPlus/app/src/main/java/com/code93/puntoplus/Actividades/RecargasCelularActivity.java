@@ -1,10 +1,5 @@
 package com.code93.puntoplus.Actividades;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,11 +10,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.code93.puntoplus.Fragments.DialogDataFragment;
 import com.code93.puntoplus.R;
 import com.code93.puntoplus.Tools;
 
-public class RecargasSimertActivity extends AppCompatActivity {
+import static com.code93.puntoplus.Tools.armarMonto;
+
+public class RecargasCelularActivity extends AppCompatActivity {
 
     public static final int DIALOG_QUEST_CODE = 300;
 
@@ -33,13 +36,15 @@ public class RecargasSimertActivity extends AppCompatActivity {
     private AppCompatButton btnGenerarSms;
     String data;
     String[] tipoIngreso;
+    String monto;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recargas_simert);
+
         findView();
-        tvTitulo.setText("Recargas Simert");
+        tvTitulo.setText("Recargas Celular");
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             data = bundle.getString("tipoIngreso", "default");
@@ -59,10 +64,26 @@ public class RecargasSimertActivity extends AppCompatActivity {
             tvSubtitulo.setText(tipoIngreso[1]);
         }
 
-        validarTipoSimert();
+        lyContrapartida2.setVisibility(View.GONE);
+        lyContrapartida3.setVisibility(View.GONE);
 
+        setImageView();
         onClickLinears();
+    }
 
+    private void setImageView() {
+        if (tipoIngreso[1].equals(getResources().getString(R.string.claro))){
+            imageViewTrans.setImageDrawable(getDrawable(R.drawable.claro_logo));
+        }
+        if (tipoIngreso[1].equals(getResources().getString(R.string.movistar))){
+            imageViewTrans.setImageDrawable(getDrawable(R.drawable.movistar_logo));
+        }
+        if (tipoIngreso[1].equals(getResources().getString(R.string.tuenti))){
+            imageViewTrans.setImageDrawable(getDrawable(R.drawable.tuenti));
+        }
+        if (tipoIngreso[1].equals(getResources().getString(R.string.cnt))){
+            imageViewTrans.setImageDrawable(getDrawable(R.drawable.cnt_logo));
+        }
     }
 
     private void onClickLinears() {
@@ -83,46 +104,6 @@ public class RecargasSimertActivity extends AppCompatActivity {
                         tvDataContrapartida1.setText(obj.toString());
                         tvTituloContrapartida1.setTextColor(getResources().getColor(R.color.grey_80));
 
-                    }
-                });
-            }
-        });
-
-        lyContrapartida2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                DialogDataFragment dialog = DialogDataFragment.newInstance(tvTituloContrapartida2.getText().toString(), Tools.checkNull(tvDataContrapartida2.getText().toString()));
-                dialog.setRequestCode(DIALOG_QUEST_CODE);
-                dialog.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();
-                dialog.setmListener(new DialogDataFragment.OnFragmentInteractionListener() {
-                    @Override
-                    public void onFragmentInteraction(int requestCode, Object obj) {
-                        tvDataContrapartida2.setText(obj.toString());
-                        tvTituloContrapartida2.setTextColor(getResources().getColor(R.color.grey_80));
-                    }
-                });
-            }
-        });
-
-        lyContrapartida3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                DialogDataFragment dialog = DialogDataFragment.newInstance(tvTituloContrapartida3.getText().toString(), Tools.checkNull(tvDataContrapartida3.getText().toString()));
-                dialog.setRequestCode(DIALOG_QUEST_CODE);
-                dialog.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();
-                dialog.setmListener(new DialogDataFragment.OnFragmentInteractionListener() {
-                    @Override
-                    public void onFragmentInteraction(int requestCode, Object obj) {
-                        tvDataContrapartida3.setText(obj.toString());
-                        tvTituloContrapartida3.setTextColor(getResources().getColor(R.color.grey_80));
                     }
                 });
             }
@@ -160,11 +141,39 @@ public class RecargasSimertActivity extends AppCompatActivity {
 
     }
 
-    private void validarTipoSimert() {
-        if (tipoIngreso[1].equals(getResources().getString(R.string.recarga_parqueo))) {
-            lyContrapartida2.setVisibility(View.GONE);
-            lyContrapartida3.setVisibility(View.GONE);
+    private void GenerarSms() {
+        if (!validacionDeCamposLlenos()) {
+            Toast.makeText(this, "Valide que todos los campos esten completos", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        StringBuilder builder = new StringBuilder();
+        String oper = armarOperador(tipoIngreso[1]);
+        String monto = armarMonto(tvDataMonto.getText().toString());
+        builder.append("Rec");
+        builder.append(oper);
+        builder.append(" ");
+        builder.append(monto);
+        builder.append(" ");
+        builder.append(tvDataContrapartida1.getText().toString());
+
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "9305", null));
+        smsIntent.putExtra("sms_body", builder.toString());
+        startActivity(smsIntent);
+    }
+
+    private boolean validacionDeCamposLlenos() {
+        if (tvDataContrapartida1.getText() == null || tvDataContrapartida1.getText().toString().trim().equals("")){
+            tvTituloContrapartida1.setTextColor(getResources().getColor(R.color.red_900));
+            return false;
+        }
+
+        if (tvDataMonto.getText() == null || tvDataMonto.getText().toString().trim().equals("")){
+            tvTituloMonto.setTextColor(getResources().getColor(R.color.red_900));
+            return false;
+        }
+
+        return true;
     }
 
     private void findView() {
@@ -186,37 +195,19 @@ public class RecargasSimertActivity extends AppCompatActivity {
         btnGenerarSms = findViewById(R.id.btnGenerarSms);
     }
 
-    public void GenerarSms() {
-        if (!validacionDeCamposLlenos()) {
-            Toast.makeText(this, "Valide que todos los campos esten completos", Toast.LENGTH_SHORT).show();
-            return;
+    private String armarOperador(String s) {
+        if (s.equals(getResources().getString(R.string.claro))) {
+            return "cla";
         }
-
-        String mensaje = "";
-    }
-
-    private boolean validacionDeCamposLlenos() {
-        if (tvDataContrapartida1.getText() == null || tvDataContrapartida1.getText().toString().trim().equals("")){
-            tvTituloContrapartida1.setTextColor(getResources().getColor(R.color.red_900));
-            return false;
+        if (s.equals(getResources().getString(R.string.movistar))) {
+            return "mov";
         }
-
-        if (tipoIngreso[1].equals(getResources().getString(R.string.parqueo_directo))) {
-            if (tvDataContrapartida2.getText() == null || tvDataContrapartida2.getText().toString().trim().equals("")){
-                tvTituloContrapartida2.setTextColor(getResources().getColor(R.color.red_900));
-                return false;
-            }
-            if (tvDataContrapartida3.getText() == null || tvDataContrapartida3.getText().toString().trim().equals("")){
-                tvTituloContrapartida3.setTextColor(getResources().getColor(R.color.red_900));
-                return false;
-            }
+        if (s.equals(getResources().getString(R.string.cnt))) {
+            return "cnt";
         }
-
-        if (tvDataMonto.getText() == null || tvDataMonto.getText().toString().trim().equals("")){
-            tvTituloMonto.setTextColor(getResources().getColor(R.color.red_900));
-            return false;
+        if (s.equals(getResources().getString(R.string.tuenti))) {
+            return "tue";
         }
-
-        return true;
+        return s;
     }
 }

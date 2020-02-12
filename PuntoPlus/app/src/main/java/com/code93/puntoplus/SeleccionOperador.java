@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.code93.puntoplus.Actividades.RecargasCelularActivity;
 import com.code93.puntoplus.Actividades.RecargasSimertActivity;
 import com.code93.puntoplus.Adaptador.NewAdapterMenus;
 import com.code93.puntoplus.model.menuItemsModelo;
@@ -83,7 +84,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else  if (tipoMenu.equals(getResources().getString(R.string.recargas_celular))){
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.claro));
-                intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
+                intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.claro));
                 startActivity(intent);
             }
@@ -93,7 +94,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.movistar));
-                intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
+                intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.movistar));
                 startActivity(intent);
             }
@@ -103,7 +104,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.cnt));
-                intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
+                intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.cnt));
                 startActivity(intent);
             }
@@ -113,7 +114,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else {
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.tuenti));
-                intent.setClass(SeleccionOperador.this, IngresoMontoActivity.class);
+                intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.tuenti));
                 startActivity(intent);
             }

@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Actividades.MenuPrincipalActivity" />
+        <activity android:name=".Actividades.RecargasCelularActivity" />
     </application>
 
 </manifest>

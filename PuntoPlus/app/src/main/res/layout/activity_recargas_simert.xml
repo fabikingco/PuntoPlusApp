@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Actividades.RecargasSimertActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -304,6 +303,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnGenerarSms"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_rounded_red"
@@ -312,7 +312,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginBottom="25dp"
-        android:onClick="GenerarSms"
         />
 
 
