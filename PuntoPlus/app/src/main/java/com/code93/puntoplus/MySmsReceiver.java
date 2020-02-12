@@ -51,7 +51,6 @@ public class MySmsReceiver extends BroadcastReceiver {
                 strNumeroEmisor = msgs[i].getOriginatingAddress();
                 strMensanje = msgs[i].getMessageBody();
                 // Log and display the SMS message.
-                Log.d(TAG, "onReceive: " + strMessage);
                 //Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
 
                 if (MainActivity.mCallbackSMS != null) {

@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 101);
     }
 
-    public static void enviarMensaje(final Context context, String telefono, String mensaje) {
+    /*public static void enviarMensaje(final Context context, String telefono, String mensaje) {
         //final String[] dataMensaje = new String[2];
         // Use SmsManager.
         Log.i("SMS to " + telefono, "MENSAJE: " + mensaje);
@@ -182,18 +182,18 @@ public class MainActivity extends AppCompatActivity {
                         null, null);
 
 
-        /*final SpotsDialog dialog = new SpotsDialog(context, "Esperando mensaje de respueta...");
+        *//*final SpotsDialog dialog = new SpotsDialog(context, "Esperando mensaje de respueta...");
         dialog.show();
 
         mCallbackSMS = new callbackSMS(){
             @Override
             public String smsRecibido(String emisor, String mensaje) {
                 dialog.dismiss();
-                *//*dataMensaje[0] = emisor;
-                dataMensaje[1] = mensaje;*//*
+                *//**//*dataMensaje[0] = emisor;
+                dataMensaje[1] = mensaje;*//**//*
                 mCallbackSMS = null;
                 return null;
             }
-        };*/
-    }
+        };*//*
+    }*/
 }
