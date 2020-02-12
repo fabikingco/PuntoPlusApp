@@ -203,7 +203,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         if (requestCode == ScanningActivity.SCANNING_FOR_PRINTER && resultCode == Activity.RESULT_OK) {
             printing = Printooth.INSTANCE.printer();
             initListeners();
-            printSomePrintable();
+            //printSomePrintable();
         }
         initStatusPrinter();
     }
@@ -251,34 +251,35 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         al.add(new RawPrintable.Builder(new byte[]{27, 100, 4}).build()); // feed lines example in raw mode
 
         al.add( (new TextPrintable.Builder())
-                .setText("Niños Ñoño Oración (/) ")
+                .setText("ECUAMOVIL")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
+                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
+                .setFontSize(DefaultPrinter.Companion.getFONT_SIZE_LARGE())
+                .setNewLinesAfter(1)
+                .build());
+        al.add( (new TextPrintable.Builder())
+                .setText("TRANSACCION EXITOSA")
                 .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
         al.add( (new TextPrintable.Builder())
-                .setText("Niños Ñoño Oración (/) ")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC852())
+                .setText("TRANSACCION EXITOSA")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
-
         al.add( (new TextPrintable.Builder())
-                .setText("Niños Ñoño Oración (/) ")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC850())
+                .setText("TRANSACCION EXITOSA")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
-
         al.add( (new TextPrintable.Builder())
-                .setText("Niños Ñoño Oración (/) ")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC1252())
+                .setText("TRANSACCION EXITOSA")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
-
         al.add( (new TextPrintable.Builder())
-                .setText("Niños Ñoño Oración (/) ")
-                .setLineSpacing(DefaultPrinter.Companion.getLINE_SPACING_60())
-                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
-                .setEmphasizedMode(DefaultPrinter.Companion.getEMPHASIZED_MODE_BOLD())
-                .setUnderlined(DefaultPrinter.Companion.getUNDERLINED_MODE_ON())
+                .setText("TRANSACCION EXITOSA")
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
 

@@ -7,6 +7,34 @@
     android:fitsSystemWindows="true"
     tools:context=".VentanaConfirmacionActivity">
 
+    <RelativeLayout
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="20dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tvConexion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/imgStatus"
+            android:clickable="true"
+            android:gravity="center"
+            android:paddingEnd="8dp"
+            android:text="Conexión impresora"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/imgStatus"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_remove_circle_red" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

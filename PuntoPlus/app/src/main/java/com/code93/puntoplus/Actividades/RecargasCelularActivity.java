@@ -1,5 +1,7 @@
 package com.code93.puntoplus.Actividades;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,8 +19,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.code93.puntoplus.Fragments.DialogDataFragment;
+import com.code93.puntoplus.IngresoTelefonoActivity;
+import com.code93.puntoplus.MainActivity;
 import com.code93.puntoplus.R;
 import com.code93.puntoplus.Tools;
+import com.code93.puntoplus.VentanaConfirmacionActivity;
+import com.code93.puntoplus.callbackSMS;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import dmax.dialog.SpotsDialog;
 
 import static com.code93.puntoplus.Tools.armarMonto;
 
@@ -157,9 +168,60 @@ public class RecargasCelularActivity extends AppCompatActivity {
         builder.append(" ");
         builder.append(tvDataContrapartida1.getText().toString());
 
-        Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "9305", null));
+       /* Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "9305", null));
         smsIntent.putExtra("sms_body", builder.toString());
-        startActivity(smsIntent);
+        startActivity(smsIntent);*/
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(RecargasCelularActivity.this).create();
+        alertDialog.setTitle("Ecuamovil");
+        alertDialog.setMessage("Confirme los datos. \nRecargara $ " + tvDataMonto.getText().toString()
+                + " al numero " + tvDataContrapartida1.getText().toString() + " del operador " + tipoIngreso[1]);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                StringBuilder builder = new StringBuilder();
+                String oper = armarOperador(tipoIngreso[1]);
+                String monto = armarMonto(tvDataMonto.getText().toString());
+                builder.append("Rec");
+                builder.append(oper);
+                builder.append(" ");
+                builder.append(monto);
+                builder.append(" ");
+                builder.append(tvDataContrapartida1.getText().toString());
+
+                Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "9305", null));
+                smsIntent.putExtra("sms_body", builder.toString());
+                startActivity(smsIntent);
+
+                final SpotsDialog spotsDialog = new SpotsDialog(RecargasCelularActivity.this, "Esperando mensaje de respuesta...");
+                spotsDialog.show();
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        spotsDialog.dismiss();
+                        validarMensaje();
+                    }
+                }, 10000);
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(RecargasCelularActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void validarMensaje() {
+        Intent intent = new Intent(RecargasCelularActivity.this, VentanaConfirmacionActivity.class);
+        intent.putExtra("tipoIngreso", data);
+        intent.putExtra("monto", tvDataMonto.getText().toString());
+        intent.putExtra("numero", tvDataContrapartida1.getText().toString());
+        startActivity(intent);
     }
 
     private boolean validacionDeCamposLlenos() {
