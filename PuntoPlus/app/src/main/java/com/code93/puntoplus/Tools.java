@@ -68,4 +68,11 @@ public class Tools {
     public static String getFormatDate(String date) {
         return date.substring(6,8)+"/"+date.substring(4,6)+"/"+date.substring(0,4);
     }
+
+    public static String checkNull(String strText) {
+        if (strText == null) {
+            strText = "   ";
+        }
+        return strText;
+    }
 }

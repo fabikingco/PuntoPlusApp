@@ -13,4 +13,8 @@
     <string name="cnt">Cnt</string>
     <string name="tuenti">Tuenti</string>
     <string name="Consulta">Consulta</string>
+    <string name="no_data">No data</string>
+
+    <string name="parqueo_directo">Parqueo directo</string>
+    <string name="recarga_parqueo">Recarga</string>
 </resources>

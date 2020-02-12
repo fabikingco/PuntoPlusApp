@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.code93.puntoplus.Actividades.RecargasSimertActivity;
 import com.code93.puntoplus.Adaptador.NewAdapterMenus;
 import com.code93.puntoplus.model.menuItemsModelo;
 
@@ -49,7 +50,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("PuntoPlus");
+        getSupportActionBar().setTitle("Ecuamovil");
     }
 
     private void cargarComponentes() {
@@ -62,10 +63,15 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
 
     private void cargarArrayList() {
         itemMenu = new ArrayList<>();
-        itemMenu.add(new menuItemsModelo(getString(R.string.claro), R.drawable.claro_logo));
-        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.movistar), R.drawable.movistar_logo));
-        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.cnt), R.drawable.cnt_logo));
-        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.tuenti), R.drawable.tuenti));
+        if (tipoMenu.equals(getResources().getString(R.string.recargas_simert))) {
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.parqueo_directo), R.drawable.simmert));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recarga_parqueo), R.drawable.simmert));
+        } else {
+            itemMenu.add(new menuItemsModelo(getString(R.string.claro), R.drawable.claro_logo));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.movistar), R.drawable.movistar_logo));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.cnt), R.drawable.cnt_logo));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.tuenti), R.drawable.tuenti));
+        }
     }
 
     @Override
@@ -112,5 +118,16 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
                 startActivity(intent);
             }
         }
+        if (data.equals(getResources().getString(R.string.parqueo_directo))){
+            intent.setClass(SeleccionOperador.this, RecargasSimertActivity.class);
+            intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.parqueo_directo));
+            startActivity(intent);
+        }
+        if (data.equals(getResources().getString(R.string.recarga_parqueo))){
+            intent.setClass(SeleccionOperador.this, RecargasSimertActivity.class);
+            intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.recarga_parqueo));
+            startActivity(intent);
+        }
+        finish();
     }
 }
