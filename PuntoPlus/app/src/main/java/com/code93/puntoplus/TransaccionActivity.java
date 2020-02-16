@@ -115,9 +115,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         if (item.getItemId() == R.id.item_ConfigComercio) {
             Toast.makeText(this, "Configuracion del comercio", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.item_CerrarSesion) {
-            ClsConexion conexion = new ClsConexion(this);
-            conexion.eliminarUsuarioDB();
-            startActivity(new Intent(this, MainActivity.class));
+            Toast.makeText(this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
         }

@@ -26,60 +26,44 @@ public class ClsConexion extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    private final String TABLE_SMS_SEND = "sms_send";
-    private final String COLUMN_SMS_SEND_ID = "send_id";
-    private final String COLUMN_SMS_SEND_DESTINO = "send_destino";
-    private final String COLUMN_SMS_SEND_MSG = "send_msg";
-    private final String COLUMN_SMS_SEND_FECHA = "send_fecha";
-    private final String COLUMN_SMS_SEND_HORA = "send_hora";
-    private final String COLUMN_SMS_SEND_FECHAHORA = "send_fechahora";
+    private final String TABLE_TRANSACCIONES = "transacciones";
+    private final String COLUMN_ID = "trans_id";
+    private final String COLUMN_TIPO = "trans_tipo";
+    private final String COLUMN_OPERADOR = "trans_operador";
+    private final String COLUMN_MONTO = "trans_monto";
+    private final String COLUMN_NAME1 = "trans_name1";
+    private final String COLUMN_CONTRAPARTIDA1 = "trans_contrapartida1";
+    private final String COLUMN_NAME2 = "trans_name2";
+    private final String COLUMN_CONTRAPARTIDA2 = "trans_contrapartida2";
+    private final String COLUMN_NAME3 = "trans_name3";
+    private final String COLUMN_CONTRAPARTIDA3 = "trans_contrapartida3";
+    private final String COLUMN_NAME4 = "trans_name4";
+    private final String COLUMN_CONTRAPARTIDA4 = "trans_contrapartida4";
 
-    private final String CREATE_TABLE_SMS_SEND = "create table " + TABLE_SMS_SEND + " (" +
-            COLUMN_SMS_SEND_ID + " integer primary key AUTOINCREMENT, " +
-            COLUMN_SMS_SEND_DESTINO + " text not null, " +
-            COLUMN_SMS_SEND_MSG + " text not null, " +
-            COLUMN_SMS_SEND_FECHA + " text not null, " +
-            COLUMN_SMS_SEND_HORA + " text not null, " +
-            COLUMN_SMS_SEND_FECHAHORA + " text not null);";
+    private final String CREATE_TABLE_TRANSACCIONES =
+            "CREATE TABLE " + TABLE_TRANSACCIONES +
+                    " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_TIPO + " TEXT NOT NULL, " +
+                    COLUMN_OPERADOR + " TEXT NOT NULL, " +
+                    COLUMN_MONTO + " TEXT NOT NULL, " +
+                    COLUMN_NAME1 + " TEXT, " +
+                    COLUMN_CONTRAPARTIDA1 + " TEXT, " +
+                    COLUMN_NAME2 + " TEXT, " +
+                    COLUMN_CONTRAPARTIDA2 + " TEXT, " +
+                    COLUMN_NAME3 + " TEXT, " +
+                    COLUMN_CONTRAPARTIDA3 + " TEXT, " +
+                    COLUMN_NAME4 + " TEXT, " +
+                    COLUMN_CONTRAPARTIDA4 + " TEXT)";
 
-    private final String TABLE_SMS_RECV = "sms_recv";
-    private final String COLUMN_SMS_RECV_ID = "recv_id";
-    private final String COLUMN_SMS_RECV_DESTINO = "recv_destino";
-    private final String COLUMN_SMS_RECV_MSG = "recv_msg";
-    private final String COLUMN_SMS_RECV_FECHA = "recv_fecha";
-    private final String COLUMN_SMS_RECV_HORA = "recv_hora";
-    private final String COLUMN_SMS_RECV_FECHAHORA = "recv_fechahora";
-
-    private final String CREATE_TABLE_SMS_RECV = "create table " + TABLE_SMS_RECV + " (" +
-            COLUMN_SMS_RECV_ID + " integer primary key AUTOINCREMENT, " +
-            COLUMN_SMS_RECV_DESTINO + " text not null, " +
-            COLUMN_SMS_RECV_MSG + " text not null, " +
-            COLUMN_SMS_RECV_FECHA + " text not null, " +
-            COLUMN_SMS_RECV_HORA + " text not null, " +
-            COLUMN_SMS_RECV_FECHAHORA + " text not null);";
-
-    private final String TABLE_REGISTRO_USER = "user";
+    private final String TABLE_USER = "user";
     private final String COLUMN_USER_CEL = "user_cel";
     private final String COLUMN_USER_FECHA = "user_fecha";
     private final String COLUMN_USER_HORA = "user_hora";
 
-    private final String CREATE_TABLE_USER = "create table " + TABLE_REGISTRO_USER + " (" +
+    private final String CREATE_TABLE_USER = "create table " + TABLE_USER + " (" +
             COLUMN_USER_CEL + " text primary key, " +
             COLUMN_USER_FECHA + " text not null, " +
             COLUMN_USER_HORA + " text not null);";
-
-    private final String TABLE_LOGS_USER = "logs_user";
-    private final String COLUMN_LOGS_ID = "logs_id";
-    private final String COLUMN_LOGS_FECHA_OUT = "logs_out_fecha";
-    private final String COLUMN_LOGS_HORA_OUT = "logs_out_hora";
-
-    private final String CREATE_TABLE_LOGS_USER = "create table " + TABLE_LOGS_USER + " (" +
-            COLUMN_LOGS_ID + " integer primary key AUTOINCREMENT, " +
-            COLUMN_USER_CEL + " text not null, " +
-            COLUMN_USER_FECHA + " text not null, " +
-            COLUMN_USER_HORA + " text not null, " +
-            COLUMN_LOGS_FECHA_OUT + " text, " +
-            COLUMN_LOGS_HORA_OUT + " text);";
 
     private final String TABLE_COMERCIO = "comercio";
 
@@ -150,112 +134,17 @@ public class ClsConexion extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_SMS_SEND);
-        db.execSQL(CREATE_TABLE_SMS_RECV);
         db.execSQL(CREATE_TABLE_USER);
-        db.execSQL(CREATE_TABLE_LOGS_USER);
         db.execSQL(CREATE_TABLE_COMERCIOS);
         db.execSQL(CREATE_TABLE_MENUS);
         db.execSQL(CREATE_TABLE_ITEMS);
+        db.execSQL(CREATE_TABLE_TRANSACCIONES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         System.out.println("oldVersion SQL " + oldVersion + "newVersion SQL " + newVersion);
     }
-
-    public boolean newSmsSend(SMS_SEND sms_send) {
-        boolean ret = false;
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_SMS_SEND_DESTINO, sms_send.getDestino());
-        values.put(COLUMN_SMS_SEND_MSG, sms_send.getMsg());
-        values.put(COLUMN_SMS_SEND_FECHA, sms_send.getFecha());
-        values.put(COLUMN_SMS_SEND_HORA, sms_send.getHora());
-        values.put(COLUMN_SMS_SEND_FECHAHORA, sms_send.getFechahora());
-        try {
-            db.insert(TABLE_SMS_SEND, null, values);
-            db.close();
-            ret = true;
-        } catch (SQLException e) {
-            e.getCause();
-        }
-        return ret;
-    }
-
-    public boolean newSmsRecv(SMS_RECV sms_recv) {
-        boolean ret = false;
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_SMS_RECV_DESTINO, sms_recv.getRecv_destino());
-        values.put(COLUMN_SMS_RECV_MSG, sms_recv.getRecv_msg());
-        values.put(COLUMN_SMS_RECV_FECHA, sms_recv.getRecv_fecha());
-        values.put(COLUMN_SMS_RECV_HORA, sms_recv.getRecv_hora());
-        values.put(COLUMN_SMS_RECV_FECHAHORA, sms_recv.getRecv_fechahora());
-        try {
-            db.insert(TABLE_SMS_RECV, null, values);
-            db.close();
-            ret = true;
-        } catch (SQLException e) {
-            e.getCause();
-        }
-        return ret;
-    }
-
-    public ArrayList<SMS> getAllSMSSend() {
-        ArrayList<SMS> list = new ArrayList<>();
-        db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_SMS_SEND;
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                list.add(new SMS_SEND(cursor.getInt(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                        cursor.getString(5)));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return list;
-    }
-
-    public ArrayList<SMS_RECV> getAllSMSRecv() {
-        ArrayList<SMS_RECV> list = new ArrayList<>();
-        db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_SMS_RECV;
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                list.add(new SMS_RECV(cursor.getInt(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                        cursor.getString(5)));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return list;
-    }
-
-
-    /*public boolean actualizarVisto(String recv_fechahora, Boolean isVisto) {
-        boolean result = false;
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        if (isVisto) {
-            values.put(COLUMN_SMS_RECV_VISTO, "v");
-        } else {
-            values.put(COLUMN_SMS_RECV_VISTO, "f");
-        }
-        try {
-            db.update(TABLE_SMS_RECV, values, COLUMN_SMS_RECV_FECHAHORA + "= " + recv_fechahora, null);
-            db.close();
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return result;
-    }*/
 
     /**
      * @param usuario
@@ -269,62 +158,12 @@ public class ClsConexion extends SQLiteOpenHelper {
         values.put(COLUMN_USER_FECHA, usuario.getFecha_in());
         values.put(COLUMN_USER_HORA, usuario.getHora_in());
         try {
-            db.insert(TABLE_REGISTRO_USER, null, values);
+            db.insert(TABLE_USER, null, values);
             db.close();
-            ret = guardarLogUsuario(usuario);
-            if (!ret) {
-                eliminarUsuarioDB();
-            }
         } catch (SQLException e) {
             e.getCause();
         }
         return ret;
-    }
-
-    public boolean guardarLogUsuario(Usuario usuario) {
-        boolean ret = false;
-        db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_CEL, usuario.getCel());
-        values.put(COLUMN_USER_FECHA, usuario.getFecha_in());
-        values.put(COLUMN_USER_HORA, usuario.getHora_in());
-        try {
-            db.insert(TABLE_LOGS_USER, null, values);
-            db.close();
-            ret = true;
-        } catch (SQLException e) {
-            e.getCause();
-        }
-        return ret;
-    }
-
-    public boolean eliminarUsuarioDB() {
-        Usuario usuario = obtenerUsuarioActual();
-        if (usuario != null) {
-            db = this.getWritableDatabase();
-            db.delete(TABLE_REGISTRO_USER, null, null);
-            db.close();
-            return actualizarLogUsuario(usuario);
-        }
-        return false;
-    }
-
-    public boolean actualizarLogUsuario(Usuario usuario) {
-        boolean ret = false;
-        db = this.getWritableDatabase();
-        return ret;
-    }
-
-    public Usuario obtenerUsuarioActual() {
-        Usuario usuario = new Usuario();
-        db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_REGISTRO_USER;
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            usuario.setCel(cursor.getString(0));
-        }
-        db.close();
-        return usuario;
     }
 
     public Comercio getComercioBD () {

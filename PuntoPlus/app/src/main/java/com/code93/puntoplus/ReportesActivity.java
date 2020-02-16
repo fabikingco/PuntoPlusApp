@@ -24,7 +24,7 @@ public class ReportesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reportes);
 
         clsConexion = new ClsConexion(getApplicationContext());
-
+/*
         arrayList = clsConexion.getAllSMSRecv();
 
         System.out.println("Elementos SMS " + arrayList.size());
@@ -36,13 +36,9 @@ public class ReportesActivity extends AppCompatActivity {
         AdaptadorMensajesSMS adaptador = new AdaptadorMensajesSMS(arrayList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adaptador);
+        recyclerView.setAdapter(adaptador);*/
 
 
 
-    }
-
-    private void obtenerMensajesBD() {
-        arrayList = clsConexion.getAllSMSRecv();
     }
 }
