@@ -67,7 +67,16 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         if (tipoMenu.equals(getResources().getString(R.string.recargas_simert))) {
             itemMenu.add(new menuItemsModelo(getResources().getString(R.string.parqueo_directo), R.drawable.simmert));
             itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recarga_parqueo), R.drawable.simmert));
-        } else {
+        }
+        if (tipoMenu.equals(getResources().getString(R.string.recargas))){
+            itemMenu.add(new menuItemsModelo(getString(R.string.claro), R.drawable.claro_logo));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.movistar), R.drawable.movistar_logo));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.cnt), R.drawable.cnt_logo));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.tuenti), R.drawable.tuenti));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.directv), R.drawable.directv));
+            itemMenu.add(new menuItemsModelo(getResources().getString(R.string.tvcable), R.drawable.tvcable));
+        }
+        if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))){
             itemMenu.add(new menuItemsModelo(getString(R.string.claro), R.drawable.claro_logo));
             itemMenu.add(new menuItemsModelo(getResources().getString(R.string.movistar), R.drawable.movistar_logo));
             itemMenu.add(new menuItemsModelo(getResources().getString(R.string.cnt), R.drawable.cnt_logo));
@@ -82,7 +91,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         if (data.equals(getResources().getString(R.string.claro))) {
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
-            } else  if (tipoMenu.equals(getResources().getString(R.string.recargas_celular))){
+            } else  if (tipoMenu.equals(getResources().getString(R.string.recargas))){
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.claro));
                 intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.claro));
@@ -118,6 +127,16 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
                 intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.tuenti));
                 startActivity(intent);
             }
+        }
+        if (data.equals(getResources().getString(R.string.directv))) {
+            intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
+            intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.directv));
+            startActivity(intent);
+        }
+        if (data.equals(getResources().getString(R.string.tvcable))) {
+            intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
+            intent.putExtra("tipoIngreso", tipoMenu + "@" + getResources().getString(R.string.tvcable));
+            startActivity(intent);
         }
         if (data.equals(getResources().getString(R.string.parqueo_directo))){
             intent.setClass(SeleccionOperador.this, RecargasSimertActivity.class);

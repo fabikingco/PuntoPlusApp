@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,11 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.code93.puntoplus.Adaptador.NewAdapterMenus;
-import com.code93.puntoplus.BD.ClsConexion;
 import com.code93.puntoplus.model.Transacciones.RecargasCelular;
 import com.code93.puntoplus.model.menuItemsModelo;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mazenrashed.printooth.Printooth;
-import com.mazenrashed.printooth.data.converter.ArabicConverter;
 import com.mazenrashed.printooth.data.printable.Printable;
 import com.mazenrashed.printooth.data.printable.RawPrintable;
 import com.mazenrashed.printooth.data.printable.TextPrintable;
@@ -52,7 +50,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaccion);
-        if (!Build.MODEL.equals("Android SDK built for x86")) {
+        if (!Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("Android SDK built for x86_64")) {
             if (Printooth.INSTANCE.hasPairedPrinter())
                 printing = Printooth.INSTANCE.printer();
         }
@@ -62,7 +60,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         tvConexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Build.MODEL.equals("Android SDK built for x86")) {
+                if (!Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("Android SDK built for x86_64")) {
                     if (Printooth.INSTANCE.hasPairedPrinter()) {
                         Printooth.INSTANCE.removeCurrentPrinter();
                         imgStatus.setImageDrawable(getDrawable(R.drawable.ic_remove_circle_red));
@@ -87,7 +85,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
 
     private void initStatusPrinter() {
         imgStatus = findViewById(R.id.imgStatus);
-        if (Build.MODEL.equals("NEW9220") || Build.MODEL.equals("Android SDK built for x86") || Build.MODEL.equals("i80")) {
+        if (Build.MODEL.equals("Android SDK built for x86") || Build.MODEL.equals("Android SDK built for x86_64")) {
             imgStatus.setImageDrawable(getDrawable(R.drawable.ic_check_circle_green));
         } else {
             if (Printooth.INSTANCE.getPairedPrinter() != null) {
@@ -115,7 +113,13 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         if (item.getItemId() == R.id.item_ConfigComercio) {
             Toast.makeText(this, "Configuracion del comercio", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.item_CerrarSesion) {
+            if (!Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("Android SDK built for x86_64")) {
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                mAuth.signOut();
+            }
             Toast.makeText(this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         } else {
             Toast.makeText(this, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
         }
@@ -132,10 +136,11 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
 
     private void cargarArrayList() {
         itemMenu = new ArrayList<>();
-        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_celular), R.drawable.recargas_celular));
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas), R.drawable.recargas_celular));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.paquetes_celular), R.drawable.paquetes_celular));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_simert), R.drawable.simmert));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.pagos_de_servicio), R.drawable.pagos_servicios));
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.registro), R.drawable.img_number_verification));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.reportes), R.drawable.pagos_servicios));
     }
 
@@ -144,10 +149,10 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         //Toast.makeText(this, "" + itemMenu.get(position).getTextoItem() + " " + id, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
         String data = itemMenu.get(position).getTextoItem();
-        if (data.equals(getResources().getString(R.string.recargas_celular))) {
+        if (data.equals(getResources().getString(R.string.recargas))) {
             MainActivity.recargasCelular = new RecargasCelular();
             intent.setClass(TransaccionActivity.this, SeleccionOperador.class);
-            intent.putExtra("tipoMenu", getResources().getString(R.string.recargas_celular));
+            intent.putExtra("tipoMenu", getResources().getString(R.string.recargas));
             startActivity(intent);
         }
         if (data.equals(getResources().getString(R.string.paquetes_celular))) {

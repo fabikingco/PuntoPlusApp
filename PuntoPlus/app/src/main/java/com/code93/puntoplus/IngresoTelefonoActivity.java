@@ -53,7 +53,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
             tvTitulo.setText("Registre su telefono");
             tvSubtitulo.setText("Para poder usar el servicio debe registrar su numero.");
         }
-        if (tipoIngreso[0].equals(getResources().getString(R.string.recargas_celular))) {
+        if (tipoIngreso[0].equals(getResources().getString(R.string.recargas))) {
             tvTitulo.setText("Ingresa el numero de telefono");
             tvSubtitulo.setText("La  que vas a realizar sera cargado al siguiente numero");
         }
@@ -84,7 +84,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                 }
             }, 5000);
         }
-        if (tipoIngreso[0].equals(getResources().getString(R.string.recargas_celular))) {
+        if (tipoIngreso[0].equals(getResources().getString(R.string.recargas))) {
             final AlertDialog alertDialog = new AlertDialog.Builder(IngresoTelefonoActivity.this).create();
             alertDialog.setTitle("Ecuamovil");
             alertDialog.setMessage("Confirme los datos. \nRecargara $ " + tipoIngreso[2]
@@ -209,7 +209,7 @@ public class IngresoTelefonoActivity extends AppCompatActivity {
                 Toast.makeText(this, "Fallo registro en BD", Toast.LENGTH_SHORT).show();
             }
         }
-        if (tipoIngreso[0].equals(getResources().getString(R.string.recargas_celular))) {
+        if (tipoIngreso[0].equals(getResources().getString(R.string.recargas))) {
             // Guardar en base de datos
             timer = null;
             Intent intent = new Intent(IngresoTelefonoActivity.this, VentanaConfirmacionActivity.class);

@@ -47,7 +47,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaccion);
-        if (!Build.MODEL.equals("Android SDK built for x86")) {
+        if (!Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("Android SDK built for x86_64")) {
             if (Printooth.INSTANCE.hasPairedPrinter())
                 printing = Printooth.INSTANCE.printer();
         }
@@ -59,7 +59,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         tvConexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Build.MODEL.equals("Android SDK built for x86")) {
+                if (!Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("Android SDK built for x86_64")) {
                     if (Printooth.INSTANCE.hasPairedPrinter()) {
                         Printooth.INSTANCE.removeCurrentPrinter();
                         imgStatus.setImageDrawable(getDrawable(R.drawable.ic_remove_circle_red));
@@ -100,7 +100,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
     private void initStatusPrinter() {
         imgStatus = findViewById(R.id.imgStatus);
-        if (Build.MODEL.equals("NEW9220") || Build.MODEL.equals("Android SDK built for x86") || Build.MODEL.equals("i80")) {
+        if (Build.MODEL.equals("Android SDK built for x86") || Build.MODEL.equals("Android SDK built for x86_64")) {
             imgStatus.setImageDrawable(getDrawable(R.drawable.ic_check_circle_green));
         } else {
             if (Printooth.INSTANCE.getPairedPrinter() != null) {

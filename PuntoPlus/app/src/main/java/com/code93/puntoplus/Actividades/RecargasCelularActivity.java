@@ -95,6 +95,14 @@ public class RecargasCelularActivity extends AppCompatActivity {
         if (tipoIngreso[1].equals(getResources().getString(R.string.cnt))){
             imageViewTrans.setImageDrawable(getDrawable(R.drawable.cnt_logo));
         }
+        if (tipoIngreso[1].equals(getResources().getString(R.string.directv))){
+            imageViewTrans.setImageDrawable(getDrawable(R.drawable.directv));
+            tvTituloContrapartida1.setText("Código del servicio");
+        }
+        if (tipoIngreso[1].equals(getResources().getString(R.string.tvcable))){
+            imageViewTrans.setImageDrawable(getDrawable(R.drawable.tvcable));
+            tvTituloContrapartida1.setText("Código del servicio");
+        }
     }
 
     private void onClickLinears() {
@@ -269,6 +277,12 @@ public class RecargasCelularActivity extends AppCompatActivity {
         }
         if (s.equals(getResources().getString(R.string.tuenti))) {
             return "tue";
+        }
+        if (s.equals(getResources().getString(R.string.directv))) {
+            return "dir";
+        }
+        if (s.equals(getResources().getString(R.string.tvcable))) {
+            return "tvc";
         }
         return s;
     }

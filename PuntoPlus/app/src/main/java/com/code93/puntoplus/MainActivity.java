@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     new AuthUI.IdpConfig.PhoneBuilder().build()
             );
             conexion = new ClsConexion(this);
-            if (!Build.MODEL.equals("Android SDK built for x86")) {
+            if (!Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("Android SDK built for x86_64")) {
                 showSignInOptions();
             } else {
                 startActivity(new Intent(MainActivity.this, TransaccionActivity.class));
