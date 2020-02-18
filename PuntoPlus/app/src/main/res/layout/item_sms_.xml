@@ -41,7 +41,7 @@
                 android:id="@+id/tvContrapartida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contrapartida: 098741992"
+                android:text="Contrapartida:"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"

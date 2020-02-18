@@ -94,11 +94,7 @@ public class InformacionRegistroActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    dialog.show();
-                    Intent intent = new Intent(InformacionRegistroActivity.this, IngresoTelefonoActivity.class);
-                    intent.putExtra("tipoIngreso", "registro");
-                    startActivity(intent);
-                    finish();
+
                 }
             }
         });

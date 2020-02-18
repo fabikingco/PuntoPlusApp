@@ -12,6 +12,7 @@ import com.code93.puntoplus.model.Comercio;
 import com.code93.puntoplus.model.SMS;
 import com.code93.puntoplus.model.SMS_RECV;
 import com.code93.puntoplus.model.SMS_SEND;
+import com.code93.puntoplus.model.Transacciones.Transaccion;
 import com.code93.puntoplus.model.Usuario;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class ClsConexion extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "resto_app.db";
 
     public ClsConexion(Context context) {
@@ -27,33 +28,37 @@ public class ClsConexion extends SQLiteOpenHelper {
     }
 
     private final String TABLE_TRANSACCIONES = "transacciones";
-    private final String COLUMN_ID = "trans_id";
-    private final String COLUMN_TIPO = "trans_tipo";
-    private final String COLUMN_OPERADOR = "trans_operador";
-    private final String COLUMN_MONTO = "trans_monto";
-    private final String COLUMN_NAME1 = "trans_name1";
-    private final String COLUMN_CONTRAPARTIDA1 = "trans_contrapartida1";
-    private final String COLUMN_NAME2 = "trans_name2";
-    private final String COLUMN_CONTRAPARTIDA2 = "trans_contrapartida2";
-    private final String COLUMN_NAME3 = "trans_name3";
-    private final String COLUMN_CONTRAPARTIDA3 = "trans_contrapartida3";
-    private final String COLUMN_NAME4 = "trans_name4";
-    private final String COLUMN_CONTRAPARTIDA4 = "trans_contrapartida4";
+    private final String COLUMN_TRANS_ID = "trans_id";
+    private final String COLUMN_TRANS_TIPO = "trans_tipo";
+    private final String COLUMN_TRANS_OPERADOR = "trans_operador";
+    private final String COLUMN_TRANS_MONTO = "trans_monto";
+    private final String COLUMN_TRANS_NAME1 = "trans_name1";
+    private final String COLUMN_TRANS_CONTRAPARTIDA1 = "trans_contrapartida1";
+    private final String COLUMN_TRANS_NAME2 = "trans_name2";
+    private final String COLUMN_TRANS_CONTRAPARTIDA2 = "trans_contrapartida2";
+    private final String COLUMN_TRANS_NAME3 = "trans_name3";
+    private final String COLUMN_TRANS_CONTRAPARTIDA3 = "trans_contrapartida3";
+    private final String COLUMN_TRANS_NAME4 = "trans_name4";
+    private final String COLUMN_TRANS_CONTRAPARTIDA4 = "trans_contrapartida4";
+    private final String COLUMN_TRANS_FECHA = "trans_fecha";
+    private final String COLUMN_TRANS_HORA = "trans_hora";
 
     private final String CREATE_TABLE_TRANSACCIONES =
             "CREATE TABLE " + TABLE_TRANSACCIONES +
-                    " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_TIPO + " TEXT NOT NULL, " +
-                    COLUMN_OPERADOR + " TEXT NOT NULL, " +
-                    COLUMN_MONTO + " TEXT NOT NULL, " +
-                    COLUMN_NAME1 + " TEXT, " +
-                    COLUMN_CONTRAPARTIDA1 + " TEXT, " +
-                    COLUMN_NAME2 + " TEXT, " +
-                    COLUMN_CONTRAPARTIDA2 + " TEXT, " +
-                    COLUMN_NAME3 + " TEXT, " +
-                    COLUMN_CONTRAPARTIDA3 + " TEXT, " +
-                    COLUMN_NAME4 + " TEXT, " +
-                    COLUMN_CONTRAPARTIDA4 + " TEXT)";
+                    " (" + COLUMN_TRANS_ID + " TEXT PRIMARY KEY, " +
+                    COLUMN_TRANS_TIPO + " TEXT NOT NULL, " +
+                    COLUMN_TRANS_OPERADOR + " TEXT NOT NULL, " +
+                    COLUMN_TRANS_MONTO + " TEXT NOT NULL, " +
+                    COLUMN_TRANS_NAME1 + " TEXT, " +
+                    COLUMN_TRANS_CONTRAPARTIDA1 + " TEXT, " +
+                    COLUMN_TRANS_NAME2 + " TEXT, " +
+                    COLUMN_TRANS_CONTRAPARTIDA2 + " TEXT, " +
+                    COLUMN_TRANS_NAME3 + " TEXT, " +
+                    COLUMN_TRANS_CONTRAPARTIDA3 + " TEXT, " +
+                    COLUMN_TRANS_NAME4 + " TEXT, " +
+                    COLUMN_TRANS_CONTRAPARTIDA4 + " TEXT, " +
+                    COLUMN_TRANS_FECHA + " TEXT, " +
+                    COLUMN_TRANS_HORA + " TEXT)";
 
     private final String TABLE_USER = "user";
     private final String COLUMN_USER_CEL = "user_cel";
@@ -144,6 +149,88 @@ public class ClsConexion extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         System.out.println("oldVersion SQL " + oldVersion + "newVersion SQL " + newVersion);
+        db.execSQL("DROP TABLE " + TABLE_TRANSACCIONES);
+        db.execSQL(CREATE_TABLE_TRANSACCIONES);
+    }
+
+    public boolean ingresarRegistroTransaccion(Transaccion transaccion) {
+        boolean ret = false;
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TRANS_ID, transaccion.getId());
+        values.put(COLUMN_TRANS_TIPO, transaccion.getTipo());
+        values.put(COLUMN_TRANS_OPERADOR, transaccion.getOperador());
+        values.put(COLUMN_TRANS_MONTO, transaccion.getMonto());
+        if (transaccion.getName1() != null) {
+            values.put(COLUMN_TRANS_NAME1, transaccion.getName1());
+        }
+        if (transaccion.getContrapartida1() != null) {
+            values.put(COLUMN_TRANS_CONTRAPARTIDA1, transaccion.getContrapartida1());
+        }
+        if (transaccion.getName2() != null) {
+            values.put(COLUMN_TRANS_NAME2, transaccion.getName2());
+        }
+        if (transaccion.getContrapartida2() != null) {
+            values.put(COLUMN_TRANS_CONTRAPARTIDA2, transaccion.getContrapartida2());
+        }
+        if (transaccion.getName3() != null) {
+            values.put(COLUMN_TRANS_NAME3, transaccion.getName3());
+        }
+        if (transaccion.getContrapartida3() != null) {
+            values.put(COLUMN_TRANS_CONTRAPARTIDA3, transaccion.getContrapartida3());
+        }
+        if (transaccion.getName4() != null) {
+            values.put(COLUMN_TRANS_NAME4, transaccion.getName4());
+        }
+        if (transaccion.getContrapartida4() != null) {
+            values.put(COLUMN_TRANS_CONTRAPARTIDA4, transaccion.getContrapartida4());
+        }
+        if (transaccion.getFecha() != null) {
+            values.put(COLUMN_TRANS_FECHA, transaccion.getFecha());
+        }
+        if (transaccion.getHora() != null) {
+            values.put(COLUMN_TRANS_HORA, transaccion.getHora());
+        }
+        try {
+            db.insert(TABLE_TRANSACCIONES, null, values);
+            db.close();
+            ret = true;
+        } catch (SQLException e) {
+            e.getCause();
+        }
+        return ret;
+    }
+
+    public ArrayList<Transaccion> getAllTransacciones() {
+        db = this.getWritableDatabase();
+        ArrayList<Transaccion> transaccions = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_TRANSACCIONES;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToLast()) {
+            do{
+                Transaccion transaccion = new Transaccion();
+                transaccion.setId(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_ID)));
+                transaccion.setTipo(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_TIPO)));
+                transaccion.setOperador(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_OPERADOR)));
+                transaccion.setMonto(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_MONTO)));
+                transaccion.setName1(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_NAME1)));
+                transaccion.setContrapartida1(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_CONTRAPARTIDA1)));
+                transaccion.setName2(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_NAME2)));
+                transaccion.setContrapartida2(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_CONTRAPARTIDA2)));
+                transaccion.setName3(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_NAME3)));
+                transaccion.setContrapartida3(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_CONTRAPARTIDA3)));
+                transaccion.setName4(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_NAME4)));
+                transaccion.setContrapartida4(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_CONTRAPARTIDA4)));
+                transaccion.setFecha(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_FECHA)));
+                transaccion.setHora(cursor.getString(cursor.getColumnIndex(COLUMN_TRANS_HORA)));
+
+                transaccions.add(transaccion);
+            } while (cursor.moveToPrevious());
+        }
+        cursor.close();
+        db.close();
+
+        return transaccions;
     }
 
     /**

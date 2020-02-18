@@ -6,16 +6,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.code93.puntoplus.Adaptador.AdaptadorMensajesSMS;
+import com.code93.puntoplus.Adaptador.AdaptadorTransacciones;
 import com.code93.puntoplus.BD.ClsConexion;
-import com.code93.puntoplus.model.SMS_RECV;
+import com.code93.puntoplus.model.Transacciones.Transaccion;
 
 import java.util.ArrayList;
 
 public class ReportesActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<SMS_RECV> arrayList;
     ClsConexion clsConexion;
 
     @Override
@@ -24,21 +23,16 @@ public class ReportesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reportes);
 
         clsConexion = new ClsConexion(getApplicationContext());
-/*
-        arrayList = clsConexion.getAllSMSRecv();
 
-        System.out.println("Elementos SMS " + arrayList.size());
+        ArrayList<Transaccion> transaccions = clsConexion.getAllTransacciones();
 
+        for (Transaccion transaccion : transaccions) {
+            System.out.println("id = " + transaccion.getId());
+        }
         recyclerView = findViewById(R.id.rvMensajes);
-
-        obtenerMensajesBD();
-
-        AdaptadorMensajesSMS adaptador = new AdaptadorMensajesSMS(arrayList);
+        AdaptadorTransacciones adaptador = new AdaptadorTransacciones(transaccions, getApplicationContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adaptador);*/
-
-
-
+        recyclerView.setAdapter(adaptador);
     }
 }

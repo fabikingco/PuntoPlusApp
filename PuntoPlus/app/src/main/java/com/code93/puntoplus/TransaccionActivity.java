@@ -140,7 +140,6 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.paquetes_celular), R.drawable.paquetes_celular));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_simert), R.drawable.simmert));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.pagos_de_servicio), R.drawable.pagos_servicios));
-        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.registro), R.drawable.img_number_verification));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.reportes), R.drawable.pagos_servicios));
     }
 
@@ -240,54 +239,5 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
 
             Printooth.INSTANCE.printer().setPrintingCallback(printingCallback);
         }
-    }
-
-    private void printSomePrintable() {
-        Log.d("xxx", "printSomePrintable ");
-        //printing.print(getSomePrintables());
-        if (printing!=null)
-            printing.print(getSomePrintables());
-    }
-
-    private ArrayList<Printable> getSomePrintables() {
-        ArrayList<Printable> al = new ArrayList<>();
-        al.add(new RawPrintable.Builder(new byte[]{27, 100, 4}).build()); // feed lines example in raw mode
-
-        al.add( (new TextPrintable.Builder())
-                .setText("ECUAMOVIL")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
-                .setAlignment(DefaultPrinter.Companion.getALIGNMENT_CENTER())
-                .setFontSize(DefaultPrinter.Companion.getFONT_SIZE_LARGE())
-                .setNewLinesAfter(1)
-                .build());
-        al.add( (new TextPrintable.Builder())
-                .setText("TRANSACCION EXITOSA")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
-                .setNewLinesAfter(1)
-                .build());
-        al.add( (new TextPrintable.Builder())
-                .setText("TRANSACCION EXITOSA")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
-                .setNewLinesAfter(1)
-                .build());
-        al.add( (new TextPrintable.Builder())
-                .setText("TRANSACCION EXITOSA")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
-                .setNewLinesAfter(1)
-                .build());
-        al.add( (new TextPrintable.Builder())
-                .setText("TRANSACCION EXITOSA")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
-                .setNewLinesAfter(1)
-                .build());
-        al.add( (new TextPrintable.Builder())
-                .setText("TRANSACCION EXITOSA")
-                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
-                .setNewLinesAfter(1)
-                .build());
-
-
-
-        return al;
     }
 }

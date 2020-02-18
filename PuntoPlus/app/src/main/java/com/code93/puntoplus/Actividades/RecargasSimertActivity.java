@@ -17,11 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.code93.puntoplus.BD.ClsConexion;
 import com.code93.puntoplus.Fragments.DialogDataFragment;
 import com.code93.puntoplus.MainActivity;
 import com.code93.puntoplus.R;
 import com.code93.puntoplus.Tools;
 import com.code93.puntoplus.VentanaConfirmacionActivity;
+import com.code93.puntoplus.model.Transacciones.Transaccion;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -258,21 +260,31 @@ public class RecargasSimertActivity extends AppCompatActivity {
     }
 
     private void validarMensaje() {
-        Intent intent = new Intent(RecargasSimertActivity.this, VentanaConfirmacionActivity.class);
-        intent.putExtra("tipoIngreso", data);
-        intent.putExtra("monto", tvDataMonto.getText().toString());
-        intent.putExtra("numero", tvDataContrapartida1.getText().toString());
-        startActivity(intent);
-    }
 
-    private String armarOperador(String s) {
-        if (s.equals(getResources().getString(R.string.parqueo_directo))) {
-            return "Simert";
+        Transaccion transaccion = new Transaccion();
+        transaccion.setId(Tools.getLocalDateTime());
+        transaccion.setTipo(tipoIngreso[0]);
+        transaccion.setOperador(tipoIngreso[1]);
+        transaccion.setMonto(tvDataMonto.getText().toString());
+        transaccion.setName1(tvTituloContrapartida1.getText().toString());
+        transaccion.setContrapartida1(tvDataContrapartida1.getText().toString());
+        if (tipoIngreso[1].equals(getResources().getString(R.string.parqueo_directo))) {
+            transaccion.setName2(tvTituloContrapartida2.getText().toString());
+            transaccion.setContrapartida2(tvDataContrapartida2.getText().toString());
+            transaccion.setName3(tvTituloContrapartida3.getText().toString());
+            transaccion.setContrapartida3(tvDataContrapartida3.getText().toString());
         }
-        if (s.equals(getResources().getString(R.string.recarga_parqueo))) {
-            return "Recsimert";
+        transaccion.setFecha(Tools.getLocalFormatDate());
+        transaccion.setHora(Tools.getLocalFormatTime());
+        ClsConexion clsConexion = new ClsConexion(getApplicationContext());
+        if (clsConexion.ingresarRegistroTransaccion(transaccion)) {
+            Intent intent = new Intent(RecargasSimertActivity.this, VentanaConfirmacionActivity.class);
+            intent.putExtra("transaccion", transaccion);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "No fue posible guardar transaccion en bd", Toast.LENGTH_SHORT).show();
         }
-        return s;
+
     }
 
     private boolean validacionDeCamposLlenos() {

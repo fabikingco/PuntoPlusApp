@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.code93.puntoplus.model.Transacciones.Transaccion;
 import com.mazenrashed.printooth.Printooth;
 import com.mazenrashed.printooth.data.printable.Printable;
 import com.mazenrashed.printooth.data.printable.RawPrintable;
@@ -20,25 +21,18 @@ import com.mazenrashed.printooth.utilities.Printing;
 import com.mazenrashed.printooth.utilities.PrintingCallback;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import dmax.dialog.SpotsDialog;
 
 public class VentanaConfirmacionActivity extends AppCompatActivity {
 
-    String[] tipoIngreso;
-    String data;
     ImageView imageView;
     TextView titulo, tvMensaje;
-    String monto;
-    String numero;
-
 
     ImageView imgStatus;
     TextView tvConexion;
     private Printing printing = null;
     PrintingCallback printingCallback = null;
+    Transaccion transaccion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +67,7 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            data = bundle.getString("tipoIngreso", "default");
-            if (data.contains("@")) {
-                tipoIngreso = data.split("@");
-            } else {
-                tipoIngreso = new String[1];
-                tipoIngreso[0] = data;
-                Toast.makeText(this, "" + tipoIngreso[0], Toast.LENGTH_SHORT).show();
-            }
-            monto = bundle.getString("monto", null);
-            numero = bundle.getString("numero", null);
+            transaccion = (Transaccion) bundle.getSerializable("transaccion");
         } else {
             Toast.makeText(this, "El tipo de ingreso no llego o fallo ", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(VentanaConfirmacionActivity.this, MainActivity.class));
@@ -165,27 +150,32 @@ public class VentanaConfirmacionActivity extends AppCompatActivity {
                 .setNewLinesAfter(1)
                 .build());
         al.add( (new TextPrintable.Builder())
-                .setText("Hora: " + Tools.getLocalFormatTime())
+                .setText(transaccion.getTipo())
                 .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
         al.add( (new TextPrintable.Builder())
-                .setText("Fecha: " + Tools.getLocalFormatDate())
+                .setText("Hora: " + transaccion.getHora())
                 .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
         al.add( (new TextPrintable.Builder())
-                .setText("Operador: " + tipoIngreso[1])
+                .setText("Fecha: " + transaccion.getFecha())
                 .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
         al.add( (new TextPrintable.Builder())
-                .setText("Numero: " + numero)
+                .setText("Operador: " + transaccion.getOperador())
                 .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());
         al.add( (new TextPrintable.Builder())
-                .setText("Monto: " + monto)
+                .setText(transaccion.getName1() + ": " + transaccion.getContrapartida1())
+                .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
+                .setNewLinesAfter(1)
+                .build());
+        al.add( (new TextPrintable.Builder())
+                .setText("Monto: " + transaccion.getMonto())
                 .setCharacterCode(DefaultPrinter.Companion.getCHARCODE_PC437())
                 .setNewLinesAfter(1)
                 .build());

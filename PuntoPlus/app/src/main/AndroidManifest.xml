@@ -19,10 +19,8 @@
         <activity android:name=".Actividades.RecargasSimertActivity"></activity>
         <activity android:name=".ReportesActivity" />
         <activity android:name=".VentanaConfirmacionActivity" />
-        <activity android:name=".IngresoMontoActivity" />
         <activity android:name=".TransaccionActivity" />
         <activity android:name=".SeleccionOperador" />
-        <activity android:name=".IngresoTelefonoActivity" />
         <activity android:name=".InformacionRegistroActivity" />
         <activity android:name=".RegistroUsuarioActivity" />
         <activity android:name=".MainActivity">

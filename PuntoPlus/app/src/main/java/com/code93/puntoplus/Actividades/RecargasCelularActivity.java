@@ -18,13 +18,14 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.code93.puntoplus.BD.ClsConexion;
 import com.code93.puntoplus.Fragments.DialogDataFragment;
-import com.code93.puntoplus.IngresoTelefonoActivity;
 import com.code93.puntoplus.MainActivity;
 import com.code93.puntoplus.R;
 import com.code93.puntoplus.Tools;
 import com.code93.puntoplus.VentanaConfirmacionActivity;
 import com.code93.puntoplus.callbackSMS;
+import com.code93.puntoplus.model.Transacciones.Transaccion;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -225,11 +226,24 @@ public class RecargasCelularActivity extends AppCompatActivity {
     }
 
     private void validarMensaje() {
-        Intent intent = new Intent(RecargasCelularActivity.this, VentanaConfirmacionActivity.class);
-        intent.putExtra("tipoIngreso", data);
-        intent.putExtra("monto", tvDataMonto.getText().toString());
-        intent.putExtra("numero", tvDataContrapartida1.getText().toString());
-        startActivity(intent);
+        Transaccion transaccion = new Transaccion();
+        transaccion.setId(Tools.getLocalDateTime());
+        transaccion.setTipo(tipoIngreso[0]);
+        transaccion.setOperador(tipoIngreso[1]);
+        transaccion.setMonto(tvDataMonto.getText().toString());
+        transaccion.setName1(tvTituloContrapartida1.getText().toString());
+        transaccion.setContrapartida1(tvDataContrapartida1.getText().toString());
+        transaccion.setFecha(Tools.getLocalFormatDate());
+        transaccion.setHora(Tools.getLocalFormatTime());
+        ClsConexion clsConexion = new ClsConexion(getApplicationContext());
+        if (clsConexion.ingresarRegistroTransaccion(transaccion)) {
+            Intent intent = new Intent(RecargasCelularActivity.this, VentanaConfirmacionActivity.class);
+            intent.putExtra("transaccion", transaccion);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "No fue posible guardar transaccion en bd", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private boolean validacionDeCamposLlenos() {
