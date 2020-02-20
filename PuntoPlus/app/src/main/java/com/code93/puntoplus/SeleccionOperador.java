@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.code93.puntoplus.Actividades.RecargasCelularActivity;
 import com.code93.puntoplus.Actividades.RecargasSimertActivity;
+import com.code93.puntoplus.Actividades.SeleccionPaqueteActivity;
 import com.code93.puntoplus.Adaptador.NewAdapterMenus;
+import com.code93.puntoplus.model.Transacciones.Transaccion;
 import com.code93.puntoplus.model.menuItemsModelo;
 
 import java.util.ArrayList;
@@ -90,6 +92,15 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         String data = itemMenu.get(position).getTextoItem();
         if (data.equals(getResources().getString(R.string.claro))) {
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
+
+                Transaccion transaccion = new Transaccion();
+                transaccion.setId(Tools.getLocalDateTime());
+                transaccion.setTipo(tipoMenu);
+                transaccion.setOperador(getResources().getString(R.string.claro));
+
+                intent.setClass(SeleccionOperador.this, SeleccionPaqueteActivity.class);
+                intent.putExtra("transaccion", transaccion);
+                startActivity(intent);
                 Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else  if (tipoMenu.equals(getResources().getString(R.string.recargas))){
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.claro));
