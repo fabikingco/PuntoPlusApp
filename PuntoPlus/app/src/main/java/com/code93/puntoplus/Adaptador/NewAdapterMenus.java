@@ -52,7 +52,7 @@ public class NewAdapterMenus extends RecyclerView.Adapter<NewAdapterMenus.ViewHo
 
         View view= LayoutInflater.from(parent.getContext()).inflate(idItemMenu, parent, false);
 
-        return new ViewHolder2(view, context, menuItemsModeloList, this);
+        return new ViewHolder2(view, menuItemsModeloList, this);
     }
 
     @Override
@@ -71,14 +71,11 @@ public class NewAdapterMenus extends RecyclerView.Adapter<NewAdapterMenus.ViewHo
         private TextView TextoItemMenu;
         ImageView logoItem;
         List<menuItemsModelo> menuItems = new ArrayList<menuItemsModelo>();
-        Context ctx;
-        String tipoMenu;
         ArrayList<Drawable> drawables;
         NewAdapterMenus adapter;
 
-        public ViewHolder2(View itemView, Context ctx, List<menuItemsModelo> menuItems, NewAdapterMenus adapter) {
+        public ViewHolder2(View itemView,List<menuItemsModelo> menuItems, NewAdapterMenus adapter) {
             super(itemView);
-            this.ctx = ctx;
             this.menuItems = menuItems;
             this.adapter = adapter;
             itemView.setOnClickListener(this);
