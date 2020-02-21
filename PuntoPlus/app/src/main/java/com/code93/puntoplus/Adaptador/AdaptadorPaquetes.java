@@ -51,6 +51,10 @@ public class AdaptadorPaquetes extends RecyclerView.Adapter<AdaptadorPaquetes.Vi
         if (operador.equals(context.getResources().getString(R.string.cnt))){
             holder.image.setImageDrawable(context.getDrawable(R.drawable.cnt_logo));
         }
+
+        holder.tvTitulo.setText(paquetesDatos.getTitulo());
+        holder.tvMensaje.setText(paquetesDatos.getDescripcion());
+        holder.tvMonto.setText(paquetesDatos.getMonto());
     }
 
     @Override

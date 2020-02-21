@@ -101,7 +101,6 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
                 intent.setClass(SeleccionOperador.this, SeleccionPaqueteActivity.class);
                 intent.putExtra("transaccion", transaccion);
                 startActivity(intent);
-                Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
             } else  if (tipoMenu.equals(getResources().getString(R.string.recargas))){
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.claro));
                 intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
@@ -111,7 +110,14 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         }
         if (data.equals(getResources().getString(R.string.movistar))) {
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
-                Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
+                Transaccion transaccion = new Transaccion();
+                transaccion.setId(Tools.getLocalDateTime());
+                transaccion.setTipo(tipoMenu);
+                transaccion.setOperador(getResources().getString(R.string.movistar));
+
+                intent.setClass(SeleccionOperador.this, SeleccionPaqueteActivity.class);
+                intent.putExtra("transaccion", transaccion);
+                startActivity(intent);
             } else {
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.movistar));
                 intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
@@ -131,7 +137,14 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         }
         if (data.equals(getResources().getString(R.string.tuenti))) {
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
-                Toast.makeText(this, "Paquetes no disponibles", Toast.LENGTH_SHORT).show();
+                Transaccion transaccion = new Transaccion();
+                transaccion.setId(Tools.getLocalDateTime());
+                transaccion.setTipo(tipoMenu);
+                transaccion.setOperador(getResources().getString(R.string.tuenti));
+
+                intent.setClass(SeleccionOperador.this, SeleccionPaqueteActivity.class);
+                intent.putExtra("transaccion", transaccion);
+                startActivity(intent);
             } else {
                 MainActivity.recargasCelular.setOperador(getResources().getString(R.string.tuenti));
                 intent.setClass(SeleccionOperador.this, RecargasCelularActivity.class);
