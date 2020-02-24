@@ -87,6 +87,22 @@ public class ConfiguracionComercioActivity extends AppCompatActivity {
                 cargarFragment(sComercio.getDireccion(), "Direccion",
                         "Dirección del comercio", ClsConexion.comercio_direccion, tvDireccion);
                 break;
+            case R.id.lyEstado:
+                cargarFragment(sComercio.getEstado(), "Estado",
+                        "Estado o departamento", ClsConexion.comercio_estado, tvEstado);
+                break;
+            case R.id.lyCiudad:
+                cargarFragment(sComercio.getCiudad(), "Ciudad",
+                        "Ciudad del comercio", ClsConexion.comercio_ciudad, tvCiudad);
+                break;
+            case R.id.lyTelefono1:
+                cargarFragment(sComercio.getTelefono1(), "Telefono",
+                        "Numero de telefono 1", ClsConexion.comercio_telefono1, tvTelefono1);
+                break;
+            case R.id.lyTelefono2:
+                cargarFragment(sComercio.getTelefono2(), "Telefono",
+                        "Numero de telefono 2", ClsConexion.comercio_telefono2, tvTelefono2);
+                break;
         }
     }
 

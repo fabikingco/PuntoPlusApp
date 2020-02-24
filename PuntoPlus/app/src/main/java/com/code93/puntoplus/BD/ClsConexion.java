@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class ClsConexion extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "resto_app.db";
 
     public ClsConexion(Context context) {
@@ -147,9 +147,7 @@ public class ClsConexion extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        System.out.println("oldVersion SQL " + oldVersion + "newVersion SQL " + newVersion);
-        db.execSQL("DROP TABLE " + TABLE_TRANSACCIONES);
-        db.execSQL(CREATE_TABLE_TRANSACCIONES);
+        
         db.execSQL("INSERT INTO comercio (id) VALUES (" + idComercio  + ")");
     }
 
