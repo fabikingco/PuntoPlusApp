@@ -17,10 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.code93.puntoplus.BD.ClsConexion;
 import com.code93.puntoplus.Fragments.DialogDataFragment;
 import com.code93.puntoplus.MainActivity;
 import com.code93.puntoplus.R;
 import com.code93.puntoplus.Tools;
+import com.code93.puntoplus.VentanaConfirmacionActivity;
 import com.code93.puntoplus.model.Transacciones.Transaccion;
 
 import java.util.Timer;
@@ -136,9 +138,8 @@ public class RecargaPaquetesActivity extends AppCompatActivity {
 
                 StringBuilder builder = new StringBuilder();
 
-                String monto = armarMonto(tvDataMonto.getText().toString());
-                builder.append("Rec");
-
+                String monto = transaccion.getMonto();
+                builder.append(transaccion.getContrapartida4());
                 builder.append(" ");
                 builder.append(monto);
                 builder.append(" ");
@@ -172,6 +173,19 @@ public class RecargaPaquetesActivity extends AppCompatActivity {
     }
 
     private void validarMensaje() {
+        transaccion.setId(Tools.getLocalDateTime());
+        transaccion.setName1(tvTituloContrapartida1.getText().toString());
+        transaccion.setContrapartida1(tvDataContrapartida1.getText().toString());
+        transaccion.setFecha(Tools.getLocalFormatDate());
+        transaccion.setHora(Tools.getLocalFormatTime());
+        ClsConexion clsConexion = new ClsConexion(getApplicationContext());
+        if (clsConexion.ingresarRegistroTransaccion(transaccion)) {
+            Intent intent = new Intent(RecargaPaquetesActivity.this, VentanaConfirmacionActivity.class);
+            intent.putExtra("transaccion", transaccion);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "No fue posible guardar transaccion en bd", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean validacionDeCamposLlenos() {

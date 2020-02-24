@@ -94,7 +94,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
 
                 Transaccion transaccion = new Transaccion();
-                transaccion.setId(Tools.getLocalDateTime());
+                //transaccion.setId(Tools.getLocalDateTime());
                 transaccion.setTipo(tipoMenu);
                 transaccion.setOperador(getResources().getString(R.string.claro));
 
@@ -111,7 +111,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         if (data.equals(getResources().getString(R.string.movistar))) {
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Transaccion transaccion = new Transaccion();
-                transaccion.setId(Tools.getLocalDateTime());
+                //transaccion.setId(Tools.getLocalDateTime());
                 transaccion.setTipo(tipoMenu);
                 transaccion.setOperador(getResources().getString(R.string.movistar));
 
@@ -138,7 +138,7 @@ public class SeleccionOperador extends AppCompatActivity implements NewAdapterMe
         if (data.equals(getResources().getString(R.string.tuenti))) {
             if (tipoMenu.equals(getResources().getString(R.string.paquetes_celular))) {
                 Transaccion transaccion = new Transaccion();
-                transaccion.setId(Tools.getLocalDateTime());
+                //transaccion.setId(Tools.getLocalDateTime());
                 transaccion.setTipo(tipoMenu);
                 transaccion.setOperador(getResources().getString(R.string.tuenti));
 
