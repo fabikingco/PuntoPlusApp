@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.code93.puntoplus.Actividades.ConfiguracionComercioActivity;
 import com.code93.puntoplus.Adaptador.NewAdapterMenus;
 import com.code93.puntoplus.model.Transacciones.RecargasCelular;
 import com.code93.puntoplus.model.menuItemsModelo;
@@ -111,7 +112,8 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_ConfigComercio) {
-            Toast.makeText(this, "Configuracion del comercio", Toast.LENGTH_SHORT).show();
+            //
+            startActivity(new Intent(this, ConfiguracionComercioActivity.class));
         } else if (item.getItemId() == R.id.item_CerrarSesion) {
             if (!Build.MODEL.equals("Android SDK built for x86") && !Build.MODEL.equals("Android SDK built for x86_64")) {
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();

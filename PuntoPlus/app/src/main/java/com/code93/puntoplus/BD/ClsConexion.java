@@ -70,24 +70,23 @@ public class ClsConexion extends SQLiteOpenHelper {
             COLUMN_USER_FECHA + " text not null, " +
             COLUMN_USER_HORA + " text not null);";
 
-    private final String TABLE_COMERCIO = "comercio";
+    public static final String TABLE_COMERCIO = "comercio";
 
-    private final String comercio_id = "id";
-    private final String comercio_name = "name";
-    private final String comercio_documento = "documento";
-    private final String comercio_direccion = "direccion";
-    private final String comercio_ciudad = "ciudad";
-    private final String comercio_estado = "estado";
-    private final String comercio_pais = "pais";
-    private final String comercio_telefono1 = "telefono1";
-    private final String comercio_telefono2 = "telefono2";
-    private final String comercio_header1 = "header1";
-    private final String comercio_header2 = "header2";
-    private final String comercio_footing1 = "footing1";
-    private final String comercio_footing2 = "footing2";
-    private final String comercio_moneda = "moneda";
-    private final String comercio_simboloMoneda = "simboloMoneda";
-    private final String comercio_centavos = "centavos";
+    public static final String comercio_id = "id";
+    public static final String comercio_name = "name";
+    public static final String comercio_documento = "documento";
+    public static final String comercio_direccion = "direccion";
+    public static final String comercio_ciudad = "ciudad";
+    public static final String comercio_estado = "estado";
+    public static final String comercio_telefono1 = "telefono1";
+    public static final String comercio_telefono2 = "telefono2";
+    public static final String comercio_header1 = "header1";
+    public static final String comercio_header2 = "header2";
+    public static final String comercio_footing1 = "footing1";
+    public static final String comercio_footing2 = "footing2";
+    public static final String comercio_moneda = "moneda";
+    public static final String comercio_simboloMoneda = "simboloMoneda";
+    public static final String comercio_centavos = "centavos";
 
     private final String CREATE_TABLE_COMERCIOS =
             "CREATE TABLE " + TABLE_COMERCIO +
@@ -97,7 +96,6 @@ public class ClsConexion extends SQLiteOpenHelper {
                     comercio_direccion + " TEXT, " +
                     comercio_ciudad + " TEXT, " +
                     comercio_estado + " TEXT, " +
-                    comercio_pais + " TEXT, " +
                     comercio_telefono1 + " TEXT, " +
                     comercio_telefono2 + " TEXT, " +
                     comercio_header1 + " TEXT, " +
@@ -144,6 +142,7 @@ public class ClsConexion extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_MENUS);
         db.execSQL(CREATE_TABLE_ITEMS);
         db.execSQL(CREATE_TABLE_TRANSACCIONES);
+        db.execSQL("INSERT INTO comercio (id) VALUES (" + idComercio  + ")");
     }
 
     @Override
@@ -151,6 +150,7 @@ public class ClsConexion extends SQLiteOpenHelper {
         System.out.println("oldVersion SQL " + oldVersion + "newVersion SQL " + newVersion);
         db.execSQL("DROP TABLE " + TABLE_TRANSACCIONES);
         db.execSQL(CREATE_TABLE_TRANSACCIONES);
+        db.execSQL("INSERT INTO comercio (id) VALUES (" + idComercio  + ")");
     }
 
     public boolean ingresarRegistroTransaccion(Transaccion transaccion) {
@@ -267,7 +267,6 @@ public class ClsConexion extends SQLiteOpenHelper {
             comercio.setDireccion(cursor.getString(cursor.getColumnIndex(comercio_direccion)));
             comercio.setCiudad(cursor.getString(cursor.getColumnIndex(comercio_ciudad)));
             comercio.setEstado(cursor.getString(cursor.getColumnIndex(comercio_estado)));
-            comercio.setPais(cursor.getString(cursor.getColumnIndex(comercio_pais)));
             comercio.setTelefono1(cursor.getString(cursor.getColumnIndex(comercio_telefono1)));
             comercio.setTelefono2(cursor.getString(cursor.getColumnIndex(comercio_telefono2)));
             comercio.setHeader1(cursor.getString(cursor.getColumnIndex(comercio_header1)));

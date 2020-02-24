@@ -4,9 +4,12 @@ import android.app.Application;
 import android.content.Context;
 
 import com.code93.puntoplus.BD.ClsConexion;
+import com.code93.puntoplus.model.Comercio;
 import com.mazenrashed.printooth.Printooth;
 
 public class appInit extends Application {
+
+    public static Comercio sComercio = null;
 
     @Override
     public void onCreate() {
@@ -20,8 +23,8 @@ public class appInit extends Application {
         Printooth.INSTANCE.init(this);
     }
 
-    private void cargarComercio(Context context) {
-        ClsConexion bd = new ClsConexion(this);
-
+    public static void cargarComercio(Context context) {
+        ClsConexion bd = new ClsConexion(context);
+        sComercio = bd.getComercioBD();
     }
 }
