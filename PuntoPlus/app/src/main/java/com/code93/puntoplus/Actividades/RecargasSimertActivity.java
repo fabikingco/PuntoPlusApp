@@ -148,7 +148,7 @@ public class RecargasSimertActivity extends AppCompatActivity {
                 DialogDataFragment dialog = DialogDataFragment.newInstance(tvTituloMonto.getText().toString(), Tools.checkNull(tvDataMonto.getText().toString()));
                 dialog.setRequestCode(DIALOG_QUEST_CODE);
                 dialog.setInputType(InputType.TYPE_CLASS_NUMBER);
-                dialog.setMonto(true);
+                dialog.setMonto(false);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 transaction.add(android.R.id.content, dialog).addToBackStack(null).commit();

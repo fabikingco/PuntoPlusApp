@@ -78,8 +78,12 @@ public class Tools {
 
     public static String armarMonto(String s) {
         s = s.replaceAll("[^\\d]", "");
-        if (s.substring(s.length()-2).equals("00")) {
-            return s.substring(0, s.length() -2);
+        if (s.length() > 2) {
+            if (s.substring(s.length() - 2).equals("00")) {
+                return s.substring(0, s.length() - 2);
+            } else {
+                return s;
+            }
         } else {
             return s;
         }

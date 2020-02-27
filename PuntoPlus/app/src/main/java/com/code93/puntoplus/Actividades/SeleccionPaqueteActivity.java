@@ -12,8 +12,6 @@ import android.widget.Toast;
 import com.code93.puntoplus.Adaptador.AdaptadorPaquetes;
 import com.code93.puntoplus.MainActivity;
 import com.code93.puntoplus.R;
-import com.code93.puntoplus.SeleccionOperador;
-import com.code93.puntoplus.VentanaConfirmacionActivity;
 import com.code93.puntoplus.model.Transacciones.PaquetesDatos;
 import com.code93.puntoplus.model.Transacciones.Transaccion;
 

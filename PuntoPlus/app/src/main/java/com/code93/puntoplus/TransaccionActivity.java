@@ -19,15 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.code93.puntoplus.Actividades.ConfiguracionComercioActivity;
+import com.code93.puntoplus.Actividades.SeleccionOperadorActivity;
+import com.code93.puntoplus.Actividades.SeleccionServiciosActivity;
 import com.code93.puntoplus.Adaptador.NewAdapterMenus;
 import com.code93.puntoplus.model.Transacciones.RecargasCelular;
+import com.code93.puntoplus.model.Transacciones.Transaccion;
 import com.code93.puntoplus.model.menuItemsModelo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mazenrashed.printooth.Printooth;
-import com.mazenrashed.printooth.data.printable.Printable;
-import com.mazenrashed.printooth.data.printable.RawPrintable;
-import com.mazenrashed.printooth.data.printable.TextPrintable;
-import com.mazenrashed.printooth.data.printer.DefaultPrinter;
 import com.mazenrashed.printooth.ui.ScanningActivity;
 import com.mazenrashed.printooth.utilities.Printing;
 import com.mazenrashed.printooth.utilities.PrintingCallback;
@@ -152,25 +151,26 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         String data = itemMenu.get(position).getTextoItem();
         if (data.equals(getResources().getString(R.string.recargas))) {
             MainActivity.recargasCelular = new RecargasCelular();
-            intent.setClass(TransaccionActivity.this, SeleccionOperador.class);
+            intent.setClass(TransaccionActivity.this, SeleccionOperadorActivity.class);
             intent.putExtra("tipoMenu", getResources().getString(R.string.recargas));
             startActivity(intent);
         }
         if (data.equals(getResources().getString(R.string.paquetes_celular))) {
-            intent.setClass(TransaccionActivity.this, SeleccionOperador.class);
+            intent.setClass(TransaccionActivity.this, SeleccionOperadorActivity.class);
             intent.putExtra("tipoMenu", getResources().getString(R.string.paquetes_celular));
             startActivity(intent);
 
         }
         if (data.equals(getResources().getString(R.string.recargas_simert))) {
             MainActivity.recargasCelular = new RecargasCelular();
-            intent.setClass(TransaccionActivity.this, SeleccionOperador.class);
+            intent.setClass(TransaccionActivity.this, SeleccionOperadorActivity.class);
             intent.putExtra("tipoMenu", getResources().getString(R.string.recargas_simert));
             startActivity(intent);
 
         }
         if (data.equals(getResources().getString(R.string.pagos_de_servicio))) {
-            Toast.makeText(this, "No disponible", Toast.LENGTH_SHORT).show();
+            intent.setClass(TransaccionActivity.this, SeleccionServiciosActivity.class);
+            startActivity(intent);
         }
         if (data.equals(getResources().getString(R.string.reportes))) {
             startActivity(new Intent(TransaccionActivity.this, ReportesActivity.class));

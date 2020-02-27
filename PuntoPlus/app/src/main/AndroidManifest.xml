@@ -15,14 +15,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Actividades.ConfiguracionComercioActivity"></activity>
+        <activity android:name=".Actividades.PagoServiciosActivity"></activity>
+        <activity android:name=".Actividades.SeleccionServiciosActivity" />
+        <activity android:name=".Actividades.ConfiguracionComercioActivity" />
         <activity android:name=".Actividades.RecargaPaquetesActivity" />
         <activity android:name=".Actividades.SeleccionPaqueteActivity" />
         <activity android:name=".Actividades.RecargasSimertActivity" />
         <activity android:name=".ReportesActivity" />
         <activity android:name=".VentanaConfirmacionActivity" />
         <activity android:name=".TransaccionActivity" />
-        <activity android:name=".SeleccionOperador" />
+        <activity android:name=".Actividades.SeleccionOperadorActivity" />
         <activity android:name=".InformacionRegistroActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

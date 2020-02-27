@@ -16,6 +16,16 @@
     <string name="directv">DirecTV</string>
     <string name="tvcable">TVCable</string>
 
+    <!-- Empresa de servicios publicos.-->
+    <string name="claroFijo">Claro Fijo</string>
+    <string name="claroPlanes">Claro Planes</string>
+    <string name="cnelGuayaquil">CNEL Guayaquil</string>
+    <string name="eeqsa">EEQSA</string>
+    <string name="interagua">Interagua</string>
+    <string name="epmaps">EPMAPS - Agua Quito</string>
+    <string name="cntFijo">Cnt Fijo</string>
+    <string name="avon">Avon</string>
+
     <string name="Consulta">Consulta</string>
     <string name="no_data">No data</string>
 
