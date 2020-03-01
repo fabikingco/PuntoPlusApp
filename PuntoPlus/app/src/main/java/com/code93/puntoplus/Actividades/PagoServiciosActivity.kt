@@ -1,6 +1,8 @@
 package com.code93.puntoplus.Actividades
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -10,12 +12,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import com.code93.puntoplus.BD.ClsConexion
 import com.code93.puntoplus.Fragments.DialogDataFragment
 import com.code93.puntoplus.MainActivity
 import com.code93.puntoplus.R
 import com.code93.puntoplus.Tools
+import com.code93.puntoplus.VentanaConfirmacionActivity
 import com.code93.puntoplus.model.Transacciones.Transaccion
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_pago_servicios.*
+import java.util.*
 
 class PagoServiciosActivity : AppCompatActivity() {
 
@@ -37,6 +43,8 @@ class PagoServiciosActivity : AppCompatActivity() {
     var lyContrapartida3 : LinearLayout? = null
     var lyMonto : LinearLayout? = null
 
+    var consulta : Boolean = true
+    var tipoTexto = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +55,7 @@ class PagoServiciosActivity : AppCompatActivity() {
         val bundle = intent.extras
         if (bundle != null) {
             transaccion = bundle.getSerializable("transaccion") as Transaccion?
+            tipoTexto = bundle.getInt("tipoText", InputType.TYPE_CLASS_TEXT)
         } else {
             Toast.makeText(this, "El tipo de ingreso no llego o fallo ", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this@PagoServiciosActivity, MainActivity::class.java))
@@ -76,12 +85,6 @@ class PagoServiciosActivity : AppCompatActivity() {
             lyContrapartida3?.visibility = View.GONE
         }
 
-        if (transaccion?.monto != null) {
-            tvDataMonto?.text = transaccion?.monto
-        } else {
-            lyMonto?.visibility = View.GONE
-        }
-
         onClickLinears()
     }
 
@@ -91,7 +94,7 @@ class PagoServiciosActivity : AppCompatActivity() {
             val dialog = DialogDataFragment.newInstance(tvTituloContrapartida1!!.text.toString(),
                     Tools.checkNull(tvDataContrapartida1!!.text.toString()))
             dialog.setRequestCode(RecargasCelularActivity.DIALOG_QUEST_CODE)
-            dialog.setInputType(InputType.TYPE_CLASS_TEXT)
+            dialog.setInputType(tipoTexto)
             dialog.setMaxLeng(25)
             val transaction = fragmentManager.beginTransaction()
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -111,18 +114,45 @@ class PagoServiciosActivity : AppCompatActivity() {
         }
 
         lyMonto!!.setOnClickListener {
-            val fragmentManager = supportFragmentManager
-            val dialog = DialogDataFragment.newInstance(tvTituloMonto!!.text.toString(),
-                    Tools.checkNull(tvDataMonto!!.text.toString()))
-            dialog.setRequestCode(RecargasCelularActivity.DIALOG_QUEST_CODE)
-            dialog.setInputType(InputType.TYPE_CLASS_NUMBER)
-            dialog.setMonto(true)
-            val transaction = fragmentManager.beginTransaction()
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            transaction.add(android.R.id.content, dialog).addToBackStack(null).commit()
-            dialog.setmListener { requestCode, obj ->
-                tvDataMonto!!.text = obj.toString()
-                tvTituloMonto!!.setTextColor(resources.getColor(R.color.grey_80))
+            if (consulta) {
+                val alertDialog = AlertDialog.Builder(this@PagoServiciosActivity).create()
+                alertDialog.setTitle("ALERTA")
+                alertDialog.setMessage("Es probable que requiera enviar primero un mensaje de consulta para consultar el valor a pagar. " +
+                        "\n¿Desea digitar el monto a pagar?")
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Digitar monto") { dialog, which ->
+                    val fragmentManager = supportFragmentManager
+                    val dialog = DialogDataFragment.newInstance(tvTituloMonto!!.text.toString(),
+                            Tools.checkNull(tvDataMonto!!.text.toString()))
+                    dialog.setRequestCode(RecargasCelularActivity.DIALOG_QUEST_CODE)
+                    dialog.setInputType(InputType.TYPE_CLASS_NUMBER)
+                    dialog.setMonto(true)
+                    val transaction = fragmentManager.beginTransaction()
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    transaction.add(android.R.id.content, dialog).addToBackStack(null).commit()
+                    dialog.setmListener { requestCode, obj ->
+                        tvDataMonto!!.text = obj.toString()
+                        tvTituloMonto!!.setTextColor(resources.getColor(R.color.grey_80))
+                    }
+                }
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar") { dialog, which ->
+                    alertDialog.dismiss()
+                }
+
+                alertDialog.show()
+            } else {
+                val fragmentManager = supportFragmentManager
+                val dialog = DialogDataFragment.newInstance(tvTituloMonto!!.text.toString(),
+                        Tools.checkNull(tvDataMonto!!.text.toString()))
+                dialog.setRequestCode(RecargasCelularActivity.DIALOG_QUEST_CODE)
+                dialog.setInputType(InputType.TYPE_CLASS_NUMBER)
+                dialog.setMonto(true)
+                val transaction = fragmentManager.beginTransaction()
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                transaction.add(android.R.id.content, dialog).addToBackStack(null).commit()
+                dialog.setmListener { requestCode, obj ->
+                    tvDataMonto!!.text = obj.toString()
+                    tvTituloMonto!!.setTextColor(resources.getColor(R.color.grey_80))
+                }
             }
         }
 
@@ -137,13 +167,104 @@ class PagoServiciosActivity : AppCompatActivity() {
             return
         }
 
+        val alertDialog = AlertDialog.Builder(this@PagoServiciosActivity).create()
+        alertDialog.setTitle("Ecuamovil")
+        if (tvDataMonto!!.text == null || tvDataMonto!!.text.toString().trim { it <= ' ' } == "") {
+            alertDialog.setMessage("Enviara mensaje para Consulta o Pago del servicio " + transaccion?.operador)
+        } else {
+            alertDialog.setMessage("Enviara mensaje para el pago del servicio " + transaccion?.operador
+                    + " por un valor de $" + tvDataMonto?.text.toString())
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Aceptar") { dialog, which ->
+            var builder = StringBuilder()
+            if (consulta) {
+                builder = armarMensajeConsulta()
+            } else {
+                builder = armarMensajePago()
+            }
+
+            val smsIntent = Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "9305", null))
+            smsIntent.putExtra("sms_body", builder.toString())
+            startActivity(smsIntent)
+
+            val spotsDialog = SpotsDialog(this@PagoServiciosActivity, "Esperando mensaje de respuesta")
+            spotsDialog.show()
+            val timer = Timer()
+            timer.schedule(object : TimerTask() {
+                override fun run() {
+                    spotsDialog.dismiss()
+                    if (tvDataMonto!!.text == null || tvDataMonto!!.text.toString().trim { it <= ' ' } == "") {
+                        ajustarVistaParaPago()
+                    } else{
+                        guardarTransaccion()
+                    }
+                }
+            }, 10000)
+
+        }
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar") { dialog, which ->
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
+
 
     }
 
+    private fun guardarTransaccion() {
+
+        transaccion?.id = Tools.getLocalDateTime()
+        transaccion?.monto = tvDataMonto!!.text.toString()
+        transaccion?.fecha = Tools.getLocalFormatDate()
+        transaccion?.hora = Tools.getLocalFormatTime()
+        val clsConexion = ClsConexion(applicationContext)
+        if (clsConexion.ingresarRegistroTransaccion(transaccion)) {
+            val intent = Intent(this@PagoServiciosActivity, VentanaConfirmacionActivity::class.java)
+            intent.putExtra("transaccion", transaccion)
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "No fue posible guardar transaccion en bd", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun ajustarVistaParaPago() {
+
+        consulta = false
+
+    }
+
+    private fun armarMensajePago(): StringBuilder {
+        val mensajePago = StringBuilder()
+        mensajePago.append(transaccion?.contrapartida4)
+        mensajePago.append(" ")
+        mensajePago.append(transaccion?.contrapartida1)
+
+        return mensajePago
+    }
+
+    private fun armarMensajeConsulta(): StringBuilder {
+        val mensajeConsulta = StringBuilder()
+        mensajeConsulta.append(transaccion?.contrapartida4)
+        mensajeConsulta.append(" ")
+        mensajeConsulta.append(tvDataContrapartida1?.text.toString())
+
+        return mensajeConsulta
+    }
+
     private fun validacionDeCamposLlenos(): Boolean {
-        if (tvDataContrapartida1!!.text == null || tvDataContrapartida1!!.text.toString().trim { it <= ' ' } == "") {
-            tvTituloContrapartida1!!.setTextColor(resources.getColor(R.color.red_900))
-            return false
+        if (transaccion?.name1 != null) {
+            if (tvDataContrapartida1!!.text == null || tvDataContrapartida1!!.text.toString().trim { it <= ' ' } == "") {
+                tvTituloContrapartida1!!.setTextColor(resources.getColor(R.color.red_900))
+                return false
+            }
+        }
+
+        if (!consulta) {
+            if (tvDataMonto!!.text == null || tvDataMonto!!.text.toString().trim { it <= ' ' } == "") {
+                tvTituloMonto!!.setTextColor(resources.getColor(R.color.red_900))
+                return false
+            }
         }
 
         return true

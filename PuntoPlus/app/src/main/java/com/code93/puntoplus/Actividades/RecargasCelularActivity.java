@@ -243,7 +243,6 @@ public class RecargasCelularActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No fue posible guardar transaccion en bd", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private boolean validacionDeCamposLlenos() {

@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.Toast;
 

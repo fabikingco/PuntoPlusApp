@@ -3,6 +3,7 @@ package com.code93.puntoplus.Actividades
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
@@ -39,8 +40,8 @@ class SeleccionServiciosActivity : AppCompatActivity(), NewAdapterMenus.OnItemCl
                 R.drawable.claro_hogar))
         itemMenu.add(menuItemsModelo(resources.getString(R.string.claroPlanes),
                 R.drawable.claro_planes))
-        itemMenu.add(menuItemsModelo(resources.getString(R.string.cntFijo),
-                R.drawable.cnt_logo))
+        itemMenu.add(menuItemsModelo(resources.getString(R.string.movistarPlan),
+                R.drawable.movistar_logo))
         itemMenu.add(menuItemsModelo(resources.getString(R.string.cnelGuayaquil),
                 R.drawable.cnel))
         itemMenu.add(menuItemsModelo(resources.getString(R.string.eeqsa),
@@ -69,7 +70,7 @@ class SeleccionServiciosActivity : AppCompatActivity(), NewAdapterMenus.OnItemCl
             transaccion.operador = resources.getString(R.string.claroFijo)
             transaccion.name1 = "Número de contrato"
             transaccion.name4 = "Codigo"
-            transaccion.contrapartida4  = ""
+            transaccion.contrapartida4  = "CLARO_FIJO"
 
             intent.setClass(this@SeleccionServiciosActivity, PagoServiciosActivity::class.java)
             intent.putExtra("transaccion", transaccion)
@@ -82,23 +83,25 @@ class SeleccionServiciosActivity : AppCompatActivity(), NewAdapterMenus.OnItemCl
             transaccion.operador = resources.getString(R.string.claroPlanes)
             transaccion.name1 = "Número de contrato"
             transaccion.name4 = "Codigo"
-            transaccion.contrapartida4  = ""
+            transaccion.contrapartida4  = "PLANCLARO"
 
             intent.setClass(this@SeleccionServiciosActivity, PagoServiciosActivity::class.java)
             intent.putExtra("transaccion", transaccion)
+            intent.putExtra("tipoText", InputType.TYPE_CLASS_PHONE)
             startActivity(intent)
         }
 
-        if (data == resources.getString(R.string.cntFijo)) {
+        if (data == resources.getString(R.string.movistarPlan)) {
             val transaccion = Transaccion()
             transaccion.tipo = "Pago de servicios"
-            transaccion.operador = resources.getString(R.string.cntFijo)
-            transaccion.name1 = "Número de contrato"
+            transaccion.operador = resources.getString(R.string.movistarPlan)
+            transaccion.name1 = "Número de teléfono"
             transaccion.name4 = "Codigo"
-            transaccion.contrapartida4  = ""
+            transaccion.contrapartida4  = "PLANMOVISTAR"
 
             intent.setClass(this@SeleccionServiciosActivity, PagoServiciosActivity::class.java)
             intent.putExtra("transaccion", transaccion)
+            intent.putExtra("tipoText", InputType.TYPE_CLASS_PHONE)
             startActivity(intent)
         }
 
@@ -109,7 +112,7 @@ class SeleccionServiciosActivity : AppCompatActivity(), NewAdapterMenus.OnItemCl
             transaccion.name1 = "Número de contrato"
             transaccion.name1 = "Número de contrato"
             transaccion.name4 = "Codigo"
-            transaccion.contrapartida4  = ""
+            transaccion.contrapartida4  = "CNEL"
 
             intent.setClass(this@SeleccionServiciosActivity, PagoServiciosActivity::class.java)
             intent.putExtra("transaccion", transaccion)
@@ -120,9 +123,9 @@ class SeleccionServiciosActivity : AppCompatActivity(), NewAdapterMenus.OnItemCl
             val transaccion = Transaccion()
             transaccion.tipo = "Pago de servicios"
             transaccion.operador = resources.getString(R.string.eeqsa)
-            transaccion.name1 = "Número de contrato"
+            transaccion.name1 = "Número de suministro"
             transaccion.name4 = "Codigo"
-            transaccion.contrapartida4  = ""
+            transaccion.contrapartida4  = "Eeq"
 
             intent.setClass(this@SeleccionServiciosActivity, PagoServiciosActivity::class.java)
             intent.putExtra("transaccion", transaccion)
@@ -147,7 +150,7 @@ class SeleccionServiciosActivity : AppCompatActivity(), NewAdapterMenus.OnItemCl
             transaccion.tipo = "Pago de servicios"
             transaccion.operador = resources.getString(R.string.epmaps)
             transaccion.name1 = "Número de contrato"
-            transaccion.contrapartida4  = ""
+            transaccion.contrapartida4  = "Epmaps"
 
             intent.setClass(this@SeleccionServiciosActivity, PagoServiciosActivity::class.java)
             intent.putExtra("transaccion", transaccion)
@@ -160,7 +163,7 @@ class SeleccionServiciosActivity : AppCompatActivity(), NewAdapterMenus.OnItemCl
             transaccion.operador = resources.getString(R.string.avon)
             transaccion.name1 = "Número de contrato"
             transaccion.name4 = "Codigo"
-            transaccion.contrapartida4  = ""
+            transaccion.contrapartida4  = "Avon"
 
             intent.setClass(this@SeleccionServiciosActivity, PagoServiciosActivity::class.java)
             intent.putExtra("transaccion", transaccion)
