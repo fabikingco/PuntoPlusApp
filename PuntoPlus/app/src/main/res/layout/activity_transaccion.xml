@@ -30,18 +30,18 @@
         <RelativeLayout
             android:id="@+id/info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:paddingEnd="20dp"
             android:layout_alignParentBottom="true">
 
             <TextView
                 android:id="@+id/tvConexion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/imgStatus"
                 android:clickable="true"
-                android:gravity="center"
+                android:gravity="center|end"
                 android:paddingEnd="8dp"
                 android:text="Conexión impresora"
                 android:textColor="@android:color/black"

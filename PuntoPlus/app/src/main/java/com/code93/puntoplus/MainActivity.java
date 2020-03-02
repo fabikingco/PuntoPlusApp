@@ -96,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void confirmarPermisos() {
-        /*Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS)
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
                         token.continuePermissionRequest();
                     }
-                }).check();*/
-        confirmarInicioSesion();
+                }).check();
+        //confirmarInicioSesion();
     }
 
     private void confirmarInicioSesion() {
