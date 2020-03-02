@@ -245,7 +245,7 @@ public class RecargasSimertActivity extends AppCompatActivity {
                         spotsDialog.dismiss();
                         validarMensaje();
                     }
-                }, 10000);
+                }, 6000);
             }
         });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {

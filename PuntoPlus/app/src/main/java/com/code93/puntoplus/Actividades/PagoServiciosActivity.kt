@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -17,6 +18,7 @@ import com.code93.puntoplus.Fragments.DialogDataFragment
 import com.code93.puntoplus.MainActivity
 import com.code93.puntoplus.R
 import com.code93.puntoplus.Tools
+import com.code93.puntoplus.Tools.armarMonto
 import com.code93.puntoplus.VentanaConfirmacionActivity
 import com.code93.puntoplus.model.Transacciones.Transaccion
 import dmax.dialog.SpotsDialog
@@ -200,7 +202,7 @@ class PagoServiciosActivity : AppCompatActivity() {
                         guardarTransaccion()
                     }
                 }
-            }, 10000)
+            }, 6000)
 
         }
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancelar") { dialog, which ->
@@ -224,6 +226,7 @@ class PagoServiciosActivity : AppCompatActivity() {
             intent.putExtra("transaccion", transaccion)
             startActivity(intent)
         } else {
+            Log.e("ERROR EN BD", "NO FUE POSIBLE GUARDAR EL MENSAJE")
             Toast.makeText(this, "No fue posible guardar transaccion en bd", Toast.LENGTH_SHORT).show()
         }
     }
@@ -238,7 +241,9 @@ class PagoServiciosActivity : AppCompatActivity() {
         val mensajePago = StringBuilder()
         mensajePago.append(transaccion?.contrapartida4)
         mensajePago.append(" ")
-        mensajePago.append(transaccion?.contrapartida1)
+        mensajePago.append(armarMonto(tvDataMonto?.text.toString()))
+        mensajePago.append(" ")
+        mensajePago.append(tvDataContrapartida1?.text.toString())
 
         return mensajePago
     }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -141,6 +142,7 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.paquetes_celular), R.drawable.paquetes_celular));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.recargas_simert), R.drawable.simmert));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.pagos_de_servicio), R.drawable.pagos_servicios));
+        itemMenu.add(new menuItemsModelo(getResources().getString(R.string.saldo), R.drawable.pagos_servicios));
         itemMenu.add(new menuItemsModelo(getResources().getString(R.string.reportes), R.drawable.pagos_servicios));
     }
 
@@ -171,6 +173,11 @@ public class TransaccionActivity extends AppCompatActivity implements NewAdapter
         if (data.equals(getResources().getString(R.string.pagos_de_servicio))) {
             intent.setClass(TransaccionActivity.this, SeleccionServiciosActivity.class);
             startActivity(intent);
+        }
+        if (data.equals(getResources().getString(R.string.saldo))) {
+            Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "9305", null));
+            smsIntent.putExtra("sms_body", "SALDO");
+            startActivity(smsIntent);
         }
         if (data.equals(getResources().getString(R.string.reportes))) {
             startActivity(new Intent(TransaccionActivity.this, ReportesActivity.class));
